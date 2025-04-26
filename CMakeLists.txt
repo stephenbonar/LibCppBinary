@@ -18,5 +18,17 @@ cmake_minimum_required(VERSION 3.10.0)
 
 project(LibCppBinary VERSION 0.1.0 LANGUAGES C CXX)
 
-add_library(LibCppBinary LibCppBinary.cpp)
+# By default, GoogleTest expects to statically link to the C++ runtime on the
+# MSVC compiler. So if we run on Windows, we need to set our compiler flags
+# to statically link the rest of the project to the runtime to match.
+if (WIN32)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+endif()
+
+add_subdirectory(LibCppBinary)
+
+add_subdirectory(googletest)
+
+add_subdirectory(LibCppBinaryTests)
 

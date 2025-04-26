@@ -1,0 +1,50 @@
+// DataField.h - Declares the DataField class.
+//
+// Copyright (C) 2025 Stephen Bonar
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http ://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#ifndef BINARY_DATA_FIELD_H
+#define BINARY_DATA_FIELD_H
+
+namespace Binary
+{
+    /// @brief Abstract base class representing a data field in a binary file.
+    ///
+    /// Classes that represent a data field in a binary file should derive from
+    /// this class. The Binary::File class accepts pointers to instances of
+    /// DataField for reading and writing data fields to and from the file.
+    /// By properly inheriting from this class, the Binary::File class will
+    /// automatically support reading and writing your derived type. 
+    class DataField
+    {
+    public:
+        /// @brief Default destructor; properly destroys the instance. 
+        virtual ~DataField() = default;
+
+        /// @brief Gets the size of the data in the field.
+        /// @return The size of the data in the field, in bytes.
+        virtual size_t Size() = 0;
+
+        /// @brief Provides access to the field's data via raw pointer.
+        ///
+        /// Provides access to the raw data stored in the field. Note that this
+        /// class should manage the lifecylce of the data, so do not attempt to
+        /// deallocate the memory behind the pointer manually.
+        ///
+        /// @return A raw pointer to the data.
+        virtual char* Data() = 0;
+    };
+}
+
+#endif
