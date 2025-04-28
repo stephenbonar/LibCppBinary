@@ -1,4 +1,4 @@
-// DataFieldTests.cpp - Defines the DataFieldTests class and tests.
+// RawFieldTests.h - Declares the RawFieldTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,9 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DataFieldTests.h"
+#ifndef RAW_FIELD_TESTS_H
+#define RAW_FIELD_TESTS_H
 
-DataFieldTests::DataFieldTests()
+#include <stdexcept>
+#include <gtest/gtest.h>
+#include "RawField.h"
+
+class RawFieldTests : public ::testing::Test
 {
+protected:
+    RawFieldTests();
+};
 
-}
+#endif

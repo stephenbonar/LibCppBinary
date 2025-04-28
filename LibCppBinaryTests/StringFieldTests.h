@@ -1,4 +1,4 @@
-// DataFieldTests.cpp - Defines the DataFieldTests class and tests.
+// StringFieldTests.h - Declares the StringFieldTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,9 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DataFieldTests.h"
+#ifndef STRING_FIELD_TESTS_H
+#define STRING_FIELD_TESTS_H
 
-DataFieldTests::DataFieldTests()
+#include <stdexcept>
+#include <gtest/gtest.h>
+#include "StringField.h"
+
+class StringFieldTests : public ::testing::Test
 {
+protected:
+    StringFieldTests();
+};
 
-}
+#endif

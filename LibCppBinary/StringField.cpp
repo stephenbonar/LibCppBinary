@@ -1,4 +1,4 @@
-// File.h - Declares the File class.
+// StringField.h - Defines the StringField class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,15 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BINARY_FILE_H
-#define BINARY_FILE_H
+#include "StringField.h"
 
-namespace Binary
+using namespace Binary;
+
+std::string StringField::Value() const
 {
-    class File
-    {
-
-    };
+    return ToString();
 }
 
-#endif
+void StringField::SetValue(std::string value)
+{
+    for (size_t i = 0; i < Size() && i < value.length(); i++)
+        Data()[i] = value[i];
+}

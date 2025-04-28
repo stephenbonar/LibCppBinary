@@ -14,12 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(SOURCE_FILES DataFieldTests.cpp)
+set(SOURCE_FILES DataFieldTests.cpp StringFieldTests.cpp RawFieldTests.cpp)
 
 set(INCLUDES ${PROJECT_SOURCE_DIR}/LibCppBinary)
 
-set(LIBRARIES gtest gtest_main gmock)
+set(LIBRARIES LibCppBinary gtest gtest_main gmock)
 
 add_executable(libcppbinarytests ${SOURCE_FILES})
 
 target_link_libraries(libcppbinarytests ${LIBRARIES})
+
+target_include_directories(libcppbinarytests PUBLIC ${INCLUDES})

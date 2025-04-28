@@ -10,6 +10,53 @@ As a **user**, **I** *want* **support** for data **fields** so **I** can *manipu
 
 A data **field** should *have* a **size** and an **array** of **data** of the reported **size**. All other **types** of data **fields** should *derive* from this **class**.
 
+## Story: Stream
+
+### Description
+
+As a **user**, **I** *want* the **ability** to *interact* with binary **streams** so **I** can *read* and write binary **data** to and from different data **sources**.
+
+### Requirements
+
+A **stream** should *allow* the **user** to *read* and *write* data **fields** to **it**. A **stream** should also *have* a **position** that *determines* where in the **stream** the next data **field** should be *read* from or *written* to. A **stream** should also *have* a **beginning** and **end** **position**. All **types** of binary **streams** should *derive* from this **class**.
+
+
+## Story: File Stream
+
+### Description
+
+As a **user**, **I** *want* the **ability** to *interact* with file **streams** so **I** can *read* and *write* to binary **files**.
+
+### Requirements
+
+A file **stream** should *have* a file **name** and a **path**. A file **stream** should *have* a **mode** that *allows* the **user** to *open* the **stream** for **reading**, **writing**, or **both**.  A file **stream** should also *indicate* whether it is **open** or not. Additionally, a file **stream** should also *indicate* whether or not it **exists**. Finally, a file **stream** should *have* the **ability** to be *closed*.
+
+## Story: Raw Fields
+
+### Description
+
+As a **user**, **I** *want* **support** for raw **fields** so **I** can *manipulate* raw **data** in binary **files** without any specific interpretation of the data.
+
+## Story: String Fields
+
+### Description
+
+As a **user**, **I** *want* **support** for string **fields** so **I** can *manipulate* text **data** in binary **files**.
+
+### Requirements
+
+A string **field** should *have* a **value**. When the **user** *sets* the **value**, if the specified **value** is longer than the field **size**, it should *truncate* the specified **value** to *fit*.
+
+## Story: Data Formatting
+
+### Description
+
+As a **user**, **I** *want* the **ability** to *format* the string representations of data **fields** so **I** can *choose* how a **field** should be *displayed*.
+
+### Requirements
+
+All data **fields** should *have* the **ability** to *convert* their **data** to a string **representation**. By default, the **data** should be *converted* to **string** in its raw **format**, but the **user** should *be* **able** to *specify* **ASCII**, **binary**, **decimal**, and **hexadecimal** **formats** as well.
+
 ## Noun-Verb Parse
 
 | Subject Noun | Type | Verb | Type | Object Noun | Type | X |
@@ -23,6 +70,60 @@ A data **field** should *have* a **size** and an **array** of **data** of the re
 | (data) field | entity | have | composition | data | attribute | X |
 | type | data type | N/A | N/A | N/A | N/A | X |
 | (data) field | entity | derive | relationship | class | data type | X |
+| user | actor | want | desire | ability | feature | X |
+| I | actor | interact | feature | (binary) stream | entity | X |
+| I | actor | read | use case | (binary) data | entity | X |
+| I | actor | write | use case | (binary) data | entity | X |
+| (data) source | entity | N/A | N/A | N/A | N/A | C |
+| stream | entity | have | composition | (stream) mode | entity | X |
+| mode | attribute | allows | feature | user | actor | X |
+| user | actor | open | action | (file) stream | entity | X |
+| (file) mode | has | composition | read | attribute | X |
+| (file) mode | has | composition | write | attribute | X |
+| (file) mode | has | composition | readwrite | attribute | X |
+| stream | entity | allow | feature | user | actor | X |
+| user | actor | read | action | (data) field | parameter | X |
+| user | actor | write | action | (data) field | parameter | X |
+| stream | entity | have | composition | position | attribute | X |
+| postion | attribute | determines | feature | N/A | N/A | X |
+| (file) stream | entity | have | feature | ability | feature | X |
+| user | actor | close | action | (file) stream | entity | X |
+| stream | entity | derive | relationship | class | data type | X |
+| user | actor | want | desire | ability | feature | X |
+| I | actor | interact | feature | (file) stream | entity | X |
+| I | actor | read | use case | (binary) file | entity | X |
+| I | actor | write | use case | (binary) file | entity | X |
+| (file) stream | entity | have | composition | (file) name | attribute | X |
+| (file) stream | entity | have | composition | (file) path | attribute | X |
+| (file) stream | entity | indicate | composition | (is) open | attribute | X |
+| (file) stream | entity | indicate | composition | exists | attribute | X |
+| user | actor | want | desire | support | feature | X |
+| (raw) field | entity | N/A | N/A | N/A | N/A | X |
+| I | actor | manipulate | use case | (raw) data | entity | X |
+| user | actor | want | desire | support | feature | X |
+| (string) field | entity | N/A | N/A | N/A | N/A | X |
+| I | actor | manipulate | use case | (text) data | entity | X |
+| (string) field | entity | have | composition | value | attribute | X |
+| user | actor | set | action | value | attribute | X |
+| user | actor | set | action | value | parameter | X |
+| (string) field | entity | truncate | action | value | parameter | C |
+| user | actor | want | desire | ability | feature | X |
+| I | actor | format | action | (string representation of data) field | return value | X |
+| I | actor | choose | use case | field | entity | X |
+| (data) field | entity | have | composition | ability | feature | X |
+| (data) field | entity | convert | action | string | return value | X |
+| (string) format | entity | N/A | N/A | N/A | N/A |
+| (string) format | entity | has | composition | (raw) format | attribute | X |
+| (string) format | entity | has | composition | (ascii) format | attribute | X |
+| (string) format | entity | has | composition | (bin) format | attribute | X |
+| (string) format | entity | has | composition | (hex) format | attribute | X |
+| (string) format | entity | has | composition | (dec) format | attribute | X |
+| user | actor | (be able to) specify | feature | format | parameter | X |
+| (raw) field | entity | convert | action | (raw) format | return value | X |
+| (raw) field | entity | convert | action | (ascii) format | return value | X |
+| (raw) field | entity | convert | action | (bin) format | return value | X |
+| (raw) field | entity | convert | action | (hex) format | return value | X |
+| (raw) field | entity | convert | action | (dec) format | return value | X |
 
 ## Actors
 
@@ -30,11 +131,26 @@ A data **field** should *have* a **size** and an **array** of **data** of the re
 
 ## Use Case
 
-- Manipulate data elements in a binary file.
+- Manipulate data elements in a binary file
+- Read and write data to and from a binary data source
+- Read and write to / from binary files
+- Manipulate raw data without any specific interpretation of the data in binary files
+- Manipulate text data in binary files
+- Choose how data fields in binary files are displayed
 
 ## Features
 
 - Support for data fields
+- Ability to interact with binary streams
+- Ability to open binary streams
+- Ability to determine where to read and write to in a stream
+- Ability to close a file stream
+- Ability to interact with file streams
+- Support for raw data fields
+- Support for string fields
+- Ability to convert data fields to a string representation
+- Ability to format string representations of data fields
+- Ability to specify string formats
 
 ## Entities
 
@@ -42,11 +158,55 @@ A data **field** should *have* a **size** and an **array** of **data** of the re
 | - |
 | + size_t Size() |
 | + char* Data() |
+| + void ToString(StringFormat format) |
+
+| class RawField : DataField |
+| - |
+| 
+
+| enum class StringFormat |
+| - |
+| + Raw |
+|
+
+| class StringField : RawField |
+| - |
+| + std::string Value() |
+| + void SetValue(std::string value) |
+| - std::string ConvertRaw() |
+| - std::string ConvertAscii() |
+| - std::string ConvertBin() |
+| - std::string ConvertHex() |
 
 | class File |
 | - |
 
+| class Stream |
+| - |
+| + void Read(DataField* field) |
+| + void Write(DataField* field) |
+| + size_t Position() |
+| + void SetPosition() |
+| + size_t Beginning() |
+| + size_t End() |
+
+| class FileStream : Stream |
+| - |
+| + std::string FileName() |
+| + std::string FilePath() |
+| + FileMode Mode() |
+| + bool IsOpen() |
+| + bool Exists() |
+| + void Open(FileMode mode) |
+| + void Close() |
+
+| enum class FileMode |
+| - |
+| + Read |
+| + Write |
+| + ReadWrite |
+
 ## Relationships
 
 - All types of data fields should derive from the DataField class. 
-
+- All types of streams should derive from the Stream class.

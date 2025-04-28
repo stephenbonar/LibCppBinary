@@ -17,15 +17,19 @@
 #ifndef BINARY_DATA_FIELD_H
 #define BINARY_DATA_FIELD_H
 
+#include <string>
+#include "StringFormat.h"
+
 namespace Binary
 {
     /// @brief Abstract base class representing a data field in a binary file.
     ///
     /// Classes that represent a data field in a binary file should derive from
-    /// this class. The Binary::File class accepts pointers to instances of
-    /// DataField for reading and writing data fields to and from the file.
-    /// By properly inheriting from this class, the Binary::File class will
-    /// automatically support reading and writing your derived type. 
+    /// this class. The Binary::Stream class accepts pointers to instances of
+    /// DataField for reading and writing data fields to binary data sources.
+    /// By properly inheriting from this class, the Binary::Stream class and
+    /// its derivatives will automatically support reading and writing your 
+    /// derived type. 
     class DataField
     {
     public:
@@ -34,7 +38,7 @@ namespace Binary
 
         /// @brief Gets the size of the data in the field.
         /// @return The size of the data in the field, in bytes.
-        virtual size_t Size() = 0;
+        virtual size_t Size() const = 0;
 
         /// @brief Provides access to the field's data via raw pointer.
         ///
@@ -44,6 +48,11 @@ namespace Binary
         ///
         /// @return A raw pointer to the data.
         virtual char* Data() = 0;
+
+        /// @brief Converts the field's data to a string representation.
+        /// @param format The format to use for the string conversion.
+        /// @return A string representation of the field's data.
+        virtual std::string ToString(StringFormat format) const = 0;
     };
 }
 

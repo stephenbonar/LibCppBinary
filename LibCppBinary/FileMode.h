@@ -1,4 +1,4 @@
-// DataFieldTests.cpp - Defines the DataFieldTests class and tests.
+// FileMode.h - Declares the FileMode enum.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,9 +14,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DataFieldTests.h"
+#ifndef BINARY_FILE_MODE_H
+#define BINARY_FILE_MODE_H
 
-DataFieldTests::DataFieldTests()
+namespace Binary
 {
+    /// @brief Determines the mode to open a file in.
+    enum class FileMode
+    {
+        /// @brief File should be opened for reading.
+        Read,
 
+        /// @brief File should be opened for writing.
+        Write,
+
+        /// @brief File should be opened for reading and writing.
+        ReadWrite
+    };
 }
+
+#endif
