@@ -34,23 +34,27 @@ namespace Binary
     public:
         /// @brief Gets the name of the file.
         /// @return A string representing the name of the file.
-        virtual std::string FileName() = 0;
+        virtual std::string FileName() const = 0;
 
         /// @brief Gets the full path to the file on disk.
         /// @return A string representing the full path to the file.
-        virtual std::string FilePath() = 0;
+        virtual std::string FilePath() const = 0;
 
         /// @brief Determines whether or not the file is open.
         /// @return True if it is open, otherwise false.
-        virtual bool IsOpen() = 0;
+        virtual bool IsOpen() const = 0;
 
         /// @brief Determines whether or not the file exists on disk.
         /// @return True if it exists, otherwise false.
-        virtual bool FileExists() = 0;
+        virtual bool FileExists() const = 0;
+
+        /// @brief Gets the size of the file associated with the stream.
+        /// @return The size of the file, in bytes.
+        virtual size_t FileSize() const = 0;
         
         /// @brief Determines the mode the file is set to open in.
         /// @return The file mode.
-        virtual FileMode Mode() = 0;
+        virtual FileMode Mode() const = 0;
 
         /// @brief Opens the file in the specified mode.
         /// @param mode The mode to open the file in.

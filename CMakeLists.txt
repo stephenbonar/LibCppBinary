@@ -18,6 +18,10 @@ cmake_minimum_required(VERSION 3.10.0)
 
 project(LibCppBinary VERSION 0.1.0 LANGUAGES C CXX)
 
+# Specify the C++ standard.
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 # By default, GoogleTest expects to statically link to the C++ runtime on the
 # MSVC compiler. So if we run on Windows, we need to set our compiler flags
 # to statically link the rest of the project to the runtime to match.
