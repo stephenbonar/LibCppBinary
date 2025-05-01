@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(SOURCE_FILES DataFieldTests.cpp StringFieldTests.cpp RawFieldTests.cpp RawFileStreamTests.cpp)
+set(SOURCE_FILES DataFieldTests.cpp StringFieldTests.cpp RawFieldTests.cpp RawFileStreamTests.cpp IntFieldTests.cpp)
 
 set(INCLUDES ${PROJECT_SOURCE_DIR}/LibCppBinary)
 

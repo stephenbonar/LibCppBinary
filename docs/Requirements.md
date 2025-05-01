@@ -57,6 +57,14 @@ As a **user**, **I** *want* the **ability** to *format* the string representatio
 
 All data **fields** should *have* the **ability** to *convert* their **data** to a string **representation**. By default, the **data** should be *converted* to **string** in its raw **format**, but the **user** should *be* **able** to *specify* **ASCII**, **binary**, **decimal**, and **hexadecimal** **formats** as well.
 
+### Description
+
+As a **user**, **I** *want* **support** for integer **fields** so **I** can *manipulate* numeric **data** in binary **files**.
+
+### Requirements
+
+The integer **field** should *inherit* from data **field**. The integer **field** should *be* a **template** that *specifies* the integer **type** and **size**. This will *ensure* that the **user** can *get* the **value** as a standard **integer** **type** from the C++ type **system**, but the underlying raw **data** will *be* the exact **size** and **endianness** of the **field** as *stored* in the **file**. When the **user** *gets* the **value**, the **field** will *convert* the **value** from the raw bytes to the integer type. This will also allow the user to set the value using a standard integer type. The field will also convert the value being set to raw **bytes**. The **library** should *provide* some **typedefs** that *provide* the following **specializations** of the **template**: **UInt8**, **Int8**, **UInt16**, **Int16**, **UInt24**, **Int24**, **UInt32**, **Int32**, **UInt64**, and **Int64**. These **specializations** should *use* the minimum **size** integer **type** necessary to *hold* the **size** of the **field** on all **platforms** and **architectures**. All integer **fields** should *default* to the **endianness** of the **system**, but individual **instances** should also *allow* the **user** to *set* the **endianness** of a **field** explicitly. The **endianness** will *determine* the byte **order** that is *read* from and *written* to the **file**. The **field** should *indicate* the min and max **values** the **field** can *store*. If the **user** attempts to *set* a **value** larger or smaller than the min or max **values**, the **field** should *throw* an std::overflow_error **exception**.
+
 ## Noun-Verb Parse
 
 | Subject Noun | Type | Verb | Type | Object Noun | Type | X |
@@ -124,6 +132,33 @@ All data **fields** should *have* the **ability** to *convert* their **data** to
 | (raw) field | entity | convert | action | (bin) format | return value | X |
 | (raw) field | entity | convert | action | (hex) format | return value | X |
 | (raw) field | entity | convert | action | (dec) format | return value | X |
+| user | actor | want | desire | support | feature | X |
+| (integer) field | entity | N/A | N/A | N/A | N/A |
+| I | actor | manipulate | use case | (numeric) data | X |
+| (integer) field | entity | be | type | template | generic | X |
+| template | generic | specifies | specialization | (integer) test | data type | X |
+| template | generic | specifies | specialization | data size | template parameter | X |
+| template | generic | ensures | feature | user | actor | X |
+| user | actor | get | action | value | attribute | X |
+| (C++ type) system | feature | N/A | N/A | N/A | N/A |
+| (raw) data | attribute | be | constraint | (exact) size | template parameter | X |
+| (raw) data | attribute | be | constraint | endianness | entity | X |
+| field | entity | stored | action | file | entity | C |
+| field | entity | convert | action | bytes | attribute | X |
+| library | library | provide | feature | typedefs | data types | X |
+| typedefs | data type | provide | relationship | specializations | data types | X |
+| specialization | data type | use | composition | (minimum integer size) | template parameter | X |
+| (integer) type | data type | hold | composition | size | constraint | X |
+| platform | feature | N/A | N/A | N/A | N/A | X |
+| architecture | feature | N/A | N/A | N/A | N/A | X |
+| (integer) field | entity | (set) default | action  | endianness | attribute | X |
+| (integer) field | entity | (get) system | action | endianness | attribute | X |
+| (field) instance | entity | allow | feature | user | X |
+| user | actor | set | action | endianness | attribute | X |
+| endianness | attribute | determine | constraint | byte order | X |
+| field | entity | indicate | composition | (min) value | attribute | X |
+| field | entity | indicate | composition | (max) value | attribute | X |
+| field | entity | throw | constraint | exception | entity | X |
 
 ## Actors
 
@@ -137,6 +172,7 @@ All data **fields** should *have* the **ability** to *convert* their **data** to
 - Manipulate raw data without any specific interpretation of the data in binary files
 - Manipulate text data in binary files
 - Choose how data fields in binary files are displayed
+- Manipulate numeric data in binary files
 
 ## Features
 
@@ -151,6 +187,11 @@ All data **fields** should *have* the **ability** to *convert* their **data** to
 - Ability to convert data fields to a string representation
 - Ability to format string representations of data fields
 - Ability to specify string formats
+- Support for integer fields
+- Convert standard integer values from C++ type system to raw bytes
+- Support for multiple sizes of signed and unsigned integer fields
+- Cross platform
+- Set endianness of integer fields
 
 ## Entities
 
@@ -162,12 +203,14 @@ All data **fields** should *have* the **ability** to *convert* their **data** to
 
 | class RawField : DataField |
 | - |
-| 
 
 | enum class StringFormat |
 | - |
 | + Raw |
-|
+| + Ascii |
+| + Hex |
+| + Dec |
+| + Bin |
 
 | class StringField : RawField |
 | - |
@@ -206,7 +249,57 @@ All data **fields** should *have* the **ability** to *convert* their **data** to
 | + Write |
 | + ReadWrite |
 
+| class IntField<typename IntType, size_t IntSize> : DataField |
+| - |
+| + static Endianness GetSystemEndianness() |
+| + IntType Value() |
+| + void SetValue(IntType value) |
+| + FieldEndianness Endianness() |
+| + IntType MinValue() |
+| + IntType MaxValue() |
+| + void SetEndianness(FieldEndianness endianness) |
+| + void SetDefaultEndianness() |
+| - void ConvertToBytes(IntType value) |
+| - IntType ConvertFromBytes() |
+| - FieldEndianness endianness |
+
+| typedef UInt8 : IntField<unsigned int, 1> |
+| - |
+
+| typedef Int8Field : IntField<int, 1> |
+| - |
+
+| typedef UInt16Field : IntField<unsigned int, 2> |
+| - |
+
+| typedef Int16Field : IntField<int, 2> |
+| - | 
+
+| typedef UInt24Field : IntField<unsigned long, 3> |
+| - |
+
+| typedef Int24Field : IntField<long, 3> |
+| - |
+
+| typedef UInt32Field : IntField<unsigned long, 4> |
+| - |
+
+| typedef Int32Field : IntField<long, 4> |
+| - |
+
+| typedef UInt64Field : IntField<unsigned long long, 8> |
+| - | 
+
+| typedef Int64Field : IntField<long long, 8> |
+| - | 
+
+| enum class FieldEndianness |
+| - |
+| + LittleEndian |
+| + BigEndian |
+
 ## Relationships
 
 - All types of data fields should derive from the DataField class. 
 - All types of streams should derive from the Stream class.
+- Typedef specializations of IntField.
