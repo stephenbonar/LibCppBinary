@@ -25,7 +25,7 @@
 namespace Binary
 {
     /// @brief Used for selecting the least significant byte on little endian.
-    constexpr int lsbMask{ 0xFF };
+    constexpr int byteMask{ 0xFF };
 
     /// @brief Controls what endianness IntFields are created with by default.
     extern FieldEndianness defaultEndianness;
@@ -211,54 +211,50 @@ namespace Binary
         /// @brief Converts the specified value to the data bytes.
         ///
         /// Converts the specified value to the underlying bytes in the proper
-        /// byte order depending on the endianness of the field and the system
-        /// endianness.
+        /// byte order depending on the endianness of the field. This should
+        /// work the same on both little endian and big endian systems as
+        /// the library has been re-written to use the C++ type system as much
+        /// as possible.
         ///
         /// @param value The value to convert.
         void ConvertToBytes(IntType value)
         {
-            FieldEndianness systemEndianness = Binary::GetSystemEndianness();
-
-            if (systemEndianness == FieldEndianness::Little && 
-                endianness == FieldEndianness::Little)
+            if (endianness == FieldEndianness::Little)
             {
-                StoreLittleEndianAsLittleEndian(value);
+                StoreLittleEndian(value);
             }
-            else if (systemEndianness == FieldEndianness::Little &&
-                     endianness == FieldEndianness::Big)
+            else if (endianness == FieldEndianness::Big)
             {
-                StoreLittleEndianAsBigEndian(value);
+                StoreBigEndian(value);
             }
         }
 
         /// @brief Gets the integer value from the raw data bytes.
         ///
         /// Converts the raw data bytes to the appropriate integer value using
-        /// the correct endianness to match the system endianness.
+        /// the correct endianness to match the system endianness. This should
+        /// work the same on both little endian and big endian systems as
+        /// the library has been re-written to use the C++ type system as much
+        /// as possible.
         ///
         /// @return The integer value of the field.
         IntType ConvertFromBytes() const
         {
-            FieldEndianness systemEndianness = Binary::GetSystemEndianness();
-
-            if (systemEndianness == FieldEndianness::Little &&
-                endianness == FieldEndianness::Little)
+            if (endianness == FieldEndianness::Little)
             {
-                return RetrieveLittleEndianAsLittleEndian();
+                return RetrieveLittleEndian();
             }
-            else if (systemEndianness == FieldEndianness::Little &&
-                     endianness == FieldEndianness::Big)
+            else if (endianness == FieldEndianness::Big)
             {
-                return RetrieveBigEndianAsLittleEndian();
+                return RetrieveBigEndian();
             }
 
             return 0;
         }
 
         /// @brief Stores the specified value in the field as little endian.
-        /// @pre The specified value is in little endian format.
         /// @param value The value to store.
-        void StoreLittleEndianAsLittleEndian(IntType value)
+        void StoreLittleEndian(IntType value)
         {
             // Start the shift amount at 0 to obtain the least significant
             // byte of value first, which is what we want for little endian.
@@ -269,7 +265,7 @@ namespace Binary
                 // Get the next byte from value by shifting it to the least
                 // significant byte. By doing bitwise with the lsb mask, all
                 // other bytes are zeroed out.
-                data[i] = static_cast<char>((value >> shiftAmount) & lsbMask);
+                data[i] = static_cast<char>((value >> shiftAmount) & byteMask);
 
                 // Increase the shift amount to select the next byte.
                 shiftAmount += bitsPerByte;
@@ -279,7 +275,7 @@ namespace Binary
         /// @brief Stores the specified value in the field as big endian.
         /// @pre The specified value is in little endian format.
         /// @param value The value to store.
-        void StoreLittleEndianAsBigEndian(IntType value)
+        void StoreBigEndian(IntType value)
         {
             // Because the byte order is reversed for big endian values, we
             // start the shift amount towards the size and decrease to 0.
@@ -290,19 +286,22 @@ namespace Binary
                 // Get the next byte from value by shifting it to the least
                 // significant byte. By doing bitwise with the lsb mask, all
                 // other bytes are zeroed out.
-                data[i] = static_cast<char>((value >> shiftAmount) & lsbMask);
+                data[i] = static_cast<char>((value >> shiftAmount) & byteMask);
 
                 // Decrease the shift amount to select the next byte.
                 shiftAmount -= bitsPerByte;
             }  
         }
 
-        /// @brief Retrieves the stored little endian value as little endian.
+        /// @brief Retrieves the stored little endian value.
         /// @return The little endian value.
-        IntType RetrieveLittleEndianAsLittleEndian() const
+        IntType RetrieveLittleEndian() const
         {
+            bool isNegative = false;
+
             // Assemble the retrieved value in a 64-bit variable so it can hold
-            // all possible sized values.
+            // all possible sized values. We make it unsigned so we don't have
+            // acccidental sign changes during the process.
             uint64_t retrievedValue{ 0 };
 
             // Start the shift amount at 0 to obtain the least significant
@@ -316,24 +315,44 @@ namespace Binary
                 // everything unsigned to avoid sign conversion errors.
                 uint8_t byte = static_cast<uint8_t>(data[i]);
 
+                // Determine if the most significant byte has the sign bit
+                // enabled to determine if the entire number is negative.
+                if (i == (IntSize - 1) && byte > 127)
+                    isNegative = true;
+
                 // Then, Bitwise OR the next byte to the retrieved value by 
                 // shifting it into the correct position to continue assembling
-                // the value.
-                retrievedValue |= static_cast<uint64_t>(byte << shiftAmount);
+                // the value. Cast the byte to uint64_t because the compiler
+                // might implicity cast to 32-bit int instead. 
+                uint64_t shifted = static_cast<uint64_t>(byte) << shiftAmount;
+                retrievedValue |= shifted;
 
                 // Increase the shift amount to select the next byte.
                 shiftAmount += bitsPerByte;
             }
 
-            return static_cast<IntType>(retrievedValue);
+            // If we're dealing with a signed, negative number, we may need to
+            // sign extend it by padding it with leading 1's (bytes of 0xFF) to
+            // fill the extra bytes if the size of IntType is > IntSize.
+            if (std::numeric_limits<IntType>::is_signed && isNegative)
+            {
+                return SignExtend(retrievedValue);
+            }
+            else
+            {
+                return static_cast<IntType>(retrievedValue);
+            }  
         }
 
-        /// @brief Retrieves the stored big endian value as little endian.
+        /// @brief Retrieves the stored big endian value.
         /// @return The little endian value. 
-        IntType RetrieveBigEndianAsLittleEndian() const
+        IntType RetrieveBigEndian() const
         {
+            bool isNegative = false;
+
             // Assemble the retrieved value in a 64-bit variable so it can hold
-            // all possible sized values.
+            // all possible sized values. We make it unsigned so we don't have
+            // acccidental sign changes during the process.
             uint64_t retrievedValue{ 0 };
 
             // Because the byte order is reversed for big endian values, we
@@ -347,17 +366,56 @@ namespace Binary
                 // everything unsigned to avoid sign conversion errors.
                 uint8_t byte = static_cast<uint8_t>(data[i]);
 
+                // Determine if the most significant byte has the sign bit
+                // enabled to determine if the entire number is negative.
+                if (i == 0 && byte > 127)
+                    isNegative = true;
+
                 // Then, Bitwise OR the next byte to the retrieved value by 
                 // shifting it into the correct position to continue assembling
-                // the value.
-                retrievedValue |= byte << shiftAmount;
+                // the value. Cast the byte to uint64_t because the compiler
+                // might implicity cast to 32-bit int instead. 
+                retrievedValue |= static_cast<uint64_t>(byte) << shiftAmount;
 
                 // Decrease the shift amount to select the next byte.
                 shiftAmount -= bitsPerByte;
             }
 
+            // If we're dealing with a signed, negative number, we may need to
+            // sign extend it by padding it with leading 1's (bytes of 0xFF) to
+            // fill the extra bytes if the size of IntType is > IntSize.
+            if (std::numeric_limits<IntType>::is_signed && isNegative)
+            {
+                // We only need to pad the most significant bytes above and beyond
+                // IntSize. When IntType matches the size of IntSize, this code 
+                // will never run. But in cases where IntType's size is greater 
+                // than the size of the raw data, such as Int24Field, we need to
+                // pad the extra bytes. 
+                if (sizeof(retrievedValue) > IntSize)
+                    return SignExtend(retrievedValue);
+            }
+            
             return static_cast<IntType>(retrievedValue);
-        } 
+        }
+        
+        /// @brief Sign extends the specified value by padding it leading 1's.
+        /// @param value The value to sign extend.
+        /// @return The sign extended value.
+        IntType SignExtend(IntType value) const
+        {
+            int valueTotalBytes = sizeof(value);
+            IntType signExtendedValue = value;
+            
+            // Start the loop 1 byte past IntSize as we only need to pad the
+            // extra leading bytes.
+            for (int bytes = IntSize + 1; bytes <= valueTotalBytes; bytes++)
+            {
+                int amountToShift = (bytes - 1) * bitsPerByte;
+                signExtendedValue |= byteMask << amountToShift;
+            }
+
+            return static_cast<IntType>(signExtendedValue);
+        }
     };
 
     /// @brief Represents an unsigned 8-bit integer field in a binary file.

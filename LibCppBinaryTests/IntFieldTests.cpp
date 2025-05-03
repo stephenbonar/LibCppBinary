@@ -265,3 +265,81 @@ TEST_F(IntFieldTests, SetsMaxValuesProperly)
     EXPECT_EQ(int32.Value(), int32.MaxValue());
     EXPECT_EQ(int64.Value(), int64.MaxValue());
 }
+
+TEST_F(IntFieldTests, SetsBigEndianMinValuesProperly)
+{
+    Binary::UInt8Field uint8{ Binary::FieldEndianness::Big };
+    Binary::UInt16Field uint16{ Binary::FieldEndianness::Big };
+    Binary::UInt24Field uint24{ Binary::FieldEndianness::Big };
+    Binary::UInt32Field uint32{ Binary::FieldEndianness::Big };
+    Binary::UInt64Field uint64{ Binary::FieldEndianness::Big };
+
+    Binary::Int8Field int8{ Binary::FieldEndianness::Big };
+    Binary::Int16Field int16{ Binary::FieldEndianness::Big };
+    Binary::Int24Field int24{ Binary::FieldEndianness::Big };
+    Binary::Int32Field int32{ Binary::FieldEndianness::Big };
+    Binary::Int64Field int64{ Binary::FieldEndianness::Big };
+
+    uint8.SetValue(0);
+    uint16.SetValue(0);
+    uint24.SetValue(0);
+    uint32.SetValue(0);
+    uint64.SetValue(0);
+
+    int8.SetValue(-128);
+    int16.SetValue(-32768);
+    int24.SetValue(-8388608);
+    int32.SetValue(-2147483648);
+    int64.SetValue(-9223372036854775808ULL);
+    
+    EXPECT_EQ(uint8.Value(), uint8.MinValue());
+    EXPECT_EQ(uint16.Value(), uint16.MinValue());
+    EXPECT_EQ(uint24.Value(), uint24.MinValue());
+    EXPECT_EQ(uint32.Value(), uint32.MinValue());
+    EXPECT_EQ(uint64.Value(), uint64.MinValue());
+
+    EXPECT_EQ(int8.Value(), int8.MinValue());
+    EXPECT_EQ(int16.Value(), int16.MinValue());
+    EXPECT_EQ(int24.Value(), int24.MinValue());
+    EXPECT_EQ(int32.Value(), int32.MinValue());
+    EXPECT_EQ(int64.Value(), int64.MinValue());
+}
+
+TEST_F(IntFieldTests, SetsBigEndianMaxValuesProperly)
+{
+    Binary::UInt8Field uint8{ Binary::FieldEndianness::Big };
+    Binary::UInt16Field uint16{ Binary::FieldEndianness::Big };
+    Binary::UInt24Field uint24{ Binary::FieldEndianness::Big };
+    Binary::UInt32Field uint32{ Binary::FieldEndianness::Big };
+    Binary::UInt64Field uint64{ Binary::FieldEndianness::Big };
+
+    Binary::Int8Field int8{ Binary::FieldEndianness::Big };
+    Binary::Int16Field int16{ Binary::FieldEndianness::Big };
+    Binary::Int24Field int24{ Binary::FieldEndianness::Big };
+    Binary::Int32Field int32{ Binary::FieldEndianness::Big };
+    Binary::Int64Field int64{ Binary::FieldEndianness::Big };
+
+    uint8.SetValue(255);
+    uint16.SetValue(65535);
+    uint24.SetValue(16777215);
+    uint32.SetValue(4294967295);
+    uint64.SetValue(18446744073709551615ULL);
+
+    int8.SetValue(127);
+    int16.SetValue(32767);
+    int24.SetValue(8388607);
+    int32.SetValue(2147483647);
+    int64.SetValue(9223372036854775807);
+
+    EXPECT_EQ(uint8.Value(), uint8.MaxValue());
+    EXPECT_EQ(uint16.Value(), uint16.MaxValue());
+    EXPECT_EQ(uint24.Value(), uint24.MaxValue());
+    EXPECT_EQ(uint32.Value(), uint32.MaxValue());
+    EXPECT_EQ(uint64.Value(), uint64.MaxValue());
+
+    EXPECT_EQ(int8.Value(), int8.MaxValue());
+    EXPECT_EQ(int16.Value(), int16.MaxValue());
+    EXPECT_EQ(int24.Value(), int24.MaxValue());
+    EXPECT_EQ(int32.Value(), int32.MaxValue());
+    EXPECT_EQ(int64.Value(), int64.MaxValue());
+}
