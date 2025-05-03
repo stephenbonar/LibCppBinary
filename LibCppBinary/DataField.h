@@ -22,6 +22,9 @@
 
 namespace Binary
 {
+    /// @brief Indicates the number of bits in a byte of data.
+    inline constexpr int bitsPerByte{ 8 };
+
     /// @brief Abstract base class representing a data field in a binary file.
     ///
     /// Classes that represent a data field in a binary file should derive from

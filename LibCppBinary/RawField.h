@@ -65,10 +65,10 @@ namespace Binary
         /// @return A string representation of the field's data.
         std::string ToString(StringFormat format = StringFormat::Raw) const
             override;
-    private:
+    protected:
         size_t size;
         std::unique_ptr<char[]> data;
-
+    private:
         std::string ConvertRaw() const;
 
         std::string ConvertAscii() const;
