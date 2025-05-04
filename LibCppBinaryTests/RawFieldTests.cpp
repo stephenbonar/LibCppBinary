@@ -68,10 +68,10 @@ TEST_F(RawFieldTests, FormatsStringRawProperly)
     field.Data()[2] = 'S';
     field.Data()[3] = 'T';
 
-    EXPECT_EQ(field.ToString(), "TEST");
+    EXPECT_EQ(field.ToString(Binary::StringFormat::Raw), "TEST");
 }
 
-TEST_F(RawFieldTests, FormatsStringAsciiProperly)
+TEST_F(RawFieldTests, FormatsStringPrintableProperly)
 {
     Binary::RawField field{ 5 };
     ASSERT_NE(field.Data(), nullptr);
@@ -86,7 +86,7 @@ TEST_F(RawFieldTests, FormatsStringAsciiProperly)
     // Extended ASCII character to replace wilth '.'.
     field.Data()[4] = -1;
 
-    EXPECT_EQ(field.ToString(Binary::StringFormat::Ascii), "TST..");
+    EXPECT_EQ(field.ToString(Binary::StringFormat::Printable), "TST..");
 }
 
 TEST_F(RawFieldTests, FormatsStringBinProperly)
@@ -128,4 +128,17 @@ TEST_F(RawFieldTests, DoesNotFormatStringDec)
 
     ASSERT_THROW(field.ToString(Binary::StringFormat::Dec), 
                  std::invalid_argument);
+}
+
+TEST_F(RawFieldTests, FormatsHexByDefault)
+{
+    Binary::RawField field{ 4 };
+    ASSERT_NE(field.Data(), nullptr);
+    ASSERT_EQ(field.Size(), 4);
+    field.Data()[0] = 0xA;
+    field.Data()[1] = 0xB;
+    field.Data()[2] = 0xC;
+    field.Data()[3] = 0xD;
+
+    EXPECT_EQ(field.ToString(), "0A 0B 0C 0D");
 }

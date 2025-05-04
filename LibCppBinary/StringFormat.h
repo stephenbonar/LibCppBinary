@@ -29,7 +29,7 @@ namespace Binary
         Raw,
 
         /// @brief Replaces any non-printable characters with a space.
-        Ascii,
+        Printable,
 
         /// @brief Provides a binary representation of the data bytes.
         Bin,

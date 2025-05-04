@@ -45,12 +45,18 @@ void RawFileStream::Open(FileMode mode)
 
 void RawFileStream::Read(DataField* field)
 {
+    if (!IsOpen())
+        throw std::runtime_error{ "You must open the file before reading." };
+
     fileStream.read(field->Data(), field->Size());
     position += field->Size();
 }
 
 void RawFileStream::Write(DataField* field)
 {
+    if (!IsOpen())
+        throw std::runtime_error{ "You must open the file before writing." };
+        
     fileStream.write(field->Data(), field->Size());
     position += field->Size();
 }

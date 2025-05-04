@@ -47,14 +47,19 @@ std::string RawField::ToString(StringFormat format) const
     if (format == StringFormat::Dec)
         throw std::invalid_argument("Dec format only available for ints");
 
+    return FormatData(format);
+}
+
+std::string RawField::FormatData(StringFormat format) const
+{
     switch (format)
     {
-        case StringFormat::Ascii:
-            return ConvertAscii();
+        case StringFormat::Printable:
+            return ConvertPrintable();
         case StringFormat::Bin:
             return ConvertBin();
         case StringFormat::Hex:
-            return ConvertHex(); 
+            return ConvertHex();
         default:
             return ConvertRaw();
     }
@@ -70,7 +75,7 @@ std::string RawField::ConvertRaw() const
     return stream.str();
 }
 
-std::string RawField::ConvertAscii() const
+std::string RawField::ConvertPrintable() const
 {
     std::stringstream stream;
 

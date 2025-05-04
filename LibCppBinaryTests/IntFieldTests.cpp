@@ -343,3 +343,10 @@ TEST_F(IntFieldTests, SetsBigEndianMaxValuesProperly)
     EXPECT_EQ(int32.Value(), int32.MaxValue());
     EXPECT_EQ(int64.Value(), int64.MaxValue());
 }
+
+TEST_F(IntFieldTests, ToStringReturnsValueByDefault)
+{
+    Binary::UInt8Field field{ 100 };
+
+    EXPECT_EQ(field.ToString(), "100");
+}

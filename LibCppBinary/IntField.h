@@ -212,6 +212,17 @@ namespace Binary
         {
             SetEndianness(defaultEndianness);
         }
+
+        /// @brief Converts the field's data to a string representation.
+        /// @param format The format to use for the string conversion.
+        /// @return A string representation of the field's data.
+        std::string ToString(StringFormat format = StringFormat::Dec) const override 
+        {
+            if (format == StringFormat::Dec)
+                return std::to_string(Value());
+            else
+                return FormatData(format);
+        }
     private:
         FieldEndianness endianness;
 

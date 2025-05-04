@@ -65,6 +65,15 @@ namespace Binary
         ///
         /// @param value The string to set the field's value to.
         void SetValue(std::string value);
+
+        /// @brief Converts the field's data to a string representation.
+        /// @param format The format to use for the string conversion.
+        /// @return A string representation of the field's data.
+        std::string ToString(StringFormat format = StringFormat::Raw) const 
+            override
+        {
+            return RawField::ToString(format);
+        }
     };
 }
 

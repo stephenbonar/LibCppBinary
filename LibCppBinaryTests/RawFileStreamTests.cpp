@@ -151,7 +151,7 @@ TEST_F(RawFileStreamTests, WritesDataFieldsProperly)
 
     writeStringField.SetValue(stringFieldData.data());
 
-    for (int i = 0; i < rawFieldData.size(); i++)
+    for (size_t i = 0; i < rawFieldData.size(); i++)
         writeRawField.Data()[i] = rawFieldData[i];
 
     stream.Open(Binary::FileMode::Write);
@@ -169,9 +169,11 @@ TEST_F(RawFileStreamTests, WritesDataFieldsProperly)
     stream.Close();
 
     EXPECT_EQ(stream.FileSize(), stringFieldData.size() + rawFieldData.size());
-    EXPECT_EQ(std::string(stringFieldData.data()), readStringField.Value());
     
-    for (int i = 0; i < rawFieldData.size(); ++i)
+    for (size_t i = 0; i < stringFieldData.size(); i++)
+        EXPECT_EQ(stringFieldData.data()[i], readStringField.Data()[i]);
+    
+    for (size_t i = 0; i < rawFieldData.size(); ++i)
         EXPECT_EQ(rawFieldData[i], readRawField.Data()[i]);
 }
 
@@ -201,4 +203,20 @@ TEST_F(RawFileStreamTests, ClosesFileProperly)
 
     EXPECT_EQ(stream.IsOpen(), false);
     EXPECT_EQ(stream.Position(), 0);
+}
+
+TEST_F(RawFileStreamTests, OnlyAllowsReadWhenOpen)
+{
+    Binary::StringField stringField{ stringFieldData.size() };
+    Binary::RawFileStream stream{ testFileName };
+
+    EXPECT_THROW(stream.Read(&stringField), std::runtime_error);
+}
+
+TEST_F(RawFileStreamTests, OnlyAllowsWriteWhenOpen)
+{
+    Binary::StringField stringField{ stringFieldData.size() };
+    Binary::RawFileStream stream{ testWriteFileName };
+
+    EXPECT_THROW(stream.Write(&stringField), std::runtime_error);
 }

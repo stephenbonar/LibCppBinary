@@ -63,18 +63,31 @@ namespace Binary
         /// @brief Converts the field's data to a string representation.
         /// @param format The format to use for the string conversion.
         /// @return A string representation of the field's data.
-        std::string ToString(StringFormat format = StringFormat::Raw) const
+        std::string ToString(StringFormat format = StringFormat::Hex) const
             override;
     protected:
         size_t size;
         std::unique_ptr<char[]> data;
+
+        /// @brief Format's the field's data as a string in a specific format.
+        /// @param format The format to use.
+        /// @return A formated string representation of the data.
+        std::string FormatData(StringFormat format) const;
     private:
+        /// @brief Converts the data to a string even with non-printable chars.
+        /// @return The formatted string representation of the data.
         std::string ConvertRaw() const;
 
-        std::string ConvertAscii() const;
+        /// @brief Converts the data to a string with only printable chars.
+        /// @return The formatted string representation of the data.
+        std::string ConvertPrintable() const;
 
+        /// @brief Converts the data to a string formatted as binary digits.
+        /// @return The formatted string representation of the data.
         std::string ConvertBin() const;
 
+        /// @brief Converts the data to a string formatted as hex digits.
+        /// @return The formatted string representation of the data.
         std::string ConvertHex() const;
     };
 };
