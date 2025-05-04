@@ -42,6 +42,11 @@ RawField::RawField(const RawField& other)
     std::memcpy(data.get(), other.data.get(), other.size);
 }
 
+std::string RawField::ToString() const
+{
+    return FormatData(StringFormat::Hex);
+}
+
 std::string RawField::ToString(StringFormat format) const
 {
     if (format == StringFormat::Dec)

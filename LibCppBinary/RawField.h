@@ -61,10 +61,13 @@ namespace Binary
         char* Data() override { return data.get(); }
 
         /// @brief Converts the field's data to a string representation.
+        /// @return A string representation of the field's data.
+        std::string ToString() const override;
+
+        /// @brief Converts the field's data to a string representation.
         /// @param format The format to use for the string conversion.
         /// @return A string representation of the field's data.
-        std::string ToString(StringFormat format = StringFormat::Hex) const
-            override;
+        std::string ToString(StringFormat format) const override;
     protected:
         size_t size;
         std::unique_ptr<char[]> data;

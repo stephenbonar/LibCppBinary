@@ -53,10 +53,13 @@ namespace Binary
         virtual char* Data() = 0;
 
         /// @brief Converts the field's data to a string representation.
+        /// @return A string representation of the field's data.
+        virtual std::string ToString() const = 0;
+
+        /// @brief Converts the field's data to a string representation.
         /// @param format The format to use for the string conversion.
         /// @return A string representation of the field's data.
-        virtual std::string ToString(StringFormat format = StringFormat::Raw)
-            const = 0;
+        virtual std::string ToString(StringFormat format) const = 0;
     };
 }
 
