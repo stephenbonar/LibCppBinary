@@ -43,19 +43,19 @@ namespace Binary
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
-        virtual size_t Position() const = 0;
+        virtual uintmax_t Position() const = 0;
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        virtual void SetPosition(size_t position) = 0;
+        virtual void SetPosition(uintmax_t position) = 0;
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
-        virtual size_t Beginning() const = 0;
+        virtual uintmax_t Beginning() const = 0;
 
         /// @brief Gets the end position of the file.
         /// @return A size_t value representing the end position.
-        virtual size_t End() const = 0;
+        virtual uintmax_t End() const = 0;
     };
 }
 

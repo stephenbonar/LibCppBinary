@@ -21,7 +21,7 @@ using namespace Binary;
 std::string RawFileStream::FileName() const
 { 
     std::filesystem::path path = filePath;
-    return path.filename(); 
+    return path.filename().string(); 
 }
 
 void RawFileStream::Open(FileMode mode)

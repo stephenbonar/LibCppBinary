@@ -50,7 +50,7 @@ namespace Binary
 
         /// @brief Gets the size of the file associated with the stream.
         /// @return The size of the file, in bytes.
-        virtual size_t FileSize() const = 0;
+        virtual uintmax_t FileSize() const = 0;
         
         /// @brief Determines the mode the file is set to open in.
         /// @return The file mode.

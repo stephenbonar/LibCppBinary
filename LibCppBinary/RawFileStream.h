@@ -61,7 +61,7 @@ namespace Binary
 
         /// @brief Gets the size of the file associated with the stream.
         /// @return The size of the file, in bytes.
-        virtual size_t FileSize() const override
+        virtual uintmax_t FileSize() const override
         {
             return std::filesystem::file_size(filePath); 
         }
@@ -91,11 +91,11 @@ namespace Binary
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
-        virtual size_t Position() const override { return position; }
+        virtual uintmax_t Position() const override { return position; }
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        virtual void SetPosition(size_t position) override
+        virtual void SetPosition(uintmax_t position) override
         {
             this->position = position;
             fileStream.seekg(position);
@@ -103,13 +103,13 @@ namespace Binary
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
-        virtual size_t Beginning() const override { return 0; }
+        virtual uintmax_t Beginning() const override { return 0; }
 
         /// @brief Gets the end position of the file.
         /// @return A size_t value representing the end position.
-        virtual size_t End() const override { return FileSize(); }
+        virtual uintmax_t End() const override { return FileSize(); }
     private:
-        size_t position;
+        uintmax_t position;
         std::string filePath;
         std::fstream fileStream;
         FileMode mode;
