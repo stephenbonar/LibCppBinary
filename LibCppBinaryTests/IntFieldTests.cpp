@@ -166,26 +166,26 @@ TEST_F(IntFieldTests, GetsMinAndMaxValuesProperly)
     Binary::Int64Field int64;
 
     EXPECT_EQ(uint8.MinValue(), 0);
-    EXPECT_EQ(uint8.MaxValue(), 255);
+    EXPECT_EQ(uint8.MaxValue(), UINT8_MAX);
     EXPECT_EQ(uint16.MinValue(), 0);
-    EXPECT_EQ(uint16.MaxValue(), 65535);
+    EXPECT_EQ(uint16.MaxValue(), UINT16_MAX);
     EXPECT_EQ(uint24.MinValue(), 0);
     EXPECT_EQ(uint24.MaxValue(), 16777215);
     EXPECT_EQ(uint32.MinValue(), 0);
-    EXPECT_EQ(uint32.MaxValue(), 4294967295);
+    EXPECT_EQ(uint32.MaxValue(), UINT32_MAX);
     EXPECT_EQ(uint64.MinValue(), 0);
-    EXPECT_EQ(uint64.MaxValue(), 18446744073709551615ULL);
+    EXPECT_EQ(uint64.MaxValue(), UINT64_MAX);
 
-    EXPECT_EQ(int8.MinValue(), -128);
-    EXPECT_EQ(int8.MaxValue(), 127);
-    EXPECT_EQ(int16.MinValue(), -32768);
-    EXPECT_EQ(int16.MaxValue(), 32767);
+    EXPECT_EQ(int8.MinValue(), INT8_MIN);
+    EXPECT_EQ(int8.MaxValue(), INT8_MAX);
+    EXPECT_EQ(int16.MinValue(), INT16_MIN);
+    EXPECT_EQ(int16.MaxValue(), INT16_MAX);
     EXPECT_EQ(int24.MinValue(), -8388608);
     EXPECT_EQ(int24.MaxValue(), 8388607);
-    EXPECT_EQ(int32.MinValue(), -2147483648);
-    EXPECT_EQ(int32.MaxValue(), 2147483647);
-    EXPECT_EQ(int64.MinValue(), -9223372036854775808ULL);
-    EXPECT_EQ(int64.MaxValue(), 9223372036854775807);
+    EXPECT_EQ(int32.MinValue(), INT32_MIN);
+    EXPECT_EQ(int32.MaxValue(), INT32_MAX);
+    EXPECT_EQ(int64.MinValue(), INT64_MIN);
+    EXPECT_EQ(int64.MaxValue(), INT64_MAX);
 }
 
 TEST_F(IntFieldTests, SetsMinValuesProperly)
@@ -208,11 +208,11 @@ TEST_F(IntFieldTests, SetsMinValuesProperly)
     uint32.SetValue(0);
     uint64.SetValue(0);
 
-    int8.SetValue(-128);
-    int16.SetValue(-32768);
+    int8.SetValue(INT8_MIN);
+    int16.SetValue(INT16_MIN);
     int24.SetValue(-8388608);
-    int32.SetValue(-2147483648);
-    int64.SetValue(-9223372036854775808ULL);
+    int32.SetValue(INT32_MIN);
+    int64.SetValue(INT64_MIN);
     
     EXPECT_EQ(uint8.Value(), uint8.MinValue());
     EXPECT_EQ(uint16.Value(), uint16.MinValue());
@@ -241,17 +241,17 @@ TEST_F(IntFieldTests, SetsMaxValuesProperly)
     Binary::Int32Field int32;
     Binary::Int64Field int64;
 
-    uint8.SetValue(255);
-    uint16.SetValue(65535);
+    uint8.SetValue(UINT8_MAX);
+    uint16.SetValue(UINT16_MAX);
     uint24.SetValue(16777215);
-    uint32.SetValue(4294967295);
-    uint64.SetValue(18446744073709551615ULL);
+    uint32.SetValue(UINT32_MAX);
+    uint64.SetValue(UINT64_MAX);
 
-    int8.SetValue(127);
-    int16.SetValue(32767);
+    int8.SetValue(INT8_MAX);
+    int16.SetValue(INT16_MAX);
     int24.SetValue(8388607);
-    int32.SetValue(2147483647);
-    int64.SetValue(9223372036854775807);
+    int32.SetValue(INT32_MAX);
+    int64.SetValue(INT64_MAX);
 
     EXPECT_EQ(uint8.Value(), uint8.MaxValue());
     EXPECT_EQ(uint16.Value(), uint16.MaxValue());
@@ -286,11 +286,11 @@ TEST_F(IntFieldTests, SetsBigEndianMinValuesProperly)
     uint32.SetValue(0);
     uint64.SetValue(0);
 
-    int8.SetValue(-128);
-    int16.SetValue(-32768);
+    int8.SetValue(INT8_MIN);
+    int16.SetValue(INT16_MIN);
     int24.SetValue(-8388608);
-    int32.SetValue(-2147483648);
-    int64.SetValue(-9223372036854775808ULL);
+    int32.SetValue(INT32_MIN);
+    int64.SetValue(INT64_MIN);
     
     EXPECT_EQ(uint8.Value(), uint8.MinValue());
     EXPECT_EQ(uint16.Value(), uint16.MinValue());
@@ -319,17 +319,17 @@ TEST_F(IntFieldTests, SetsBigEndianMaxValuesProperly)
     Binary::Int32Field int32{ Binary::FieldEndianness::Big };
     Binary::Int64Field int64{ Binary::FieldEndianness::Big };
 
-    uint8.SetValue(255);
-    uint16.SetValue(65535);
+    uint8.SetValue(UINT8_MAX);
+    uint16.SetValue(UINT16_MAX);
     uint24.SetValue(16777215);
-    uint32.SetValue(4294967295);
-    uint64.SetValue(18446744073709551615ULL);
+    uint32.SetValue(UINT32_MAX);
+    uint64.SetValue(UINT64_MAX);
 
-    int8.SetValue(127);
-    int16.SetValue(32767);
+    int8.SetValue(INT8_MAX);
+    int16.SetValue(INT16_MAX);
     int24.SetValue(8388607);
-    int32.SetValue(2147483647);
-    int64.SetValue(9223372036854775807);
+    int32.SetValue(INT32_MAX);
+    int64.SetValue(INT64_MAX);
 
     EXPECT_EQ(uint8.Value(), uint8.MaxValue());
     EXPECT_EQ(uint16.Value(), uint16.MaxValue());

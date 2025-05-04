@@ -22,6 +22,20 @@
 #include "RawField.h"
 #include "FieldEndianness.h"
 
+// Define the min and max values that are not in the standard library.
+#define INT24_MIN -8388608
+#define INT40_MIN -549755813888
+#define INT48_MIN -140737488355328
+#define INT56_MIN -36028797018963968
+#define UINT24_MAX 16777215
+#define UINT40_MAX 109951162777
+#define UINT48_MAX 281474976710655
+#define UINT56_MAX 72057594037927935
+#define INT24_MAX 8388607
+#define INT40_MAX 549755813887
+#define INT48_MAX 140737488355327
+#define INT56_MAX 36028797018963967
+
 namespace Binary
 {
     /// @brief Used for selecting the least significant byte on little endian.
@@ -99,21 +113,21 @@ namespace Binary
             switch (IntSize)
             {
                 case 1:
-                    return -128;
+                    return INT8_MIN;
                 case 2:
-                    return -32768;
+                    return static_cast<IntType>(INT16_MIN);
                 case 3:
-                    return -8388608;
+                    return static_cast<IntType>(INT24_MIN);
                 case 4:
-                    return -2147483648;
+                    return static_cast<IntType>(INT32_MIN);
                 case 5:
-                    return -549755813888;
+                    return static_cast<IntType>(INT40_MIN);
                 case 6:
-                    return -140737488355328;
+                    return static_cast<IntType>(INT48_MIN);
                 case 7:
-                    return -36028797018963968;
+                    return static_cast<IntType>(INT56_MIN);
                 case 8:
-                    return 0x8000000000000000;
+                    return static_cast<IntType>(INT64_MIN);
             }
 
             return 0;
@@ -128,21 +142,21 @@ namespace Binary
                 switch (IntSize)
                 {
                     case 1:
-                        return 255;
+                        return UINT8_MAX;
                     case 2:
-                        return 65535;
+                        return static_cast<IntType>(UINT16_MAX);
                     case 3:
-                        return 16777215;
+                        return static_cast<IntType>(UINT24_MAX);
                     case 4:
-                        return 4294967295;
+                        return static_cast<IntType>(UINT32_MAX);
                     case 5:
-                        return 1099511627775;
+                        return static_cast<IntType>(UINT40_MAX);
                     case 6:
-                        return 281474976710655;
+                        return static_cast<IntType>(UINT48_MAX);
                     case 7:
-                        return 72057594037927935;
+                        return static_cast<IntType>(UINT56_MAX);
                     case 8:
-                        return 18446744073709551615ULL;
+                        return static_cast<IntType>(UINT64_MAX);
                 }
             }
             else
@@ -150,21 +164,21 @@ namespace Binary
                 switch (IntSize)
                 {
                     case 1:
-                        return 127;
+                        return INT8_MAX;
                     case 2:
-                        return 32767;
+                        return static_cast<IntType>(INT16_MAX);
                     case 3:
-                        return 8388607;
+                        return static_cast<IntType>(INT24_MAX);
                     case 4:
-                        return 2147483647;
+                        return static_cast<IntType>(INT32_MAX);
                     case 5:
-                        return 549755813887;
+                        return static_cast<IntType>(INT40_MAX);
                     case 6:
-                        return 140737488355327;
+                        return static_cast<IntType>(INT48_MAX);
                     case 7:
-                        return 36028797018963967;
+                        return static_cast<IntType>(INT56_MAX);
                     case 8:
-                        return 9223372036854775807;
+                        return static_cast<IntType>(INT64_MAX);
                 }
             }
 
@@ -330,18 +344,8 @@ namespace Binary
                 // Increase the shift amount to select the next byte.
                 shiftAmount += bitsPerByte;
             }
-
-            // If we're dealing with a signed, negative number, we may need to
-            // sign extend it by padding it with leading 1's (bytes of 0xFF) to
-            // fill the extra bytes if the size of IntType is > IntSize.
-            if (std::numeric_limits<IntType>::is_signed && isNegative)
-            {
-                return SignExtend(retrievedValue);
-            }
-            else
-            {
-                return static_cast<IntType>(retrievedValue);
-            }  
+           
+            return ConvertRetrievedValue(retrievedValue, isNegative);
         }
 
         /// @brief Retrieves the stored big endian value.
@@ -381,21 +385,7 @@ namespace Binary
                 shiftAmount -= bitsPerByte;
             }
 
-            // If we're dealing with a signed, negative number, we may need to
-            // sign extend it by padding it with leading 1's (bytes of 0xFF) to
-            // fill the extra bytes if the size of IntType is > IntSize.
-            if (std::numeric_limits<IntType>::is_signed && isNegative)
-            {
-                // We only need to pad the most significant bytes above and beyond
-                // IntSize. When IntType matches the size of IntSize, this code 
-                // will never run. But in cases where IntType's size is greater 
-                // than the size of the raw data, such as Int24Field, we need to
-                // pad the extra bytes. 
-                if (sizeof(retrievedValue) > IntSize)
-                    return SignExtend(retrievedValue);
-            }
-            
-            return static_cast<IntType>(retrievedValue);
+            return ConvertRetrievedValue(retrievedValue, isNegative);
         }
         
         /// @brief Sign extends the specified value by padding it leading 1's.
@@ -414,7 +404,33 @@ namespace Binary
                 signExtendedValue |= byteMask << amountToShift;
             }
 
-            return static_cast<IntType>(signExtendedValue);
+            return signExtendedValue;
+        }
+
+        /// @brief Converts the retrieved value back into IntType.
+        /// @param retrievedValue The uint64_t to be converted.
+        /// @param isNegative Determines if the value represents a negative.
+        /// @return The converted value.
+        IntType ConvertRetrievedValue(uint64_t retrievedValue, bool isNegative)
+            const
+        {
+            IntType convertedValue{ static_cast<IntType>(retrievedValue) };
+
+            // If we're dealing with a signed, negative number, we may need to
+            // sign extend it by padding it with leading 1's (bytes of 0xFF) to
+            // fill the extra bytes if the size of IntType is > IntSize.
+            if (std::numeric_limits<IntType>::is_signed && isNegative)
+            {
+                // We only need to pad the most significant bytes above and beyond
+                // IntSize. When IntType matches the size of IntSize, this code 
+                // will never run. But in cases where IntType's size is greater 
+                // than the size of the raw data, such as Int24Field, we need to
+                // pad the extra bytes. 
+                if (sizeof(convertedValue) > IntSize)
+                    return SignExtend(convertedValue);
+            }
+            
+            return convertedValue;
         }
     };
 
