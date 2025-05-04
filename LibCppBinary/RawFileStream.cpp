@@ -48,3 +48,9 @@ void RawFileStream::Read(DataField* field)
     fileStream.read(field->Data(), field->Size());
     position += field->Size();
 }
+
+void RawFileStream::Write(DataField* field)
+{
+    fileStream.write(field->Data(), field->Size());
+    position += field->Size();
+}

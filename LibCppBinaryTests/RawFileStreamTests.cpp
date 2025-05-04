@@ -17,6 +17,7 @@
 #include "RawFileStreamTests.h"
 
 const char* testFileName{ "test.bin" };
+const char* testWriteFileName{ "testwrite.bin" };
 const char* testFullPath{ "/test/test.bin" };
 const std::vector<char> stringFieldData{ 'T', 'e', 's', 't', 'i', 'n', 'g', '!' };
 const std::vector<char> rawFieldData{ 0xA, 0xB, 0xC, 0xD };
@@ -138,6 +139,40 @@ TEST_F(RawFileStreamTests, ReadsDataFieldsProperly)
 
     for (size_t i = 0; i < rawField.Size(); i++)
         EXPECT_EQ(rawField.Data()[i], rawFieldData[i]);
+}
+
+TEST_F(RawFileStreamTests, WritesDataFieldsProperly)
+{
+    Binary::RawFileStream stream{ testWriteFileName };
+    Binary::StringField readStringField{ stringFieldData.size() };
+    Binary::RawField readRawField{ rawFieldData.size() };
+    Binary::StringField writeStringField{ stringFieldData.size() };
+    Binary::RawField writeRawField{ rawFieldData.size() };
+
+    writeStringField.SetValue(stringFieldData.data());
+
+    for (int i = 0; i < rawFieldData.size(); i++)
+        writeRawField.Data()[i] = rawFieldData[i];
+
+    stream.Open(Binary::FileMode::Write);
+    stream.Write(&writeStringField);
+    stream.Write(&writeRawField);
+
+    EXPECT_EQ(stream.Position(), 
+              writeStringField.Size() + writeRawField.Size());
+
+    stream.Close();
+
+    stream.Open(Binary::FileMode::Read);
+    stream.Read(&readStringField);
+    stream.Read(&readRawField);
+    stream.Close();
+
+    EXPECT_EQ(stream.FileSize(), stringFieldData.size() + rawFieldData.size());
+    EXPECT_EQ(std::string(stringFieldData.data()), readStringField.Value());
+    
+    for (int i = 0; i < rawFieldData.size(); ++i)
+        EXPECT_EQ(rawFieldData[i], readRawField.Data()[i]);
 }
 
 TEST_F(RawFileStreamTests, SetsPositionProperly)

@@ -87,7 +87,7 @@ namespace Binary
 
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.
-        virtual void Write(DataField* field) override { }
+        virtual void Write(DataField* field) override;
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
