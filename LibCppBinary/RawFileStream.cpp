@@ -52,6 +52,63 @@ void RawFileStream::Read(DataField* field)
     position += field->Size();
 }
 
+void RawFileStream::Read(DataStructure* structure)
+{
+    for (DataField* field : structure->Fields())
+        Read(field);
+}
+
+std::shared_ptr<ChunkHeader> RawFileStream::FindNextChunk(std::string ID) 
+{
+    bool chunkFound{ false };
+    int byteMatchIndex{ 0 };
+    uintmax_t tempPosition{ position };
+
+    if (ID.size() != 4)
+        throw std::invalid_argument{ "ID should be 4 characters long." };
+
+    if (!IsOpen())
+        throw std::runtime_error{ "You must open the file before reading." };
+      
+    fileStream.seekg(position);
+
+    while (!fileStream.eof() && !chunkFound)
+    {
+        char nextByte{ 0 };
+        fileStream.get(nextByte);
+        tempPosition++;
+
+        if (nextByte == ID[byteMatchIndex])
+        {
+            byteMatchIndex++;
+
+            if (byteMatchIndex == 4)
+            {
+                tempPosition -= 4;
+                fileStream.seekg(tempPosition);
+                position = tempPosition;
+                chunkFound = true;
+            }
+        }
+        else
+        {
+            byteMatchIndex = 0;
+        }
+    }
+
+    if (chunkFound)
+    {
+        auto header = std::make_shared<Binary::ChunkHeader>();
+        Read(header.get());
+        return header;
+    }
+    else
+    {
+        fileStream.seekg(position);
+        return nullptr;
+    }
+}
+
 void RawFileStream::Write(DataField* field)
 {
     if (!IsOpen())

@@ -21,6 +21,13 @@ const char* testWriteFileName{ "testwrite.bin" };
 const char* testFullPath{ "/test/test.bin" };
 const std::vector<char> stringFieldData{ 'T', 'e', 's', 't', 'i', 'n', 'g', '!' };
 const std::vector<char> rawFieldData{ 0xA, 0xB, 0xC, 0xD };
+const std::vector<char> chunk1IDData{ 'T', 'S', 'T', '1' };
+const std::vector<char> chunk1SizeData{ 0x4, 0x0, 0x0, 0x0 };
+const std::vector<char> chunk1Data{ 'A', 'B', 'C', 'D' };
+const std::vector<char> chunk2IDData{ 'T', 'S', 'T', '2' };
+const std::vector<char> chunk2SizeData{ 0x4, 0x0, 0x0, 0x0 };
+const std::vector<char> chunk2Data{ 'E', 'F', 'G', 'H' };
+
 
 RawFileStreamTests::RawFileStreamTests() 
 {
@@ -35,6 +42,12 @@ void RawFileStreamTests::GenerateTestFile()
 
     stream.write(stringFieldData.data(), stringFieldData.size());
     stream.write(rawFieldData.data(), rawFieldData.size());
+    stream.write(chunk1IDData.data(), chunk1IDData.size());
+    stream.write(chunk1SizeData.data(), chunk1SizeData.size());
+    stream.write(chunk1Data.data(), chunk1Data.size());
+    stream.write(chunk2IDData.data(), chunk2IDData.size());
+    stream.write(chunk2SizeData.data(), chunk2SizeData.size());
+    stream.write(chunk2Data.data(), chunk2Data.size());
 }
 
 TEST_F(RawFileStreamTests, InitializesStreamProperly)
@@ -132,7 +145,9 @@ TEST_F(RawFileStreamTests, ReadsDataFieldsProperly)
     stream.Read(&stringField);
     stream.Read(&rawField);
 
-    EXPECT_EQ(stream.Position(), stream.End());
+    uintmax_t readPosition = stringFieldData.size() + rawFieldData.size();
+
+    EXPECT_EQ(stream.Position(), readPosition);
     
     for (size_t i = 0; i < stringField.Size(); i++)
         EXPECT_EQ(stringField.Data()[i], stringFieldData[i]);
@@ -219,4 +234,58 @@ TEST_F(RawFileStreamTests, OnlyAllowsWriteWhenOpen)
     Binary::RawFileStream stream{ testWriteFileName };
 
     EXPECT_THROW(stream.Write(&stringField), std::runtime_error);
+}
+
+TEST_F(RawFileStreamTests, ReadsDataStructuresProperly)
+{
+    Binary::RawFileStream stream{ testFileName };
+    Binary::ChunkHeader header;
+
+    stream.Open(Binary::FileMode::Read);
+
+    uintmax_t chunkPosition = stringFieldData.size() + rawFieldData.size();
+    stream.SetPosition(chunkPosition);
+
+    stream.Read(&header);
+
+    EXPECT_EQ(stream.Position(), chunkPosition + header.Size());
+    EXPECT_EQ(header.id.Value(), "TST1");
+    EXPECT_EQ(header.dataSize.Value(), 4);
+}
+
+TEST_F(RawFileStreamTests, FindsChunkHeadersProperly)
+{
+    Binary::RawFileStream stream{ testFileName };
+    
+    stream.Open(Binary::FileMode::Read);
+    std::shared_ptr<Binary::ChunkHeader> header = stream.FindNextChunk("TST2");
+
+    uintmax_t expectedPosition = stringFieldData.size() + rawFieldData.size() +
+        chunk1IDData.size() + chunk1SizeData.size() + chunk1Data.size() + 
+        chunk2IDData.size() + chunk2SizeData.size();
+
+    ASSERT_NE(header, nullptr);
+    EXPECT_EQ(header->id.Value(), "TST2");
+    EXPECT_EQ(header->dataSize.Value(), 4);
+}
+
+TEST_F(RawFileStreamTests, FindNextChunkThrowsErrorWhenIDWrongSize)
+{
+    Binary::RawFileStream stream{ testFileName };
+
+    stream.Open(Binary::FileMode::Read);
+
+    // Should be exactly 4 bytes long.
+    EXPECT_THROW(stream.FindNextChunk(""), std::invalid_argument);
+    EXPECT_THROW(stream.FindNextChunk("TEST5"), std::invalid_argument);
+}
+
+TEST_F(RawFileStreamTests, ReturnsNullptrWhenChunkHeaderNotFound)
+{
+    Binary::RawFileStream stream{ testFileName };
+    
+    stream.Open(Binary::FileMode::Read);
+    std::shared_ptr<Binary::ChunkHeader> header = stream.FindNextChunk("TST3");
+
+    EXPECT_EQ(header, nullptr);
 }

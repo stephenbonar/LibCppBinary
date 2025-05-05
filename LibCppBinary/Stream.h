@@ -17,7 +17,11 @@
 #ifndef BINARY_STREAM_H
 #define BINARY_STREAM_H
 
+#include <memory>
+#include <string>
 #include "DataField.h"
+#include "DataStructure.h"
+#include "ChunkHeader.h"
 
 namespace Binary
 {
@@ -36,6 +40,15 @@ namespace Binary
         /// @brief Reads data from the stream into the specified field.
         /// @param field A pointer to the field to read data into.
         virtual void Read(DataField* field) = 0;
+
+        /// @brief Reads data from stream into the specified data structure.
+        /// @param field A pointer to the data structure to read data into.
+        virtual void Read(DataStructure* structure) = 0;
+
+        /// @brief Finds the next chunk header with the specified ID.
+        /// @param chunkID The ID of the chunk to find.
+        /// @return A pointer to the chunk header if found, otherwise nullptr.
+        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string ID) = 0;
 
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.

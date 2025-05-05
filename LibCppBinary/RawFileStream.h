@@ -85,6 +85,16 @@ namespace Binary
         /// @param field A pointer to the field to read data into.
         virtual void Read(DataField* field) override;
 
+        /// @brief Reads data from stream into the specified data structure.
+        /// @param field A pointer to the data structure to read data into.
+        virtual void Read(DataStructure* structure) override;
+
+        /// @brief Finds the next chunk header with the specified ID.
+        /// @param chunkID The ID of the chunk to find.
+        /// @return A pointer to the chunk header if found, otherwise nullptr.
+        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string ID) 
+            override;
+
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.
         virtual void Write(DataField* field) override;

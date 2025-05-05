@@ -14,4 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-add_library(LibCppBinary StringField.cpp RawField.cpp RawFileStream.cpp IntField.cpp)
+set(SOURCE_FILES
+    StringField.cpp 
+    RawField.cpp 
+    RawFileStream.cpp 
+    IntField.cpp
+    ChunkHeader.cpp)
+
+add_library(LibCppBinary ${SOURCE_FILES})

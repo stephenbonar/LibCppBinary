@@ -1,4 +1,4 @@
-// RawFileStreamTests.h - Declares the RawFileStreamTests class and tests.
+// ChunkHeaderTests.cpp - Defines the ChunkHeaderTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,24 +14,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef RAW_FILE_TESTS_H
-#define RAW_FILE_TESTS_H
+#include "ChunkHeaderTests.h"
 
-#include <filesystem>
-#include <fstream>
-#include <vector>
-#include <gtest/gtest.h>
-#include "RawFileStream.h"
-#include "StringField.h"
-#include "RawField.h"
-#include "ChunkHeader.h"
-
-class RawFileStreamTests : public ::testing::Test
+ChunkHeaderTests::ChunkHeaderTests()
 {
-protected:
-    RawFileStreamTests();
 
-    void GenerateTestFile();
-};
+}
 
-#endif
+TEST_F(ChunkHeaderTests, ProperlyObtainsFieldPointers)
+{
+    Binary::ChunkHeader header;
+    std::vector<Binary::DataField*> fields = header.Fields();
+
+    ASSERT_EQ(fields.size(), 2);
+    EXPECT_EQ(fields[0], &header.id);
+    EXPECT_EQ(fields[1], &header.dataSize);
+}
+
+TEST_F(ChunkHeaderTests, ProperlyObtainsSize)
+{
+    Binary::ChunkHeader header;
+
+    EXPECT_EQ(header.Size(), header.id.Size() + header.dataSize.Size());
+}

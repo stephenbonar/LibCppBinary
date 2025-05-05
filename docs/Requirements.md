@@ -65,6 +65,30 @@ As a **user**, **I** *want* **support** for integer **fields** so **I** can *man
 
 The integer **field** should *inherit* from data **field**. The integer **field** should *be* a **template** that *specifies* the integer **type** and **size**. This will *ensure* that the **user** can *get* the **value** as a standard **integer** **type** from the C++ type **system**, but the underlying raw **data** will *be* the exact **size** and **endianness** of the **field** as *stored* in the **file**. When the **user** *gets* the **value**, the **field** will *convert* the **value** from the raw bytes to the integer type. This will also allow the user to set the value using a standard integer type. The field will also convert the value being set to raw **bytes**. The **library** should *provide* some **typedefs** that *provide* the following **specializations** of the **template**: **UInt8**, **Int8**, **UInt16**, **Int16**, **UInt24**, **Int24**, **UInt32**, **Int32**, **UInt64**, and **Int64**. These **specializations** should *use* the minimum **size** integer **type** necessary to *hold* the **size** of the **field** on all **platforms** and **architectures**. All integer **fields** should *default* to the **endianness** of the **system**, but individual **instances** should also *allow* the **user** to *set* the **endianness** of a **field** explicitly. The **endianness** will *determine* the byte **order** that is *read* from and *written* to the **file**. The **field** should *indicate* the min and max **values** the **field** can *store*.
 
+### Description
+
+As a **user**, **I** *want* the **ability** to *create* data **structures** so **I** can *manipulate** ordered **collections** of data **fields** in binary **files**. 
+
+### Requirements
+
+A data **structure** should *provide* a **list** of **fields** in the **order** they are to be *read* from or *written* to a binary **file**. **It** should also *provide* the **size** of the **structure** as a **total** of all **fields** in the **structure**. All other **classes** that *represent* a data **structure** in a binary **file** should *inherit* from this **class**.
+
+### Description
+
+As a **user**, **I** *want* the **ability** to *read* data **structures** from a binary **file** so **I** can *retrieve* structured **data** from the **file** as a single ordered **collection**.
+
+### Requirements.
+
+All binary **streams** should *support* *reading* from the **stream** into a data **structure**.
+
+### Description
+
+As a **user**, **I** *want* **support** for tagged data chunk **headers** so **I** can *find* specific data **structures** in a binary **file**.
+
+### Requirements
+
+A chunk **header** should *have* a 4-byte string field **ID** that *identifies* what **type** of **chunk** the **header** is for. **It** should also *have* a **UInt32Field** that *stores* the **size** of the chunk **data** (not including the size of the header itself, which is a calculated field). **Steams** should *support* the **ability** to *find* the next chunk **header** by the **ID** **string**. If the **stream** successfully *finds* the chunk **header**, **it** should *return* a shared **pointer** to the chunk **header**, otherwise **it** should *return* a **nullptr**. Successfully *finding* the **pointer** should also *advance* the **position** within the **stream** to the **location** of the chunk's **data**. The chunk **header** should *inherit* from data **structure**.
+
 ## Noun-Verb Parse
 
 | Subject Noun | Type | Verb | Type | Object Noun | Type | X |
@@ -159,6 +183,27 @@ The integer **field** should *inherit* from data **field**. The integer **field*
 | field | entity | indicate | composition | (min) value | attribute | X |
 | field | entity | indicate | composition | (max) value | attribute | X |
 | field | entity | throw | constraint | exception | entity | X |
+| user | actor | want | desire | ability | feature | X |
+| user | actor | create | action | (data) structure | entity |
+| I | actor | manipulate | use case | (ordered) collection (of data fields) | attribute | X |
+| (data) structure | entity | provide | composition | list (of data fields) | attribute | X |
+| (data) structure | entity | provide | composition | size (of data fields) | attribute | X |
+| classes (that represent a data structure) | type | inherit | relationship | (from data) structure | entity | X |
+| user | actor | want | desire | ability | feature | X |
+| I | actor | read | action | (data) structure | entity | X |
+| I | actor | retrieve | use case | (structured) data | entity | X |
+| stream | entity | read | action | (data) structure | entity | X |
+| user | actor | want | desire | support | feature | X |
+| I | actor | find | use case | (data) structure | entity | X |
+| (chunk) header | entity | have | composition | (four byte string field) ID | attribute | X |
+| ID | attribute | identifies | relationship | type (of chunk) | data type | X |
+| (chunk) header | entity | have | composition | size | attribute | X |
+| stream | entity | support | feature | ability | feature | X |
+| stream | entity | find | action | (next chunk) header | entity | X |
+| stream | entity | return | return value | pointer (chunk header) | entity | X |
+| stream | entity | return | return value | null pointer | return value | X |
+| stream | entity | advance | post condition | position | attribute | X |
+| (chunk) header | entity | inherit | relationship | (data) structure | entity | X |
 
 ## Actors
 
@@ -173,6 +218,9 @@ The integer **field** should *inherit* from data **field**. The integer **field*
 - Manipulate text data in binary files
 - Choose how data fields in binary files are displayed
 - Manipulate numeric data in binary files
+- Manipulate data structures in binary files
+- Retrieve structured data from binary files
+- Find data structures in binary files
 
 ## Features
 
@@ -192,6 +240,10 @@ The integer **field** should *inherit* from data **field**. The integer **field*
 - Support for multiple sizes of signed and unsigned integer fields
 - Cross platform
 - Set endianness of integer fields
+- Ability to create data structures
+- Ability to read data structures from a stream
+- Support for tagged chunk headers
+- Ability to find tagged chunk headers
 
 ## Entities
 
@@ -228,10 +280,12 @@ The integer **field** should *inherit* from data **field**. The integer **field*
 | - |
 | + void Read(DataField* field) |
 | + void Write(DataField* field) |
+| + void Read(DataStructure* structure) |
 | + size_t Position() |
 | + void SetPosition() |
 | + size_t Beginning() |
 | + size_t End() |
+| + std::shared_ptr<ChunkHeader> FindNext(std::string chunkID) |
 
 | class FileStream : Stream |
 | - |
@@ -298,8 +352,20 @@ The integer **field** should *inherit* from data **field**. The integer **field*
 | + LittleEndian |
 | + BigEndian |
 
+| class DataStructure |
+| - |
+| + std::vector<DataField*> Fields() |
+| + size_t Size() |
+
+| class ChunkHeader : DataStructure |
+| - |
+| + StringField ID() |
+| + UInt32Field DataSize() |
+
 ## Relationships
 
-- All types of data fields should derive from the DataField class. 
-- All types of streams should derive from the Stream class.
+- All types of data fields should derive from the DataField base class. 
+- All types of streams should derive from the Stream base class.
 - Typedef specializations of IntField.
+- All types of data structures should derive from the DataStructure base class.
+- Chunk header IDs identify Chunk data structures.

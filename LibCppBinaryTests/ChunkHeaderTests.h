@@ -1,4 +1,4 @@
-// RawFileStreamTests.h - Declares the RawFileStreamTests class and tests.
+// ChunkHeaderTests.h - Declares the ChunkHeaderTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,24 +14,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef RAW_FILE_TESTS_H
-#define RAW_FILE_TESTS_H
+#ifndef CHUNK_HEADER_TESTS_H
+#define CHUNK_HEADER_TESTS_H
 
-#include <filesystem>
-#include <fstream>
-#include <vector>
 #include <gtest/gtest.h>
-#include "RawFileStream.h"
-#include "StringField.h"
-#include "RawField.h"
 #include "ChunkHeader.h"
 
-class RawFileStreamTests : public ::testing::Test
+class ChunkHeaderTests : public ::testing::Test
 {
 protected:
-    RawFileStreamTests();
-
-    void GenerateTestFile();
+    ChunkHeaderTests();
 };
 
 #endif

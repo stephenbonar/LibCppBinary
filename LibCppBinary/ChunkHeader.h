@@ -1,4 +1,4 @@
-// RawFileStreamTests.h - Declares the RawFileStreamTests class and tests.
+// ChunkHeader.h - Declares the ChunkHeader struct.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,24 +14,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef RAW_FILE_TESTS_H
-#define RAW_FILE_TESTS_H
+#ifndef BINARY_CHUNK_HEADER_H
+#define BINARY_CHUNK_HEADER_H
 
-#include <filesystem>
-#include <fstream>
 #include <vector>
-#include <gtest/gtest.h>
-#include "RawFileStream.h"
+#include "DataStructure.h"
+#include "DataField.h"
 #include "StringField.h"
-#include "RawField.h"
-#include "ChunkHeader.h"
+#include "IntField.h"
 
-class RawFileStreamTests : public ::testing::Test
+namespace Binary
 {
-protected:
-    RawFileStreamTests();
+    struct ChunkHeader : public DataStructure
+    {
+        StringField id{ 4 };
+        UInt32Field dataSize;
 
-    void GenerateTestFile();
-};
+        std::vector<DataField*> Fields() override;
+
+        size_t Size() const override;
+    };
+}
 
 #endif
