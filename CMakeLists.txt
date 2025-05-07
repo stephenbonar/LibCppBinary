@@ -16,7 +16,7 @@
 
 cmake_minimum_required(VERSION 3.10.0)
 
-project(LibCppBinary VERSION 0.5.0 LANGUAGES C CXX)
+project(LibCppBinary VERSION 0.6.0 LANGUAGES C CXX)
 
 # Specify the C++ standard.
 set(CMAKE_CXX_STANDARD 17)
@@ -30,9 +30,7 @@ if (WIN32)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 endif()
 
-add_subdirectory(LibCppBinary)
+add_subdirectory(src)
 
-#add_subdirectory(googletest)
-
-add_subdirectory(LibCppBinaryTests)
+add_subdirectory(tests)
 

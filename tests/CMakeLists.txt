@@ -14,16 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(SOURCE_FILES 
-    DataFieldTests.cpp 
-    StringFieldTests.cpp 
-    RawFieldTests.cpp 
-    RawFileStreamTests.cpp 
-    IntFieldTests.cpp
-    ChunkHeaderTests.cpp)
-
-set(INCLUDES ${PROJECT_SOURCE_DIR}/LibCppBinary)
-
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -33,10 +23,20 @@ FetchContent_Declare(
 #set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(LIBRARIES LibCppBinary gtest gtest_main gmock)
+add_executable(libcppbinarytests
+               DataFieldTests.cpp 
+               StringFieldTests.cpp 
+               RawFieldTests.cpp 
+               RawFileStreamTests.cpp 
+               IntFieldTests.cpp
+               ChunkHeaderTests.cpp)
 
-add_executable(libcppbinarytests ${SOURCE_FILES})
+target_link_libraries(libcppbinarytests
+                      LibCppBinary
+                      gtest
+                      gtest_main
+                      gmock)
 
-target_link_libraries(libcppbinarytests ${LIBRARIES})
-
-target_include_directories(libcppbinarytests PUBLIC ${INCLUDES})
+target_include_directories(libcppbinarytests 
+                           PRIVATE
+                           ${PROJECT_SOURCE_DIR}/include)
