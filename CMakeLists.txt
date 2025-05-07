@@ -32,7 +32,7 @@ endif()
 
 add_subdirectory(LibCppBinary)
 
-add_subdirectory(googletest)
+#add_subdirectory(googletest)
 
 add_subdirectory(LibCppBinaryTests)
 
