@@ -25,6 +25,9 @@ namespace Binary
     /// allows you to choose the format of the string representation.
     enum class StringFormat
     {
+        /// @brief Formats the string as a null-terminated string.
+        Terminated,
+
         /// @brief Formats the string's characters "as-is" from the bytes.
         Raw,
 

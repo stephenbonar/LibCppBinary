@@ -77,6 +77,10 @@ namespace Binary
         /// @return A formated string representation of the data.
         std::string FormatData(StringFormat format) const;
     private:
+        /// @brief Converts the data to a standard null-terminated string.
+        /// @return The formatted string representation of the data.
+        std::string ConvertTerminated() const;
+
         /// @brief Converts the data to a string even with non-printable chars.
         /// @return The formatted string representation of the data.
         std::string ConvertRaw() const;

@@ -70,7 +70,7 @@ namespace Binary
         /// @return A string representation of the field's data.
         std::string ToString() const override
         {
-            return RawField::ToString(StringFormat::Raw);
+            return RawField::ToString(StringFormat::Terminated);
         }
 
         /// @brief Converts the field's data to a string representation.

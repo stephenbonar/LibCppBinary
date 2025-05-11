@@ -59,6 +59,8 @@ std::string RawField::FormatData(StringFormat format) const
 {
     switch (format)
     {
+        case StringFormat::Terminated:
+            return ConvertTerminated();
         case StringFormat::Printable:
             return ConvertPrintable();
         case StringFormat::Bin:
@@ -67,6 +69,35 @@ std::string RawField::FormatData(StringFormat format) const
             return ConvertHex();
         default:
             return ConvertRaw();
+    }
+}
+
+std::string RawField::ConvertTerminated() const
+{
+    bool nullFound = false;
+
+    for (int i = 0; i < size; i++)
+    {
+        if (data[i] == '\0')
+        {
+            nullFound = true;
+            break;
+        }
+    }
+
+    if (nullFound)
+    {
+        // Convert the data to a c-style string by using implicit conversion
+        // to const char* as the array needs to be const to convert to string.
+        const char* cstr = data.get();
+
+        return std::string(cstr);
+    }
+    else
+    {
+        // If there is no null terminator, we'll need to use the convert raw
+        // method anyway.
+        return ConvertRaw();
     }
 }
 
