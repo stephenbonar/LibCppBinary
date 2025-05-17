@@ -99,6 +99,10 @@ namespace Binary
         /// @param field A pointer to the field to write to the stream.
         virtual void Write(DataField* field) override;
 
+        /// @brief Writes the specified structure to the stream.
+        /// @param structure A pointer to the structure to write to the stream.
+        virtual void Write(DataStructure* structure) override;
+
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
         virtual uintmax_t Position() const override { return position; }

@@ -117,3 +117,17 @@ void RawFileStream::Write(DataField* field)
     fileStream.write(field->Data(), field->Size());
     position += field->Size();
 }
+
+void RawFileStream::Write(DataStructure* structure)
+{
+    if (!IsOpen())
+        throw std::runtime_error{ "You must open the file before writing." };
+
+    std::vector<DataField*> fields = structure->Fields();
+
+    for (int i = 0; i < fields.size(); i++)
+    {
+        fileStream.write(fields[i]->Data(), fields[i]->Size());
+        position += fields[i]->Size();
+    }
+}

@@ -192,6 +192,29 @@ TEST_F(RawFileStreamTests, WritesDataFieldsProperly)
         EXPECT_EQ(rawFieldData[i], readRawField.Data()[i]);
 }
 
+TEST_F(RawFileStreamTests, WritesDataStructuresProperly)
+{
+    Binary::ChunkHeader writeHeader;
+    writeHeader.id.SetValue("TEST");
+    writeHeader.dataSize.SetValue(4);
+    Binary::ChunkHeader readHeader;
+
+    Binary::RawFileStream writeStream{ testWriteFileName };
+    writeStream.Open(Binary::FileMode::Write);
+    writeStream.Write(&writeHeader);
+    writeStream.Close();
+
+    ASSERT_EQ(std::filesystem::file_size(testWriteFileName), 8);
+
+    Binary::RawFileStream readStream{ testWriteFileName };
+    readStream.Open(Binary::FileMode::Read);
+    readStream.Read(&readHeader);
+    readStream.Close();
+
+    EXPECT_EQ(readHeader.id.Value(), "TEST");
+    EXPECT_EQ(readHeader.dataSize.Value(), 4);
+}
+
 TEST_F(RawFileStreamTests, SetsPositionProperly)
 {
     Binary::RawFileStream stream{ testFileName };
