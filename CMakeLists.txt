@@ -14,23 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.10.0)
+# Set the minimum CMake version required to build the library. You need at
+# least 3.11.0 for FetchContent_MakeAvailable.
+cmake_minimum_required(VERSION 3.11.0)
 
+# Defines the library project, version, and languages.
 project(LibCppBinary VERSION 0.6.0 LANGUAGES C CXX)
 
-# Specify the C++ standard.
+# Specify the C++ standard. We need at least C++ 17.
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# By default, GoogleTest expects to statically link to the C++ runtime on the
-# MSVC compiler. So if we run on Windows, we need to set our compiler flags
-# to statically link the rest of the project to the runtime to match.
-if (WIN32)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-endif()
-
+# Adds the main library source files to the project.
 add_subdirectory(src)
 
+# Adds the library tests to the project.
 add_subdirectory(tests)
 
