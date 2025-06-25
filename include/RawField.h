@@ -18,6 +18,7 @@
 #define BINARY_RAW_FIELD_H
 
 #include <string>
+#include <cstring>
 #include <sstream>
 #include <memory>
 #include <stdexcept>
