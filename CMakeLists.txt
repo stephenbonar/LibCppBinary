@@ -19,7 +19,7 @@
 cmake_minimum_required(VERSION 3.11.0)
 
 # Defines the library project, version, and languages.
-project(LibCppBinary VERSION 0.6.0 LANGUAGES C CXX)
+project(LibCppBinary VERSION 0.6.2 LANGUAGES C CXX)
 
 # Specify the C++ standard. We need at least C++ 17.
 set(CMAKE_CXX_STANDARD 17)

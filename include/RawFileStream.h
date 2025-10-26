@@ -33,7 +33,13 @@ namespace Binary
     /// writing to the file. This class can be used directly for manipulating
     /// binary data in any binary file type, but more specialized file stream
     /// classes can inherit from this class to add onto the base functionality.
-    class RawFileStream : public FileStream
+    ///
+    /// NOTE: This class uses virtual inheritance from FileStream to allow for
+    /// multiple inheritance in derived classes. For instance, a derived class
+    /// may want to inherit the standard implementation this class provides but
+    /// still add its own specialized functionality as another abstract base
+    /// class. By using virtual inheritance here, we avoid the diamond problem.
+    class RawFileStream : public virtual FileStream
     {
     public:
         RawFileStream(std::string filePath) 
