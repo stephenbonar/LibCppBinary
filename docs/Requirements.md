@@ -89,6 +89,12 @@ As a **user**, **I** *want* **support** for tagged data chunk **headers** so **I
 
 A chunk **header** should *have* a 4-byte string field **ID** that *identifies* what **type** of **chunk** the **header** is for. **It** should also *have* a **UInt32Field** that *stores* the **size** of the chunk **data** (not including the size of the header itself, which is a calculated field). **Steams** should *support* the **ability** to *find* the next chunk **header** by the **ID** **string**. If the **stream** successfully *finds* the chunk **header**, **it** should *return* a shared **pointer** to the chunk **header**, otherwise **it** should *return* a **nullptr**. Successfully *finding* the **pointer** should also *advance* the **position** within the **stream** to the **location** of the chunk's **data**. The chunk **header** should *inherit* from data **structure**.
 
+### Description
+As a **user**, **I** *want* the **ability** to *use* memory **buffers** so **I** *can* *manipulate* large data **blocks** in **memory** for faster **performance**.
+
+### Requirements
+A **buffer** should *be* a binary raw **field** so **it** can be *read* and *written* to binary **streams**. **It** should also *be* a binary **stream** itself, so binary data **fields** and data **structures** can be *read* and *written* to it.
+
 ## Noun-Verb Parse
 
 | Subject Noun | Type | Verb | Type | Object Noun | Type | X |
@@ -204,6 +210,17 @@ A chunk **header** should *have* a 4-byte string field **ID** that *identifies* 
 | stream | entity | return | return value | null pointer | return value | X |
 | stream | entity | advance | post condition | position | attribute | X |
 | (chunk) header | entity | inherit | relationship | (data) structure | entity | X |
+| user | actor | want | desire | ability | feature | X |
+| user | actor | use | use case | (memory) buffer | entity | X |
+| I | actor | manipulate | use case | (large data) block | entity | C |
+| buffer | entity | be | relationship | (raw) field | entity | X |
+| stream | entity | read | action | buffer | entity | X |
+| stream | entity | write | action | buffer | entity | X |
+| buffer | entity | be | relationship | stream | entity | X |
+| buffer | entity | read | action | (data) field | entity | X |
+| buffer | entity | read | action | (data) structure | entity | X |
+| buffer | entity | write | action | (data) field | entity | X |
+| buffer | entity | write | action | (data) structure | entity | X |
 
 ## Actors
 
@@ -221,6 +238,7 @@ A chunk **header** should *have* a 4-byte string field **ID** that *identifies* 
 - Manipulate data structures in binary files
 - Retrieve structured data from binary files
 - Find data structures in binary files
+- Use memory buffers to manipulate large data blocks with fast performance
 
 ## Features
 
@@ -244,6 +262,7 @@ A chunk **header** should *have* a 4-byte string field **ID** that *identifies* 
 - Ability to read data structures from a stream
 - Support for tagged chunk headers
 - Ability to find tagged chunk headers
+- Support for memory buffers
 
 ## Entities
 
@@ -362,6 +381,9 @@ A chunk **header** should *have* a 4-byte string field **ID** that *identifies* 
 | + StringField ID() |
 | + UInt32Field DataSize() |
 
+| class Buffer : RawField, Stream |
+| - |
+
 ## Relationships
 
 - All types of data fields should derive from the DataField base class. 
@@ -369,3 +391,4 @@ A chunk **header** should *have* a 4-byte string field **ID** that *identifies* 
 - Typedef specializations of IntField.
 - All types of data structures should derive from the DataStructure base class.
 - Chunk header IDs identify Chunk data structures.
+- Buffer should derive from RawField and Stream.
