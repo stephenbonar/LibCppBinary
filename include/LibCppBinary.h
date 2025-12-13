@@ -25,7 +25,7 @@
 #include "FileStream.h"
 #include "IntField.h"
 #include "RawField.h"
-#include "RawFileStream.h"
+#include "StandardFileStream.h"
 #include "Stream.h"
 #include "StringField.h"
 #include "StringFormat.h"
