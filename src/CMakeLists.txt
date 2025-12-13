@@ -17,7 +17,7 @@
 add_library(LibCppBinary 
             StringField.cpp 
             RawField.cpp 
-            RawFileStream.cpp 
+            StandardFileStream.cpp 
             IntField.cpp
             ChunkHeader.cpp)
 

@@ -1,4 +1,4 @@
-// RawFileStream.h - Declares the RawFileStream class.
+// StandardFileStream.h - Declares the StandardFileStream class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,8 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BINARY_RAW_FILE_STREAM_H
-#define BINARY_RAW_FILE_STREAM_H
+#ifndef BINARY_STANDARD_FILE_STREAM_H
+#define BINARY_STANDARD_FILE_STREAM_H
 
 #include <string>
 #include <filesystem>
@@ -25,24 +25,19 @@
 
 namespace Binary
 {
-    /// @brief Provides a generic file stream for manipulating binary files.
+    /// @brief Provides a standard file stream for manipulating binary files.
     ///
-    /// This class provides a basic, generic implementation for reading from
+    /// This class provides the standard implementation for reading from
     /// and writing to binary data files. It accepts pointers to instances of 
     /// DataField and other types composed of data fields for reading from and
     /// writing to the file. This class can be used directly for manipulating
     /// binary data in any binary file type, but more specialized file stream
     /// classes can inherit from this class to add onto the base functionality.
-    ///
-    /// NOTE: This class uses virtual inheritance from FileStream to allow for
-    /// multiple inheritance in derived classes. For instance, a derived class
-    /// may want to inherit the standard implementation this class provides but
-    /// still add its own specialized functionality as another abstract base
-    /// class. By using virtual inheritance here, we avoid the diamond problem.
-    class RawFileStream : public virtual FileStream
+    
+    class StandardFileStream : public FileStream
     {
     public:
-        RawFileStream(std::string filePath) 
+        StandardFileStream(std::string filePath) 
             : filePath(filePath), position(0), mode(Binary::FileMode::Read)
         { }
 

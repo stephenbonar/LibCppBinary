@@ -1,4 +1,4 @@
-// RawFileStreamTests.h - Declares the RawFileStreamTests class and tests.
+// StandardFileStreamTests.h - Declares the StandardFileStreamTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -21,15 +21,15 @@
 #include <fstream>
 #include <vector>
 #include <gtest/gtest.h>
-#include "RawFileStream.h"
+#include "StandardFileStream.h"
 #include "StringField.h"
 #include "RawField.h"
 #include "ChunkHeader.h"
 
-class RawFileStreamTests : public ::testing::Test
+class StandardFileStreamTests : public ::testing::Test
 {
 protected:
-    RawFileStreamTests();
+    StandardFileStreamTests();
 
     void GenerateTestFile();
 };

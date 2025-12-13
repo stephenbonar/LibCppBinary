@@ -1,4 +1,4 @@
-// RawFileStream.cpp - Defines the RawFileStream class.
+// StandardFileStream.cpp - Defines the StandardFileStream class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,17 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "RawFileStream.h"
+#include "StandardFileStream.h"
 
 using namespace Binary;
 
-std::string RawFileStream::FileName() const
+std::string StandardFileStream::FileName() const
 { 
     std::filesystem::path path = filePath;
     return path.filename().string(); 
 }
 
-void RawFileStream::Open(FileMode mode)
+void StandardFileStream::Open(FileMode mode)
 {
     switch (mode)
     {
@@ -43,7 +43,7 @@ void RawFileStream::Open(FileMode mode)
     this->mode = mode;
 }
 
-void RawFileStream::Read(DataField* field)
+void StandardFileStream::Read(DataField* field)
 {
     if (!IsOpen())
         throw std::runtime_error{ "You must open the file before reading." };
@@ -52,13 +52,13 @@ void RawFileStream::Read(DataField* field)
     position += field->Size();
 }
 
-void RawFileStream::Read(DataStructure* structure)
+void StandardFileStream::Read(DataStructure* structure)
 {
     for (DataField* field : structure->Fields())
         Read(field);
 }
 
-std::shared_ptr<ChunkHeader> RawFileStream::FindNextChunk(std::string ID) 
+std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string ID) 
 {
     bool chunkFound{ false };
     int byteMatchIndex{ 0 };
@@ -109,7 +109,7 @@ std::shared_ptr<ChunkHeader> RawFileStream::FindNextChunk(std::string ID)
     }
 }
 
-void RawFileStream::Write(DataField* field)
+void StandardFileStream::Write(DataField* field)
 {
     if (!IsOpen())
         throw std::runtime_error{ "You must open the file before writing." };
@@ -118,7 +118,7 @@ void RawFileStream::Write(DataField* field)
     position += field->Size();
 }
 
-void RawFileStream::Write(DataStructure* structure)
+void StandardFileStream::Write(DataStructure* structure)
 {
     if (!IsOpen())
         throw std::runtime_error{ "You must open the file before writing." };

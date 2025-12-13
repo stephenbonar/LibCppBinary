@@ -38,7 +38,7 @@ add_executable(libcppbinarytests
                DataFieldTests.cpp 
                StringFieldTests.cpp 
                RawFieldTests.cpp 
-               RawFileStreamTests.cpp 
+               StandardFileStreamTests.cpp 
                IntFieldTests.cpp
                ChunkHeaderTests.cpp)
 

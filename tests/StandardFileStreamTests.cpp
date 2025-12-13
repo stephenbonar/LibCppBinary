@@ -1,4 +1,4 @@
-// RawFileStreamTests.cpp - Defines the RawFileStreamTests class and tests.
+// StandardFileStreamTests.cpp - Defines the StandardFileStreamTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "RawFileStreamTests.h"
+#include "StandardFileStreamTests.h"
 
 const char* testFileName{ "test.bin" };
 const char* testWriteFileName{ "testwrite.bin" };
@@ -29,12 +29,12 @@ const std::vector<char> chunk2SizeData{ 0x4, 0x0, 0x0, 0x0 };
 const std::vector<char> chunk2Data{ 'E', 'F', 'G', 'H' };
 
 
-RawFileStreamTests::RawFileStreamTests() 
+StandardFileStreamTests::StandardFileStreamTests() 
 {
     GenerateTestFile();
 }
 
-void RawFileStreamTests::GenerateTestFile()
+void StandardFileStreamTests::GenerateTestFile()
 {
     
     std::fstream stream;
@@ -50,9 +50,9 @@ void RawFileStreamTests::GenerateTestFile()
     stream.write(chunk2Data.data(), chunk2Data.size());
 }
 
-TEST_F(RawFileStreamTests, InitializesStreamProperly)
+TEST_F(StandardFileStreamTests, InitializesStreamProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     EXPECT_EQ(stream.FileName(), testFileName);
     EXPECT_EQ(stream.FilePath(), testFileName);
@@ -60,51 +60,51 @@ TEST_F(RawFileStreamTests, InitializesStreamProperly)
     EXPECT_EQ(stream.Position(), 0);
 }
 
-TEST_F(RawFileStreamTests, GetsBeginningProperly)
+TEST_F(StandardFileStreamTests, GetsBeginningProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     EXPECT_EQ(stream.Beginning(), 0);
 }
 
-TEST_F(RawFileStreamTests, GetsEndProperly)
+TEST_F(StandardFileStreamTests, GetsEndProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     EXPECT_EQ(stream.End(), std::filesystem::file_size(testFileName));
 }
 
-TEST_F(RawFileStreamTests, GetsFileSizeProperly)
+TEST_F(StandardFileStreamTests, GetsFileSizeProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     EXPECT_EQ(stream.FileSize(), std::filesystem::file_size(testFileName));
 }
 
-TEST_F(RawFileStreamTests, DetectsFileExistsProperly)
+TEST_F(StandardFileStreamTests, DetectsFileExistsProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     EXPECT_EQ(stream.FileExists(), true);
 }
 
-TEST_F(RawFileStreamTests, DetectsFileDoesNotExistProperly)
+TEST_F(StandardFileStreamTests, DetectsFileDoesNotExistProperly)
 {
-    Binary::RawFileStream stream{ "fake.bin" };
+    Binary::StandardFileStream stream{ "fake.bin" };
 
     EXPECT_EQ(stream.FileExists(), false);
 }
 
-TEST_F(RawFileStreamTests, ParsesFileNameFromPathProperly)
+TEST_F(StandardFileStreamTests, ParsesFileNameFromPathProperly)
 {
-    Binary::RawFileStream stream{ testFullPath };
+    Binary::StandardFileStream stream{ testFullPath };
 
     EXPECT_EQ(stream.FileName(), testFileName);
 }
 
-TEST_F(RawFileStreamTests, OpensStreamForReadingProperly)
+TEST_F(StandardFileStreamTests, OpensStreamForReadingProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     stream.Open(Binary::FileMode::Read);
 
@@ -113,9 +113,9 @@ TEST_F(RawFileStreamTests, OpensStreamForReadingProperly)
     EXPECT_EQ(stream.Mode(), Binary::FileMode::Read);
 }
 
-TEST_F(RawFileStreamTests, OpensStreamForWritingProperly)
+TEST_F(StandardFileStreamTests, OpensStreamForWritingProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     stream.Open(Binary::FileMode::Write);
 
@@ -124,9 +124,9 @@ TEST_F(RawFileStreamTests, OpensStreamForWritingProperly)
     EXPECT_EQ(stream.Mode(), Binary::FileMode::Write);
 }
 
-TEST_F(RawFileStreamTests, OpensStreamForReadingAndWritingProperly)
+TEST_F(StandardFileStreamTests, OpensStreamForReadingAndWritingProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     stream.Open(Binary::FileMode::ReadWrite);
 
@@ -135,9 +135,9 @@ TEST_F(RawFileStreamTests, OpensStreamForReadingAndWritingProperly)
     EXPECT_EQ(stream.Mode(), Binary::FileMode::ReadWrite);
 }
 
-TEST_F(RawFileStreamTests, ReadsDataFieldsProperly)
+TEST_F(StandardFileStreamTests, ReadsDataFieldsProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
     Binary::StringField stringField{ stringFieldData.size() };
     Binary::RawField rawField{ rawFieldData.size() };
 
@@ -156,9 +156,9 @@ TEST_F(RawFileStreamTests, ReadsDataFieldsProperly)
         EXPECT_EQ(rawField.Data()[i], rawFieldData[i]);
 }
 
-TEST_F(RawFileStreamTests, WritesDataFieldsProperly)
+TEST_F(StandardFileStreamTests, WritesDataFieldsProperly)
 {
-    Binary::RawFileStream stream{ testWriteFileName };
+    Binary::StandardFileStream stream{ testWriteFileName };
     Binary::StringField readStringField{ stringFieldData.size() };
     Binary::RawField readRawField{ rawFieldData.size() };
     Binary::StringField writeStringField{ stringFieldData.size() };
@@ -192,21 +192,21 @@ TEST_F(RawFileStreamTests, WritesDataFieldsProperly)
         EXPECT_EQ(rawFieldData[i], readRawField.Data()[i]);
 }
 
-TEST_F(RawFileStreamTests, WritesDataStructuresProperly)
+TEST_F(StandardFileStreamTests, WritesDataStructuresProperly)
 {
     Binary::ChunkHeader writeHeader;
     writeHeader.id.SetValue("TEST");
     writeHeader.dataSize.SetValue(4);
     Binary::ChunkHeader readHeader;
 
-    Binary::RawFileStream writeStream{ testWriteFileName };
+    Binary::StandardFileStream writeStream{ testWriteFileName };
     writeStream.Open(Binary::FileMode::Write);
     writeStream.Write(&writeHeader);
     writeStream.Close();
 
     ASSERT_EQ(std::filesystem::file_size(testWriteFileName), 8);
 
-    Binary::RawFileStream readStream{ testWriteFileName };
+    Binary::StandardFileStream readStream{ testWriteFileName };
     readStream.Open(Binary::FileMode::Read);
     readStream.Read(&readHeader);
     readStream.Close();
@@ -215,9 +215,9 @@ TEST_F(RawFileStreamTests, WritesDataStructuresProperly)
     EXPECT_EQ(readHeader.dataSize.Value(), 4);
 }
 
-TEST_F(RawFileStreamTests, SetsPositionProperly)
+TEST_F(StandardFileStreamTests, SetsPositionProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
     Binary::RawField rawField{ rawFieldData.size() };
 
     stream.Open(Binary::FileMode::Read);
@@ -230,9 +230,9 @@ TEST_F(RawFileStreamTests, SetsPositionProperly)
         EXPECT_EQ(rawField.Data()[i], rawFieldData[i]);
 }
 
-TEST_F(RawFileStreamTests, ClosesFileProperly)
+TEST_F(StandardFileStreamTests, ClosesFileProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
     Binary::StringField stringField{ stringFieldData.size() };
 
     stream.Open(Binary::FileMode::Read);
@@ -243,25 +243,25 @@ TEST_F(RawFileStreamTests, ClosesFileProperly)
     EXPECT_EQ(stream.Position(), 0);
 }
 
-TEST_F(RawFileStreamTests, OnlyAllowsReadWhenOpen)
+TEST_F(StandardFileStreamTests, OnlyAllowsReadWhenOpen)
 {
     Binary::StringField stringField{ stringFieldData.size() };
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     EXPECT_THROW(stream.Read(&stringField), std::runtime_error);
 }
 
-TEST_F(RawFileStreamTests, OnlyAllowsWriteWhenOpen)
+TEST_F(StandardFileStreamTests, OnlyAllowsWriteWhenOpen)
 {
     Binary::StringField stringField{ stringFieldData.size() };
-    Binary::RawFileStream stream{ testWriteFileName };
+    Binary::StandardFileStream stream{ testWriteFileName };
 
     EXPECT_THROW(stream.Write(&stringField), std::runtime_error);
 }
 
-TEST_F(RawFileStreamTests, ReadsDataStructuresProperly)
+TEST_F(StandardFileStreamTests, ReadsDataStructuresProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
     Binary::ChunkHeader header;
 
     stream.Open(Binary::FileMode::Read);
@@ -276,9 +276,9 @@ TEST_F(RawFileStreamTests, ReadsDataStructuresProperly)
     EXPECT_EQ(header.dataSize.Value(), 4);
 }
 
-TEST_F(RawFileStreamTests, FindsChunkHeadersProperly)
+TEST_F(StandardFileStreamTests, FindsChunkHeadersProperly)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
     
     stream.Open(Binary::FileMode::Read);
     std::shared_ptr<Binary::ChunkHeader> header = stream.FindNextChunk("TST2");
@@ -292,9 +292,9 @@ TEST_F(RawFileStreamTests, FindsChunkHeadersProperly)
     EXPECT_EQ(header->dataSize.Value(), 4);
 }
 
-TEST_F(RawFileStreamTests, FindNextChunkThrowsErrorWhenIDWrongSize)
+TEST_F(StandardFileStreamTests, FindNextChunkThrowsErrorWhenIDWrongSize)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
 
     stream.Open(Binary::FileMode::Read);
 
@@ -303,9 +303,9 @@ TEST_F(RawFileStreamTests, FindNextChunkThrowsErrorWhenIDWrongSize)
     EXPECT_THROW(stream.FindNextChunk("TEST5"), std::invalid_argument);
 }
 
-TEST_F(RawFileStreamTests, ReturnsNullptrWhenChunkHeaderNotFound)
+TEST_F(StandardFileStreamTests, ReturnsNullptrWhenChunkHeaderNotFound)
 {
-    Binary::RawFileStream stream{ testFileName };
+    Binary::StandardFileStream stream{ testFileName };
     
     stream.Open(Binary::FileMode::Read);
     std::shared_ptr<Binary::ChunkHeader> header = stream.FindNextChunk("TST3");
