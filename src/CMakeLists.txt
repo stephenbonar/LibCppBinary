@@ -19,7 +19,8 @@ add_library(LibCppBinary
             RawField.cpp 
             StandardFileStream.cpp 
             IntField.cpp
-            ChunkHeader.cpp)
+            ChunkHeader.cpp
+            Buffer.cpp)
 
 target_include_directories(LibCppBinary
                            PUBLIC

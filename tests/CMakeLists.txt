@@ -40,7 +40,8 @@ add_executable(libcppbinarytests
                RawFieldTests.cpp 
                StandardFileStreamTests.cpp 
                IntFieldTests.cpp
-               ChunkHeaderTests.cpp)
+               ChunkHeaderTests.cpp
+               BufferTests.cpp)
 
 # Links the libraries to the test executable target.
 target_link_libraries(libcppbinarytests
