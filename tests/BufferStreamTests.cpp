@@ -1,4 +1,4 @@
-// BufferTests.cpp - Defines the BufferTests class and tests.
+// BufferStreamTests.cpp - Defines the BufferStreamTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,31 +14,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "BufferTests.h"
+#include "BufferStreamTests.h"
 
-void BufferTests::SetUp()
+void BufferStreamTests::SetUp()
 {
-    buffer = std::make_unique<Binary::Buffer>(bufferSize);
+    buffer = std::make_unique<Binary::BufferStream>(bufferSize);
 }
 
-TEST_F(BufferTests, ConstructorSetsSizeProperly)
+TEST_F(BufferStreamTests, ConstructorSetsSizeProperly)
 {
     EXPECT_EQ(buffer->Size(), bufferSize);
 }
 
-TEST_F(BufferTests, PositionInitiallyZero)
+TEST_F(BufferStreamTests, PositionInitiallyZero)
 {
     EXPECT_EQ(buffer->Position(), 0);
 }
 
-TEST_F(BufferTests, SetPositionUpdatesPosition)
+TEST_F(BufferStreamTests, SetPositionUpdatesPosition)
 {
     constexpr uintmax_t newPosition{ 5 };
     buffer->SetPosition(newPosition);
     EXPECT_EQ(buffer->Position(), newPosition);
 }
 
-TEST_F(BufferTests, ReadsAndWritesFieldsProperly)
+TEST_F(BufferStreamTests, ReadsAndWritesFieldsProperly)
 {
     constexpr size_t fieldSize{ 6 };
     Binary::RawField fieldToWrite(fieldSize);
@@ -53,7 +53,7 @@ TEST_F(BufferTests, ReadsAndWritesFieldsProperly)
     EXPECT_EQ(std::memcmp(fieldToRead.Data(), testData, fieldSize), 0);
 }
 
-TEST_F(BufferTests, ReadsAndWritesDataStructuresProperly)
+TEST_F(BufferStreamTests, ReadsAndWritesDataStructuresProperly)
 {
     Binary::ChunkHeader headerToWrite;
     headerToWrite.id.SetValue("TEST");
@@ -68,7 +68,7 @@ TEST_F(BufferTests, ReadsAndWritesDataStructuresProperly)
     EXPECT_EQ(headerToRead.dataSize.Value(), 4);
 }
 
-TEST_F(BufferTests, DoesNotReadPastEndOfBuffer)
+TEST_F(BufferStreamTests, DoesNotReadPastEndOfBuffer)
 {
     constexpr size_t fieldSize{ bufferSize + 1 };
     Binary::RawField fieldToRead(fieldSize);
@@ -77,7 +77,7 @@ TEST_F(BufferTests, DoesNotReadPastEndOfBuffer)
     EXPECT_THROW(buffer->Read(&fieldToRead), std::out_of_range);
 }
 
-TEST_F(BufferTests, DoesNotWritePastEndOfBuffer)
+TEST_F(BufferStreamTests, DoesNotWritePastEndOfBuffer)
 {
     constexpr size_t fieldSize{ bufferSize + 1 };
     Binary::RawField fieldToWrite(fieldSize);
@@ -86,15 +86,15 @@ TEST_F(BufferTests, DoesNotWritePastEndOfBuffer)
     EXPECT_THROW(buffer->Write(&fieldToWrite), std::out_of_range);
 }
 
-TEST_F(BufferTests, BeginningAndEndPositionsAreCorrect)
+TEST_F(BufferStreamTests, BeginningAndEndPositionsAreCorrect)
 {
     EXPECT_EQ(buffer->Beginning(), 0);
     EXPECT_EQ(buffer->End(), bufferSize);
 }
 
-TEST_F(BufferTests, FindNextChunkReturnsChunkProperly)
+TEST_F(BufferStreamTests, FindNextChunkReturnsChunkProperly)
 {
-    Binary::Buffer largeBuffer{ 16 };
+    Binary::BufferStream largeBuffer{ 16 };
 
     Binary::ChunkHeader header1;
     header1.id.SetValue("CHN1");

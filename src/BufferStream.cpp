@@ -1,4 +1,4 @@
-// Buffer.cpp - Defines the Buffer class.
+// BufferStream.cpp - Defines the BufferStream class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,56 +14,56 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Buffer.h"
+#include "BufferStream.h"
 
 using namespace Binary;
 
-void Buffer::Read(DataField* field)
+void BufferStream::Read(DataField* field)
 {
 
 }
 
-void Buffer::Read(DataStructure* structure)
+void BufferStream::Read(DataStructure* structure)
 {
 
 }
 
-std::shared_ptr<ChunkHeader> Buffer::FindNextChunk(std::string ID)
+std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string ID)
 {
     return nullptr;
 }
 
-void Buffer::Write(DataField* field)
+void BufferStream::Write(DataField* field)
 {
 
 }
 
-void Buffer::Write(DataStructure* structure)
+void BufferStream::Write(DataStructure* structure)
 {
 
 }
 
-uintmax_t Buffer::Position() const
+uintmax_t BufferStream::Position() const
 {
     return position;
 }
 
-void Buffer::SetPosition(uintmax_t pos)
+void BufferStream::SetPosition(uintmax_t pos)
 {
     position = pos;
 }
 
-uintmax_t Buffer::Beginning() const
+uintmax_t BufferStream::Beginning() const
 {
     return 0;
 }
 
-uintmax_t Buffer::End() const
+uintmax_t BufferStream::End() const
 {
     return Size();
 }
 
-std::string Buffer::FormatData(StringFormat format) const
+std::string BufferStream::FormatData(StringFormat format) const
 {
     return "";
 }

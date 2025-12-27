@@ -1,4 +1,4 @@
-// BufferTests.h - Declares the BufferTests class and tests.
+// BufferStreamTests.h - Declares the BufferStreamTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,23 +14,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BUFFER_TESTS_H
-#define BUFFER_TESTS_H
+#ifndef BUFFER_STREAM_TESTS_H
+#define BUFFER_STREAM_TESTS_H
 
 #include <gtest/gtest.h>
 #include <memory>
 #include "RawField.h"
 #include "ChunkHeader.h"
-#include "Buffer.h"
+#include "BufferStream.h"
 
 constexpr int bufferSize{ 12 };
 
-class BufferTests : public ::testing::Test
+class BufferStreamTests : public ::testing::Test
 {
 protected:
     void SetUp() override;
 
-    std::unique_ptr<Binary::Buffer> buffer;
+    std::unique_ptr<Binary::BufferStream> buffer;
 };
 
 #endif

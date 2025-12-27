@@ -1,4 +1,4 @@
-// Buffer.h - Declares the Buffer class.
+// BufferStream.h - Declares the BufferStream class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,18 +14,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BINARY_BUFFER_H
-#define BINARY_BUFFER_H
+#ifndef BINARY_BUFFER_STREAM_H
+#define BINARY_BUFFER_STREAM_H
 
 #include "RawField.h"
 #include "Stream.h"
 
 namespace Binary
 {
-    class Buffer : public RawField, public Stream
+    class BufferStream : public RawField, public Stream
     {
     public:
-        Buffer(size_t size) : RawField(size), position(0)
+        BufferStream(size_t size) : RawField(size), position(0)
         { }
 
         /* Shouldn't need these as they're inherited from RawField unless we need to change
