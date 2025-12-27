@@ -93,7 +93,7 @@ namespace Binary
         /// @brief Finds the next chunk header with the specified ID.
         /// @param chunkID The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
-        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string ID) 
+        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) 
             override;
 
         /// @brief Writes data to the stream from the specified field.

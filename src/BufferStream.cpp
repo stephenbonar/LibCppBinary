@@ -20,27 +20,68 @@ using namespace Binary;
 
 void BufferStream::Read(DataField* field)
 {
+    if (position + field->Size() > size)
+        throw std::out_of_range("Attempt to read past end of buffer.");
 
+    std::memcpy(field->Data(), data.get() + position, field->Size());
+    position += field->Size();
 }
 
 void BufferStream::Read(DataStructure* structure)
 {
-
+    for (DataField* field : structure->Fields())
+        Read(field);
 }
 
-std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string ID)
+std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id)
 {
+    if (id.size() != 4)
+        throw std::invalid_argument("Chunk ID must be exactly 4 characters.");
+
+    bool idFound{ false };
+    size_t searchPosition{ position };
+    int idIndex{ 0 };
+
+    while (searchPosition < size)
+    {
+        if (data[searchPosition] == id[idIndex])
+        {
+            idIndex++;
+
+            if (idIndex == 4)
+            {
+                idFound = true;
+                auto header = std::make_shared<ChunkHeader>();
+                searchPosition -= 3;
+                position = searchPosition;
+                Read(header.get());
+                return header;
+            }
+        }
+        else
+        {
+            idIndex = 0;
+        }
+
+        searchPosition++;
+    }
+
     return nullptr;
 }
 
 void BufferStream::Write(DataField* field)
 {
+    if (position + field->Size() > size)
+        throw std::out_of_range("Attempt to write past end of buffer.");
 
+    std::memcpy(data.get() + position, field->Data(), field->Size());
+    position += field->Size();
 }
 
 void BufferStream::Write(DataStructure* structure)
 {
-
+    for (DataField* field : structure->Fields())
+        Write(field);
 }
 
 uintmax_t BufferStream::Position() const
@@ -60,11 +101,12 @@ uintmax_t BufferStream::Beginning() const
 
 uintmax_t BufferStream::End() const
 {
-    return Size();
+    return size;
 }
 
+/*
 std::string BufferStream::FormatData(StringFormat format) const
 {
     return "";
 }
-
+*/

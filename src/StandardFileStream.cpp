@@ -58,13 +58,13 @@ void StandardFileStream::Read(DataStructure* structure)
         Read(field);
 }
 
-std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string ID) 
+std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id) 
 {
     bool chunkFound{ false };
     int byteMatchIndex{ 0 };
     uintmax_t tempPosition{ position };
 
-    if (ID.size() != 4)
+    if (id.size() != 4)
         throw std::invalid_argument{ "ID should be 4 characters long." };
 
     if (!IsOpen())
@@ -78,7 +78,7 @@ std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string ID)
         fileStream.get(nextByte);
         tempPosition++;
 
-        if (nextByte == ID[byteMatchIndex])
+        if (nextByte == id[byteMatchIndex])
         {
             byteMatchIndex++;
 

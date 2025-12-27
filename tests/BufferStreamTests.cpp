@@ -113,3 +113,9 @@ TEST_F(BufferStreamTests, FindNextChunkReturnsChunkProperly)
     EXPECT_EQ(foundHeader->dataSize.Value(), 4);
     EXPECT_EQ(largeBuffer.Position(), header1.Size() + header2.Size());
 }
+
+TEST_F(BufferStreamTests, FindNextChunkThrowsForInvalidID)
+{
+    EXPECT_THROW(buffer->FindNextChunk("TOO_LONG"), std::invalid_argument);
+    EXPECT_THROW(buffer->FindNextChunk("SH"), std::invalid_argument);
+}

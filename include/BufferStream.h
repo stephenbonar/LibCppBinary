@@ -22,9 +22,17 @@
 
 namespace Binary
 {
+    /// @brief Represents a memory buffer that can be used as a stream.
+    ///
+    /// Rather than reading or writing individual fields or structures to a 
+    /// file, you can use this class to read or write a large block of data to 
+    /// or from memory, which can improve performance. Individual fields and 
+    /// structures can then be read from or written to the buffer as needed.
     class BufferStream : public RawField, public Stream
     {
     public:
+        /// @brief Creates a new instance of BufferStream.
+        /// @param size The size of the buffer, in bytes.
         BufferStream(size_t size) : RawField(size), position(0)
         { }
 
@@ -43,26 +51,48 @@ namespace Binary
 
         // Stream overrides
 
+        /// @brief Reads data from the stream into the specified field.
+        /// @param field A pointer to the field to read data into.
         void Read(DataField* field) override;
 
+        /// @brief Reads data from stream into the specified data structure.
+        /// @param structure A pointer to the data structure to read data into.
         void Read(DataStructure* structure) override;
 
-        std::shared_ptr<ChunkHeader> FindNextChunk(std::string ID) override;
+        /// @brief Finds the next chunk header with the specified ID.
+        /// @param ID The ID of the chunk to find.
+        /// @return A pointer to the chunk header if found, otherwise nullptr.
+        std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) override;
 
+        /// @brief Writes data to the stream from the specified field.
+        /// @param field A pointer to the field to write to the stream.
         void Write(DataField* field) override;
 
+        /// @brief Writes the specified structure to the stream.
+        /// @param structure A pointer to the structure to write to the stream.
         void Write(DataStructure* structure) override;
 
+        /// @brief Gets the current position in the stream.
+        /// @return A size_t representing the position.
         uintmax_t Position() const override;
 
+        /// @brief Sets the current position in the stream.
+        /// @param position The position value to set.
         void SetPosition(uintmax_t position) override;
 
+        /// @brief Gets the beginning position of the file.
+        /// @return A size_t value representing the beginning position.
         uintmax_t Beginning() const override;
 
+        /// @brief Gets the end position of the file.
+        /// @return A size_t value representing the end position.
         uintmax_t End() const override;
+
+    /*
     protected:
         // RawField protected methods
         std::string FormatData(StringFormat format) const;
+    */
 
     private:
         uintmax_t position;
