@@ -17,6 +17,7 @@
 #ifndef LIB_CPP_BINARY_H
 #define LIB_CPP_BINARY_H
 
+#include "BufferStream.h"
 #include "ChunkHeader.h"
 #include "DataField.h"
 #include "DataStructure.h"
