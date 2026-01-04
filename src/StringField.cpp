@@ -26,5 +26,5 @@ std::string StringField::Value() const
 void StringField::SetValue(std::string value)
 {
     for (size_t i = 0; i < Size() && i < value.length(); i++)
-        Data()[i] = value[i];
+        RawData()[i] = value[i];
 }

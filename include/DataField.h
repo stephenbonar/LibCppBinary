@@ -43,14 +43,14 @@ namespace Binary
         /// @return The size of the data in the field, in bytes.
         virtual size_t Size() const = 0;
 
-        /// @brief Provides access to the field's data via raw pointer.
+        /// @brief Provides access to the field's raw data via pointer.
         ///
         /// Provides access to the raw data stored in the field. Note that this
-        /// class should manage the lifecylce of the data, so do not attempt to
+        /// class should manage the lifecycle of the data, so do not attempt to
         /// deallocate the memory behind the pointer manually.
         ///
         /// @return A raw pointer to the data.
-        virtual char* Data() = 0;
+        virtual char* RawData() = 0;
 
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.

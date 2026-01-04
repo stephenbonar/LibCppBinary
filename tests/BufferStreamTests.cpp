@@ -43,14 +43,14 @@ TEST_F(BufferStreamTests, ReadsAndWritesFieldsProperly)
     constexpr size_t fieldSize{ 6 };
     Binary::RawField fieldToWrite(fieldSize);
     const char testData[fieldSize] = { 'H', 'e', 'l', 'l', 'o', '\0' };
-    std::memcpy(fieldToWrite.Data(), testData, fieldSize);
+    std::memcpy(fieldToWrite.RawData(), testData, fieldSize);
 
     buffer->Write(&fieldToWrite);
     buffer->SetPosition(0);
     Binary::RawField fieldToRead(fieldSize);
     buffer->Read(&fieldToRead);
 
-    EXPECT_EQ(std::memcmp(fieldToRead.Data(), testData, fieldSize), 0);
+    EXPECT_EQ(std::memcmp(fieldToRead.RawData(), testData, fieldSize), 0);
 }
 
 TEST_F(BufferStreamTests, ReadsAndWritesDataStructuresProperly)

@@ -102,8 +102,8 @@ TEST_F(IntFieldTests, SetsUnsignedBigEndianProperly)
     field.SetValue(1000);
 
     ASSERT_EQ(field.Size(), 2);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[0]), 0x3);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[1]), 0xE8);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), 0x3);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), 0xE8);
 }
 
 TEST_F(IntFieldTests, SetsUnsignedLittleEndianProperly)
@@ -114,8 +114,8 @@ TEST_F(IntFieldTests, SetsUnsignedLittleEndianProperly)
     field.SetValue(1000);
 
     ASSERT_EQ(field.Size(), 2);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[0]), 0xE8);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[1]), 0x3);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), 0xE8);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), 0x3);
 }
 
 TEST_F(IntFieldTests, SetsSignedBigEndianProperly)
@@ -126,8 +126,8 @@ TEST_F(IntFieldTests, SetsSignedBigEndianProperly)
     field.SetValue(-1000);
 
     ASSERT_EQ(field.Size(), 2);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[0]), 0xFC);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[1]), 0x18);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), 0xFC);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), 0x18);
 }
 
 TEST_F(IntFieldTests, SetsSignedLittleEndianProperly)
@@ -138,8 +138,8 @@ TEST_F(IntFieldTests, SetsSignedLittleEndianProperly)
     field.SetValue(-1000);
 
     ASSERT_EQ(field.Size(), 2);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[0]), 0x18);
-    EXPECT_EQ(static_cast<uint8_t>(field.Data()[1]), 0xFC);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), 0x18);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), 0xFC);
 }
 
 TEST_F(IntFieldTests, SetstoDefaultEndiannessProperly)

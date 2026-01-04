@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/build/tests/libcppbinarytests",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}/build/tests/Debug/",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb"
@@ -20,12 +20,12 @@
             "name": "Windows Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/tests/libcppbinarytests.exe",
+            "program": "${workspaceFolder}/build/tests/Debug/libcppbinarytests.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}/build/tests/Debug/",
             "environment": [],
-            "externalConsole": false,
+            "console": "externalTerminal"
         }
     ]
 }

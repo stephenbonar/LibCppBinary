@@ -25,7 +25,7 @@ TEST_F(StringFieldTests, InitalizesStringFieldProperlyViaString)
 {
     Binary::StringField field{ "Testing" };
 
-    ASSERT_NE(field.Data(), nullptr);
+    ASSERT_NE(field.RawData(), nullptr);
     EXPECT_EQ(field.Size(), 7);
     EXPECT_EQ(field.Value(), "Testing");
 }

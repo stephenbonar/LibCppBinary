@@ -59,7 +59,7 @@ namespace Binary
         /// deallocate the memory behind the pointer manually.
         ///
         /// @return A raw pointer to the data.
-        char* Data() override { return data.get(); }
+        char* RawData() override { return data.get(); }
 
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.

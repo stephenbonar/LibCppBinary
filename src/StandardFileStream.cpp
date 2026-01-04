@@ -48,7 +48,7 @@ void StandardFileStream::Read(DataField* field) const
     if (!IsOpen())
         throw std::runtime_error{ "You must open the file before reading." };
 
-    fileStream.read(field->Data(), field->Size());
+    fileStream.read(field->RawData(), field->Size());
     position += field->Size();
 }
 
@@ -115,7 +115,7 @@ void StandardFileStream::Write(DataField* field)
     if (!IsOpen())
         throw std::runtime_error{ "You must open the file before writing." };
         
-    fileStream.write(field->Data(), field->Size());
+    fileStream.write(field->RawData(), field->Size());
     position += field->Size();
 }
 
@@ -128,7 +128,7 @@ void StandardFileStream::Write(DataStructure* structure)
 
     for (size_t i = 0; i < fields.size(); i++)
     {
-        fileStream.write(fields[i]->Data(), fields[i]->Size());
+        fileStream.write(fields[i]->RawData(), fields[i]->Size());
         position += fields[i]->Size();
     }
 }

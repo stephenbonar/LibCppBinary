@@ -23,7 +23,7 @@ void BufferStream::Read(DataField* field) const
     if (position + field->Size() > size)
         throw std::out_of_range("Attempt to read past end of buffer.");
 
-    std::memcpy(field->Data(), data.get() + position, field->Size());
+    std::memcpy(field->RawData(), data.get() + position, field->Size());
     position += field->Size();
 }
 
@@ -74,7 +74,7 @@ void BufferStream::Write(DataField* field)
     if (position + field->Size() > size)
         throw std::out_of_range("Attempt to write past end of buffer.");
 
-    std::memcpy(data.get() + position, field->Data(), field->Size());
+    std::memcpy(data.get() + position, field->RawData(), field->Size());
     position += field->Size();
 }
 

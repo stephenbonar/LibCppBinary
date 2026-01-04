@@ -150,10 +150,10 @@ TEST_F(StandardFileStreamTests, ReadsDataFieldsProperly)
     EXPECT_EQ(stream.Position(), readPosition);
     
     for (size_t i = 0; i < stringField.Size(); i++)
-        EXPECT_EQ(stringField.Data()[i], stringFieldData[i]);
+        EXPECT_EQ(stringField.RawData()[i], stringFieldData[i]);
 
     for (size_t i = 0; i < rawField.Size(); i++)
-        EXPECT_EQ(rawField.Data()[i], rawFieldData[i]);
+        EXPECT_EQ(rawField.RawData()[i], rawFieldData[i]);
 }
 
 TEST_F(StandardFileStreamTests, WritesDataFieldsProperly)
@@ -167,7 +167,7 @@ TEST_F(StandardFileStreamTests, WritesDataFieldsProperly)
     writeStringField.SetValue(stringFieldData.data());
 
     for (size_t i = 0; i < rawFieldData.size(); i++)
-        writeRawField.Data()[i] = rawFieldData[i];
+        writeRawField.RawData()[i] = rawFieldData[i];
 
     stream.Open(Binary::FileMode::Write);
     stream.Write(&writeStringField);
@@ -186,10 +186,10 @@ TEST_F(StandardFileStreamTests, WritesDataFieldsProperly)
     EXPECT_EQ(stream.FileSize(), stringFieldData.size() + rawFieldData.size());
     
     for (size_t i = 0; i < stringFieldData.size(); i++)
-        EXPECT_EQ(stringFieldData.data()[i], readStringField.Data()[i]);
+        EXPECT_EQ(stringFieldData.data()[i], readStringField.RawData()[i]);
     
     for (size_t i = 0; i < rawFieldData.size(); ++i)
-        EXPECT_EQ(rawFieldData[i], readRawField.Data()[i]);
+        EXPECT_EQ(rawFieldData[i], readRawField.RawData()[i]);
 }
 
 TEST_F(StandardFileStreamTests, WritesDataStructuresProperly)
@@ -227,7 +227,7 @@ TEST_F(StandardFileStreamTests, SetsPositionProperly)
     EXPECT_EQ(stream.Position(), 12);
 
     for (size_t i = 0; i < rawField.Size(); i++)
-        EXPECT_EQ(rawField.Data()[i], rawFieldData[i]);
+        EXPECT_EQ(rawField.RawData()[i], rawFieldData[i]);
 }
 
 TEST_F(StandardFileStreamTests, ClosesFileProperly)
