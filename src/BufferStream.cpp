@@ -23,7 +23,7 @@ void BufferStream::Read(DataField* field) const
     if (position + field->Size() > size)
         throw std::out_of_range("Attempt to read past end of buffer.");
 
-    std::memcpy(field->RawData(), data.get() + position, field->Size());
+    std::memcpy(field->RawData(), rawData.get() + position, field->Size());
     position += field->Size();
 }
 
@@ -44,7 +44,7 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
 
     while (searchPosition < size)
     {
-        if (data[searchPosition] == id[idIndex])
+        if (rawData[searchPosition] == id[idIndex])
         {
             idIndex++;
 
@@ -74,7 +74,7 @@ void BufferStream::Write(DataField* field)
     if (position + field->Size() > size)
         throw std::out_of_range("Attempt to write past end of buffer.");
 
-    std::memcpy(data.get() + position, field->RawData(), field->Size());
+    std::memcpy(rawData.get() + position, field->RawData(), field->Size());
     position += field->Size();
 }
 

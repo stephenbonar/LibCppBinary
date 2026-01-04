@@ -59,7 +59,7 @@ namespace Binary
         /// deallocate the memory behind the pointer manually.
         ///
         /// @return A raw pointer to the data.
-        char* RawData() override { return data.get(); }
+        char* RawData() override { return rawData.get(); }
 
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.
@@ -71,7 +71,7 @@ namespace Binary
         std::string ToString(StringFormat format) const override;
     protected:
         size_t size;
-        std::unique_ptr<char[]> data;
+        std::unique_ptr<char[]> rawData;
 
         /// @brief Format's the field's data as a string in a specific format.
         /// @param format The format to use.

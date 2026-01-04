@@ -237,7 +237,7 @@ namespace Binary
         void InitializeData()
         {
             for (size_t i = 0; i < Size(); i++)
-                data[i] = 0;
+                rawData[i] = 0;
         }
 
         /// @brief Converts the specified value to the data bytes.
@@ -297,7 +297,8 @@ namespace Binary
                 // Get the next byte from value by shifting it to the least
                 // significant byte. By doing bitwise with the lsb mask, all
                 // other bytes are zeroed out.
-                data[i] = static_cast<char>((value >> shiftAmount) & byteMask);
+                rawData[i] = 
+                    static_cast<char>((value >> shiftAmount) & byteMask);
 
                 // Increase the shift amount to select the next byte.
                 shiftAmount += bitsPerByte;
@@ -318,7 +319,8 @@ namespace Binary
                 // Get the next byte from value by shifting it to the least
                 // significant byte. By doing bitwise with the lsb mask, all
                 // other bytes are zeroed out.
-                data[i] = static_cast<char>((value >> shiftAmount) & byteMask);
+                rawData[i] = 
+                    static_cast<char>((value >> shiftAmount) & byteMask);
 
                 // Decrease the shift amount to select the next byte.
                 shiftAmount -= bitsPerByte;
@@ -345,7 +347,7 @@ namespace Binary
                 // First convert the raw byte char to an uint8_t so it can be
                 // bitwised OR'd to the rest of the retrieved value. We keep
                 // everything unsigned to avoid sign conversion errors.
-                uint8_t byte = static_cast<uint8_t>(data[i]);
+                uint8_t byte = static_cast<uint8_t>(rawData[i]);
 
                 // Determine if the most significant byte has the sign bit
                 // enabled to determine if the entire number is negative.
@@ -386,7 +388,7 @@ namespace Binary
                 // First convert the raw byte char to an uint8_t so it can be
                 // bitwised OR'd to the rest of the retrieved value. We keep
                 // everything unsigned to avoid sign conversion errors.
-                uint8_t byte = static_cast<uint8_t>(data[i]);
+                uint8_t byte = static_cast<uint8_t>(rawData[i]);
 
                 // Determine if the most significant byte has the sign bit
                 // enabled to determine if the entire number is negative.

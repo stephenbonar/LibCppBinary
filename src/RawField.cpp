@@ -32,14 +32,14 @@ RawField::RawField(size_t size)
         throw std::invalid_argument("Size cannot be less than 1");
 
     this->size = size;
-    data = std::make_unique<char[]>(size);
+    rawData = std::make_unique<char[]>(size);
 }
 
 RawField::RawField(const RawField& other)
 {
     size = other.size;
-    data = std::make_unique<char[]>(size);
-    std::memcpy(data.get(), other.data.get(), other.size);
+    rawData = std::make_unique<char[]>(size);
+    std::memcpy(rawData.get(), other.rawData.get(), other.size);
 }
 
 std::string RawField::ToString() const
@@ -76,9 +76,9 @@ std::string RawField::ConvertTerminated() const
 {
     bool nullFound = false;
 
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
-        if (data[i] == '\0')
+        if (rawData[i] == '\0')
         {
             nullFound = true;
             break;
@@ -89,7 +89,7 @@ std::string RawField::ConvertTerminated() const
     {
         // Convert the data to a c-style string by using implicit conversion
         // to const char* as the array needs to be const to convert to string.
-        const char* cstr = data.get();
+        const char* cstr = rawData.get();
 
         return std::string(cstr);
     }
@@ -106,7 +106,7 @@ std::string RawField::ConvertRaw() const
     std::stringstream stream;
 
     for (size_t i = 0; i < size; i++)
-        stream << data[i];
+        stream << rawData[i];
 
     return stream.str();
 }
@@ -117,10 +117,10 @@ std::string RawField::ConvertPrintable() const
 
     for (std::size_t i = 0; i < size; i++)
     {
-        if (data[i] < printableAsciiBegin || data[i] > printableAsciiEnd)
+        if (rawData[i] < printableAsciiBegin || rawData[i] > printableAsciiEnd)
             stream << nonPrintableReplacement;
         else
-            stream << data[i];
+            stream << rawData[i];
     }
     
     return stream.str();
@@ -135,7 +135,7 @@ std::string RawField::ConvertBin() const
     {
         // We cannot put a signed char into a bitset without first casting
         // to unsigned long long.
-        auto byte = static_cast<unsigned long long>(data[i]);
+        auto byte = static_cast<unsigned long long>(rawData[i]);
 
         // The bitset streams the byte as a string representation of binary.
         stream << std::bitset<bitsPerByte>{ byte };
@@ -156,7 +156,7 @@ std::string RawField::ConvertHex() const
     for (std::size_t i = 0; i < size; i++)
     {
         // First cast to unsigned so we don't carry a negative value
-        unsigned char u = static_cast<unsigned char>(data[i]);
+        unsigned char u = static_cast<unsigned char>(rawData[i]);
 
         // Then store the unsigned char value in an integer so the 
         // stringstream captures the numeric value instead of ASCII
