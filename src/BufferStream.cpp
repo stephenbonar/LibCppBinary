@@ -18,7 +18,7 @@
 
 using namespace Binary;
 
-void BufferStream::Read(DataField* field)
+void BufferStream::Read(DataField* field) const
 {
     if (position + field->Size() > size)
         throw std::out_of_range("Attempt to read past end of buffer.");
@@ -27,19 +27,19 @@ void BufferStream::Read(DataField* field)
     position += field->Size();
 }
 
-void BufferStream::Read(DataStructure* structure)
+void BufferStream::Read(DataStructure* structure) const
 {
     for (DataField* field : structure->Fields())
         Read(field);
 }
 
-std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id)
+std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
 {
     if (id.size() != 4)
         throw std::invalid_argument("Chunk ID must be exactly 4 characters.");
 
     bool idFound{ false };
-    size_t searchPosition{ position };
+    uintmax_t searchPosition{ position };
     int idIndex{ 0 };
 
     while (searchPosition < size)
@@ -89,7 +89,7 @@ uintmax_t BufferStream::Position() const
     return position;
 }
 
-void BufferStream::SetPosition(uintmax_t pos)
+void BufferStream::SetPosition(uintmax_t pos) const
 {
     position = pos;
 }
@@ -103,10 +103,3 @@ uintmax_t BufferStream::End() const
 {
     return size;
 }
-
-/*
-std::string BufferStream::FormatData(StringFormat format) const
-{
-    return "";
-}
-*/

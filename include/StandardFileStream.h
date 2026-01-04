@@ -84,16 +84,16 @@ namespace Binary
 
         /// @brief Reads data from the stream into the specified field.
         /// @param field A pointer to the field to read data into.
-        virtual void Read(DataField* field) override;
+        virtual void Read(DataField* field) const override;
 
         /// @brief Reads data from stream into the specified data structure.
         /// @param field A pointer to the data structure to read data into.
-        virtual void Read(DataStructure* structure) override;
+        virtual void Read(DataStructure* structure) const override;
 
         /// @brief Finds the next chunk header with the specified ID.
         /// @param chunkID The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
-        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) 
+        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const
             override;
 
         /// @brief Writes data to the stream from the specified field.
@@ -110,7 +110,7 @@ namespace Binary
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        virtual void SetPosition(uintmax_t position) override
+        virtual void SetPosition(uintmax_t position) const override
         {
             this->position = position;
             fileStream.seekg(position);
@@ -124,9 +124,15 @@ namespace Binary
         /// @return A size_t value representing the end position.
         virtual uintmax_t End() const override { return FileSize(); }
     private:
-        uintmax_t position;
         std::string filePath;
-        std::fstream fileStream;
+
+        // We make both position and fileStream mutable because we enforce
+        // logical constness, where reading from the stream does not modify its
+        // contents even if the position changes. Logical constness only 
+        // enforces observable state changes of the underlying data.
+        mutable uintmax_t position;
+        mutable std::fstream fileStream;
+
         FileMode mode;
     };
 }

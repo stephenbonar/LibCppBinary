@@ -39,16 +39,17 @@ namespace Binary
 
         /// @brief Reads data from the stream into the specified field.
         /// @param field A pointer to the field to read data into.
-        virtual void Read(DataField* field) = 0;
+        virtual void Read(DataField* field) const = 0;
 
         /// @brief Reads data from stream into the specified data structure.
         /// @param field A pointer to the data structure to read data into.
-        virtual void Read(DataStructure* structure) = 0;
+        virtual void Read(DataStructure* structure) const = 0;
 
         /// @brief Finds the next chunk header with the specified ID.
         /// @param chunkID The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
-        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) = 0;
+        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const
+            = 0;
 
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.
@@ -64,7 +65,7 @@ namespace Binary
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        virtual void SetPosition(uintmax_t position) = 0;
+        virtual void SetPosition(uintmax_t position) const = 0;
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.

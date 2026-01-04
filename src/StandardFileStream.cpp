@@ -43,7 +43,7 @@ void StandardFileStream::Open(FileMode mode)
     this->mode = mode;
 }
 
-void StandardFileStream::Read(DataField* field)
+void StandardFileStream::Read(DataField* field) const
 {
     if (!IsOpen())
         throw std::runtime_error{ "You must open the file before reading." };
@@ -52,13 +52,14 @@ void StandardFileStream::Read(DataField* field)
     position += field->Size();
 }
 
-void StandardFileStream::Read(DataStructure* structure)
+void StandardFileStream::Read(DataStructure* structure) const
 {
     for (DataField* field : structure->Fields())
         Read(field);
 }
 
-std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id) 
+std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
+    const
 {
     bool chunkFound{ false };
     int byteMatchIndex{ 0 };
@@ -125,7 +126,7 @@ void StandardFileStream::Write(DataStructure* structure)
 
     std::vector<DataField*> fields = structure->Fields();
 
-    for (int i = 0; i < fields.size(); i++)
+    for (size_t i = 0; i < fields.size(); i++)
     {
         fileStream.write(fields[i]->Data(), fields[i]->Size());
         position += fields[i]->Size();

@@ -36,33 +36,19 @@ namespace Binary
         BufferStream(size_t size) : RawField(size), position(0)
         { }
 
-        /* Shouldn't need these as they're inherited from RawField unless we need to change
-           behavior later.
-        // RawField overrides
-
-        size_t Size() const override;
-
-        char* Data() override;
-
-        std::string ToString() const override;
-
-        std::string ToString(StringFormat format) const override;
-        */
-
-        // Stream overrides
-
         /// @brief Reads data from the stream into the specified field.
         /// @param field A pointer to the field to read data into.
-        void Read(DataField* field) override;
+        void Read(DataField* field) const override;
 
         /// @brief Reads data from stream into the specified data structure.
         /// @param structure A pointer to the data structure to read data into.
-        void Read(DataStructure* structure) override;
-
+        void Read(DataStructure* structure) const override;
+        
         /// @brief Finds the next chunk header with the specified ID.
         /// @param ID The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
-        std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) override;
+        std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const 
+            override;
 
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.
@@ -78,7 +64,7 @@ namespace Binary
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        void SetPosition(uintmax_t position) override;
+        void SetPosition(uintmax_t position) const override;
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
@@ -87,29 +73,12 @@ namespace Binary
         /// @brief Gets the end position of the file.
         /// @return A size_t value representing the end position.
         uintmax_t End() const override;
-
-    /*
-    protected:
-        // RawField protected methods
-        std::string FormatData(StringFormat format) const;
-    */
-
     private:
-        uintmax_t position;
-    /* Shouldn't need these as they're implementation details for RawField
-        // RawField private methods
-        std::string ConvertTerminated() const;
-
-        std::string ConvertRaw() const;
-
-        std::string ConvertPrintable() const;
-
-        std::string ConvertBin() const;
-
-        std::string ConvertHex() const;
-
-    */
-
+        // We make position mutable because we enforce logical constness, where
+        // reading from the stream does not modify its contents even if the
+        // position changes. Logical constness only enforces observable state
+        // changes of the underlying data.
+        mutable uintmax_t position;
     };
 }
 
