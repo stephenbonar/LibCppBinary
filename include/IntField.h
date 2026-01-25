@@ -71,7 +71,7 @@ namespace Binary
 
         /// @brief Constructor; creates a new instance of IntField.
         /// @param value The value to initalize the field to.
-        IntField(int value) : RawField(IntSize)
+        IntField(IntType value) : RawField(IntSize)
         {
             InitializeData();
             SetToDefaultEndianness();
@@ -89,7 +89,7 @@ namespace Binary
         /// @brief Constructor; creates a new instance of IntField.
         /// @param value The value to initialize the field to.
         /// @param  The endianness the field should use.
-        IntField(int value, FieldEndianness endianness): RawField(IntSize)
+        IntField(IntType value, FieldEndianness endianness): RawField(IntSize)
         {
             InitializeData();
             this->endianness = endianness;
