@@ -113,7 +113,7 @@ namespace Binary
             switch (IntSize)
             {
                 case 1:
-                    return INT8_MIN;
+                    return static_cast<IntType>(INT8_MIN);
                 case 2:
                     return static_cast<IntType>(INT16_MIN);
                 case 3:
@@ -201,10 +201,10 @@ namespace Binary
 
         /// @brief Sets the endianness of the field.
         /// @param endianness The endianness to set the field to.
-        void SetEndianness(FieldEndianness endianness)
+        void SetEndianness(FieldEndianness e)
         {
             // TODO: Test for flip byte order and implement byte flipping code. 
-            this->endianness = endianness;
+            endianness = e;
         }
 
         /// @brief Sets the field to use the default endianness.
@@ -439,15 +439,18 @@ namespace Binary
             // If we're dealing with a signed, negative number, we may need to
             // sign extend it by padding it with leading 1's (bytes of 0xFF) to
             // fill the extra bytes if the size of IntType is > IntSize.
-            if (std::numeric_limits<IntType>::is_signed && isNegative)
+            if constexpr (std::numeric_limits<IntType>::is_signed)
             {
-                // We only need to pad the most significant bytes above and beyond
-                // IntSize. When IntType matches the size of IntSize, this code 
-                // will never run. But in cases where IntType's size is greater 
-                // than the size of the raw data, such as Int24Field, we need to
-                // pad the extra bytes. 
-                if (sizeof(convertedValue) > IntSize)
-                    return SignExtend(convertedValue);
+                if (isNegative)
+                {
+                    // We only need to pad the most significant bytes above and
+                    // beyond IntSize. When IntType matches the size of IntSize,
+                    // this code will never run. But in cases where IntType's
+                    // size is greater than the size of the raw data, such as
+                    // Int24Field, we need to pad the extra bytes.
+                    if constexpr (sizeof(IntType) > IntSize)
+                        return SignExtend(convertedValue);
+                }
             }
             
             return convertedValue;

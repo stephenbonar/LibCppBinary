@@ -39,7 +39,7 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
         throw std::invalid_argument("Chunk ID must be exactly 4 characters.");
 
     bool idFound{ false };
-    uintmax_t searchPosition{ position };
+    size_t searchPosition{ position };
     int idIndex{ 0 };
 
     while (searchPosition < size)
@@ -84,22 +84,22 @@ void BufferStream::Write(DataStructure* structure)
         Write(field);
 }
 
-uintmax_t BufferStream::Position() const
+size_t BufferStream::Position() const
 {
     return position;
 }
 
-void BufferStream::SetPosition(uintmax_t pos) const
+void BufferStream::SetPosition(size_t pos) const
 {
     position = pos;
 }
 
-uintmax_t BufferStream::Beginning() const
+size_t BufferStream::Beginning() const
 {
     return 0;
 }
 
-uintmax_t BufferStream::End() const
+size_t BufferStream::End() const
 {
     return size;
 }

@@ -62,9 +62,23 @@ namespace Binary
 
         /// @brief Gets the size of the file associated with the stream.
         /// @return The size of the file, in bytes.
-        virtual uintmax_t FileSize() const override
+        virtual size_t FileSize() const override
         {
-            return std::filesystem::file_size(filePath); 
+            uintmax_t fileSize{ std::filesystem::file_size(filePath) };
+            unsigned long long fileSizeLimit
+            { 
+                std::numeric_limits<size_t>::max() 
+            };
+
+            if (fileSize > fileSizeLimit)
+            {
+                std::stringstream error;
+                error << "File size exceeds limit of " << fileSizeLimit;
+                error << " bytes.";
+                throw std::overflow_error{ error.str() };
+            }
+                
+            return static_cast<size_t>(fileSize); 
         }
         
         /// @brief Determines the mode the file is set to open in.
@@ -106,23 +120,23 @@ namespace Binary
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
-        virtual uintmax_t Position() const override { return position; }
+        virtual size_t Position() const override { return position; }
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        virtual void SetPosition(uintmax_t position) const override
+        virtual void SetPosition(size_t p) const override
         {
-            this->position = position;
-            fileStream.seekg(position);
+            position = p;
+            fileStream.seekg(p);
         }
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
-        virtual uintmax_t Beginning() const override { return 0; }
+        virtual size_t Beginning() const override { return 0; }
 
         /// @brief Gets the end position of the file.
         /// @return A size_t value representing the end position.
-        virtual uintmax_t End() const override { return FileSize(); }
+        virtual size_t End() const override { return FileSize(); }
     private:
         std::string filePath;
 
@@ -130,7 +144,7 @@ namespace Binary
         // logical constness, where reading from the stream does not modify its
         // contents even if the position changes. Logical constness only 
         // enforces observable state changes of the underlying data.
-        mutable uintmax_t position;
+        mutable size_t position;
         mutable std::fstream fileStream;
 
         FileMode mode;

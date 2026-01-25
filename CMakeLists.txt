@@ -25,6 +25,13 @@ project(LibCppBinary VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+if (MSVC)
+    # Compiler warnings can intermittently appear and disappear. Set these
+    # to see them consistently and enforce C++ standards.
+    add_compile_options(/W4 /permissive-)
+    add_compile_options(/external:W4)
+endif()
+
 # Adds the main library source files to the project.
 add_subdirectory(src)
 

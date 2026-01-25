@@ -24,9 +24,9 @@ std::string StandardFileStream::FileName() const
     return path.filename().string(); 
 }
 
-void StandardFileStream::Open(FileMode mode)
+void StandardFileStream::Open(FileMode m)
 {
-    switch (mode)
+    switch (m)
     {
         case FileMode::Read:
             fileStream.open(filePath, std::ios::in | std::ios::binary);
@@ -40,7 +40,7 @@ void StandardFileStream::Open(FileMode mode)
             break;
     }
 
-    this->mode = mode;
+    mode = m;
 }
 
 void StandardFileStream::Read(DataField* field) const
@@ -63,7 +63,7 @@ std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
 {
     bool chunkFound{ false };
     int byteMatchIndex{ 0 };
-    uintmax_t tempPosition{ position };
+    size_t tempPosition{ position };
 
     if (id.size() != 4)
         throw std::invalid_argument{ "ID should be 4 characters long." };

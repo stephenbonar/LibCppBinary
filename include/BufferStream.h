@@ -60,25 +60,25 @@ namespace Binary
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
-        uintmax_t Position() const override;
+        size_t Position() const override;
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        void SetPosition(uintmax_t position) const override;
+        void SetPosition(size_t position) const override;
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
-        uintmax_t Beginning() const override;
+        size_t Beginning() const override;
 
         /// @brief Gets the end position of the file.
         /// @return A size_t value representing the end position.
-        uintmax_t End() const override;
+        size_t End() const override;
     private:
         // We make position mutable because we enforce logical constness, where
         // reading from the stream does not modify its contents even if the
         // position changes. Logical constness only enforces observable state
         // changes of the underlying data.
-        mutable uintmax_t position;
+        mutable size_t position;
     };
 }
 

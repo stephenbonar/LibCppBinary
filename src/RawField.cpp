@@ -171,6 +171,7 @@ std::string RawField::ConvertHex() const
     }
     
     auto hex = stream.str();
-    std::transform(hex.begin(), hex.end(), hex.begin(), ::toupper);
+    std::transform(hex.begin(), hex.end(), hex.begin(), 
+        [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     return hex;
 }

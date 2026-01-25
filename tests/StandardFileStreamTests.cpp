@@ -266,7 +266,7 @@ TEST_F(StandardFileStreamTests, ReadsDataStructuresProperly)
 
     stream.Open(Binary::FileMode::Read);
 
-    uintmax_t chunkPosition = stringFieldData.size() + rawFieldData.size();
+    size_t chunkPosition = stringFieldData.size() + rawFieldData.size();
     stream.SetPosition(chunkPosition);
 
     stream.Read(&header);
@@ -290,6 +290,7 @@ TEST_F(StandardFileStreamTests, FindsChunkHeadersProperly)
     ASSERT_NE(header, nullptr);
     EXPECT_EQ(header->id.Value(), "TST2");
     EXPECT_EQ(header->dataSize.Value(), 4);
+    EXPECT_EQ(stream.Position(), expectedPosition);
 }
 
 TEST_F(StandardFileStreamTests, FindNextChunkThrowsErrorWhenIDWrongSize)
