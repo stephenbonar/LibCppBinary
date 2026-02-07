@@ -1,4 +1,4 @@
-// ChunkHeader.h - Defines the ChunkHeader struct.
+// MockDataField.h - Mock class for DataField testing.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,34 +14,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ChunkHeader.h"
+#ifndef MOCK_DATA_FIELD_H
+#define MOCK_DATA_FIELD_H
+
+#include <gmock/gmock.h>
+#include "DataField.h"
+#include "StringFormat.h"
 
 using namespace Binary;
 
-std::vector<DataField*> ChunkHeader::Fields()
+class MockDataField : public DataField
 {
-    std::vector<DataField*> fields;
-    fields.push_back(&id);
-    fields.push_back(&dataSize);
-    return fields;
-}
+public:
+    MOCK_METHOD(size_t, Size, (), (const, override));
+    MOCK_METHOD(char*, RawData, (), (override));
+    MOCK_METHOD(std::string, ToString, (), (const, override));
+    MOCK_METHOD(std::string, ToString, (StringFormat format), (const, override));
+};
 
-size_t ChunkHeader::Size() const
-{
-    return id.Size() + dataSize.Size();
-}
-
-ChunkHeader& ChunkHeader::operator=(const ChunkHeader& other)
-{
-    if (this == &other) 
-    {
-        return *this;
-    }
-
-    id = other.id;
-    dataSize = other.dataSize;
-
-    // else: optionally handle error or fallback
-    return *this;
-}
-
+#endif // MOCK_DATA_FIELD_H

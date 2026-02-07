@@ -35,9 +35,9 @@ FetchContent_MakeAvailable(googletest)
 
 # Defines the test executable target.
 add_executable(libcppbinarytests
-               DataFieldTests.cpp 
                StringFieldTests.cpp 
-               RawFieldTests.cpp 
+               RawFieldTests.cpp
+               DataFieldTests.cpp
                StandardFileStreamTests.cpp 
                IntFieldTests.cpp
                ChunkHeaderTests.cpp

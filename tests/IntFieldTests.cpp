@@ -350,3 +350,39 @@ TEST_F(IntFieldTests, ToStringReturnsValueByDefault)
 
     EXPECT_EQ(field.ToString(), "100");
 }
+
+TEST_F(IntFieldTests, CopyAssignmentPerformsDeepCopy)
+{
+    Binary::Int16Field original;
+    original.SetValue(-1234);
+    original.SetEndianness(Binary::FieldEndianness::Big);
+
+    Binary::Int16Field copy;
+    copy.SetValue(5678);
+    copy.SetEndianness(Binary::FieldEndianness::Little);
+
+    copy = original;
+
+    EXPECT_NE(copy.RawData(), original.RawData());
+    EXPECT_EQ(copy.Value(), original.Value());
+    EXPECT_EQ(copy.Endianness(), original.Endianness());
+    EXPECT_EQ(copy.Size(), original.Size());
+    EXPECT_EQ(copy.ToString(), original.ToString());
+}
+
+TEST_F(IntFieldTests, CopyConstructorPerformsDeepCopy)
+{
+    Binary::Int16Field original;
+    original.SetValue(-1234);
+    original.SetEndianness(Binary::FieldEndianness::Big);
+
+    Binary::Int16Field copy(original);
+
+    EXPECT_NE(copy.RawData(), original.RawData());
+    EXPECT_EQ(copy.Value(), original.Value());
+    EXPECT_EQ(copy.Endianness(), original.Endianness());
+    EXPECT_EQ(copy.Size(), original.Size());
+    EXPECT_EQ(copy.ToString(), original.ToString());
+}
+
+

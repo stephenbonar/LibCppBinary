@@ -80,6 +80,8 @@ namespace Binary
         {
             return RawField::ToString(format);
         }
+
+        StringField& operator=(const StringField& other);
     };
 }
 

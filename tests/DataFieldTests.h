@@ -17,12 +17,14 @@
 #ifndef DATA_FIELD_TESTS_H
 #define DATA_FIELD_TESTS_H
 
+#include <stdexcept>
 #include <gtest/gtest.h>
+#include "DataField.h"
 
 class DataFieldTests : public ::testing::Test
 {
 protected:
-    DataFieldTests();
+    DataFieldTests() = default;
 };
 
 #endif

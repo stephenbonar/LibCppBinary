@@ -1,4 +1,4 @@
-// DataFieldTests.cpp - Defines the DataFieldTests class and tests.
+// DataFieldTests.h - Defines the DataFieldTests class and tests.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -15,8 +15,35 @@
 // limitations under the License.
 
 #include "DataFieldTests.h"
+#include "MockDataField.h"
+#include <cstring>
 
-DataFieldTests::DataFieldTests()
+TEST_F(DataFieldTests, CopiesRawDataProperly)
 {
-
+    // Create a source mock data field with 10 bytes
+    MockDataField source;
+    char sourceData[10] = {0x01, 0x02, 0x03, 0x04, 0x05,
+                           0x06, 0x07, 0x08, 0x09, 0x0A};
+    
+    // Set up expectations for the source field
+    EXPECT_CALL(source, Size()).WillRepeatedly(::testing::Return(10));
+    EXPECT_CALL(source, RawData()).WillRepeatedly(::testing::Return(sourceData));
+    
+    // Create a destination mock data field with 5 bytes
+    MockDataField destination;
+    char destData[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+    
+    // Set up expectations for the destination field
+    EXPECT_CALL(destination, Size()).WillRepeatedly(::testing::Return(5));
+    EXPECT_CALL(destination, RawData()).WillRepeatedly(::testing::Return(destData));
+    
+    // Call CopyRawDataTo - should copy 5 bytes (the minimum of the two sizes)
+    source.CopyRawDataTo(&destination);
+    
+    // Verify that the destination received the first 5 bytes of source data
+    EXPECT_EQ(destData[0], 0x01);
+    EXPECT_EQ(destData[1], 0x02);
+    EXPECT_EQ(destData[2], 0x03);
+    EXPECT_EQ(destData[3], 0x04);
+    EXPECT_EQ(destData[4], 0x05);
 }

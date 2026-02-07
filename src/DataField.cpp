@@ -1,4 +1,4 @@
-// ChunkHeader.h - Defines the ChunkHeader struct.
+// DataField.cpp - Defines the DataField class.
 //
 // Copyright (C) 2025 Stephen Bonar
 //
@@ -14,34 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ChunkHeader.h"
+#include "DataField.h"
 
 using namespace Binary;
 
-std::vector<DataField*> ChunkHeader::Fields()
+void DataField::CopyRawDataTo(DataField* other)
 {
-    std::vector<DataField*> fields;
-    fields.push_back(&id);
-    fields.push_back(&dataSize);
-    return fields;
-}
-
-size_t ChunkHeader::Size() const
-{
-    return id.Size() + dataSize.Size();
-}
-
-ChunkHeader& ChunkHeader::operator=(const ChunkHeader& other)
-{
-    if (this == &other) 
+    if (other == nullptr)
     {
-        return *this;
+        throw std::invalid_argument("Other field cannot be null.");
     }
 
-    id = other.id;
-    dataSize = other.dataSize;
-
-    // else: optionally handle error or fallback
-    return *this;
+    size_t copySize = std::min(Size(), other->Size());
+    std::memcpy(other->RawData(), RawData(), copySize);
 }
-

@@ -28,3 +28,15 @@ void StringField::SetValue(std::string value)
     for (size_t i = 0; i < Size() && i < value.length(); i++)
         RawData()[i] = value[i];
 }
+
+StringField& StringField::operator=(const StringField& other)
+{
+    if (this == &other)
+        return *this;
+
+    size = other.size;
+    rawData = std::make_unique<char[]>(size);
+    std::memcpy(rawData.get(), other.rawData.get(), size);
+
+    return *this;
+}

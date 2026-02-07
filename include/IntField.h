@@ -96,6 +96,11 @@ namespace Binary
             SetValue(value);
         }
 
+        IntField(const IntField& other) : RawField(other)
+        {
+            endianness = other.endianness;
+        }
+
         /// @brief Gets the value of the field.
         /// @return The value of the field.
         IntType Value() const
@@ -229,6 +234,20 @@ namespace Binary
                 return std::to_string(Value());
             else
                 return FormatData(format);
+        }
+
+        IntField<IntType, IntSize>& operator=(
+            const IntField<IntType, IntSize>& other)
+        {
+            if (this == &other)
+            {
+                return *this;
+            }
+
+            endianness = other.endianness;
+            SetValue(other.Value());
+
+            return *this;
         }
     private:
         FieldEndianness endianness;

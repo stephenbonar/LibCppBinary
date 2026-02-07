@@ -142,3 +142,28 @@ TEST_F(RawFieldTests, FormatsHexByDefault)
 
     EXPECT_EQ(field.ToString(), "0A 0B 0C 0D");
 }
+
+TEST_F(RawFieldTests, CopyAssignmentOperatorWorksProperly)
+{
+    Binary::RawField original{ 4 };
+    original.RawData()[0] = 'A';
+    original.RawData()[1] = 'B';
+    original.RawData()[2] = 'C';
+    original.RawData()[3] = 'D';
+
+    Binary::RawField copy{ 4 };
+    copy.RawData()[0] = 'X';
+    copy.RawData()[1] = 'Y';
+    copy.RawData()[2] = 'Z';
+    copy.RawData()[3] = 'W';
+
+    copy = original;
+
+    ASSERT_EQ(copy.Size(), original.Size());
+    ASSERT_NE(copy.RawData(), original.RawData());
+    EXPECT_EQ(copy.RawData()[0], 'A');
+    EXPECT_EQ(copy.RawData()[1], 'B');
+    EXPECT_EQ(copy.RawData()[2], 'C');
+    EXPECT_EQ(copy.RawData()[3], 'D');
+}
+

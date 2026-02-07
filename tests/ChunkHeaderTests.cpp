@@ -37,3 +37,16 @@ TEST_F(ChunkHeaderTests, ProperlyObtainsSize)
 
     EXPECT_EQ(header.Size(), header.id.Size() + header.dataSize.Size());
 }
+
+TEST_F(ChunkHeaderTests, CopyAssignmentOperatorPerformsDeepCopy)
+{
+    Binary::ChunkHeader header1;
+    header1.id.SetValue("TEST");
+    header1.dataSize.SetValue(255);
+
+    Binary::ChunkHeader header2;
+    header2 = header1;
+
+    EXPECT_EQ(header2.id.Value(), header1.id.Value());
+    EXPECT_EQ(header2.dataSize.Value(), header1.dataSize.Value());
+}

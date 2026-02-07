@@ -52,6 +52,14 @@ namespace Binary
         /// @return A raw pointer to the data.
         virtual char* RawData() = 0;
 
+        /// @brief Copies the raw data to another DataField.
+        ///
+        /// This method copies the raw data to another DataField, truncating
+        /// the data if the other field is smaller than this one.
+        ///
+        /// @param other A pointer to the other DataField to copy the data to.
+        virtual void CopyRawDataTo(DataField* other);
+
         /// @brief Converts the field's data to a string representation.
         /// @return A string representation of the field's data.
         virtual std::string ToString() const = 0;

@@ -175,3 +175,17 @@ std::string RawField::ConvertHex() const
         [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     return hex;
 }
+
+RawField& RawField::operator=(const RawField& other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    size = other.size;
+    rawData = std::make_unique<char[]>(size);
+    std::memcpy(rawData.get(), other.rawData.get(), size);
+
+    return *this;
+}

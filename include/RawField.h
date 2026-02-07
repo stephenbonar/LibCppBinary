@@ -69,6 +69,8 @@ namespace Binary
         /// @param format The format to use for the string conversion.
         /// @return A string representation of the field's data.
         std::string ToString(StringFormat format) const override;
+
+        RawField& operator=(const RawField& other);
     protected:
         size_t size;
         std::unique_ptr<char[]> rawData;

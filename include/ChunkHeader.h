@@ -46,6 +46,8 @@ namespace Binary
         /// @brief Gets the total size of all fields in the structure.
         /// @return The total size of the structure.
         size_t Size() const override;
+        
+        ChunkHeader& operator=(const ChunkHeader& other);
     };
 }
 

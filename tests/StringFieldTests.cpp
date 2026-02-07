@@ -44,3 +44,27 @@ TEST_F(StringFieldTests, SetsValueProperly)
 
     EXPECT_EQ(field.Value(), "Test");
 }
+
+TEST_F(StringFieldTests, CopyAssignmentOperatorWorksProperly)
+{
+    Binary::StringField original{ "Test" };
+    Binary::StringField copy{ 5 };
+    //copy.SetValue("ABCDE");
+
+    copy = original;
+
+    EXPECT_EQ(copy.Size(), original.Size());
+    EXPECT_EQ(copy.Value(), original.Value());
+    EXPECT_NE(copy.RawData(), original.RawData());
+}
+
+TEST_F(StringFieldTests, CopyConstructorWorksProperly)
+{
+    Binary::StringField original{ "Test" };
+    Binary::StringField copy(original);
+
+    EXPECT_EQ(copy.Size(), original.Size());
+    EXPECT_EQ(copy.Value(), original.Value());
+    EXPECT_NE(copy.RawData(), original.RawData());
+}
+
