@@ -18,6 +18,7 @@
 #define BINARY_DATA_FIELD_H
 
 #include <string>
+#include <stdexcept>
 #include "StringFormat.h"
 
 namespace Binary
