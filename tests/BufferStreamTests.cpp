@@ -68,7 +68,7 @@ TEST_F(BufferStreamTests, ReadsAndWritesDataStructuresProperly)
     EXPECT_EQ(headerToRead.dataSize.Value(), 4);
 }
 
-TEST_F(BufferStreamTests, DoesNotReadPastEndOfBuffer)
+TEST_F(BufferStreamTests, DoesNotReadFieldPastEndOfBuffer)
 {
     constexpr size_t fieldSize{ bufferSize + 1 };
     Binary::RawField fieldToRead(fieldSize);
@@ -77,13 +77,29 @@ TEST_F(BufferStreamTests, DoesNotReadPastEndOfBuffer)
     EXPECT_THROW(buffer->Read(&fieldToRead), std::out_of_range);
 }
 
-TEST_F(BufferStreamTests, DoesNotWritePastEndOfBuffer)
+TEST_F(BufferStreamTests, DoesNotWriteFieldPastEndOfBuffer)
 {
     constexpr size_t fieldSize{ bufferSize + 1 };
     Binary::RawField fieldToWrite(fieldSize);
 
     buffer->SetPosition(0);
     EXPECT_THROW(buffer->Write(&fieldToWrite), std::out_of_range);
+}
+
+TEST_F(BufferStreamTests, DoesNotReadStructurePastEndOfBuffer)
+{
+    Binary::ChunkHeader structureToRead;
+
+    buffer->SetPosition(bufferSize - 1);
+    EXPECT_THROW(buffer->Read(&structureToRead), std::out_of_range);
+}
+
+TEST_F(BufferStreamTests, DoesNotWriteStructurePastEndOfBuffer)
+{
+    Binary::ChunkHeader structureToWrite;
+
+    buffer->SetPosition(bufferSize - 1);
+    EXPECT_THROW(buffer->Write(&structureToWrite), std::out_of_range);
 }
 
 TEST_F(BufferStreamTests, BeginningAndEndPositionsAreCorrect)
@@ -119,3 +135,60 @@ TEST_F(BufferStreamTests, FindNextChunkThrowsForInvalidID)
     EXPECT_THROW(buffer->FindNextChunk("TOO_LONG"), std::invalid_argument);
     EXPECT_THROW(buffer->FindNextChunk("SH"), std::invalid_argument);
 }
+
+TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullFieldRead)
+{
+    Binary::DataField* nullField{ nullptr };
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try 
+            {
+                buffer->Read(nullField);
+                exit(1); // No exception thrown: fail
+            } 
+            catch (const std::invalid_argument&) 
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+
+TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullStructureRead)
+{
+    Binary::DataStructure* nullStructure{ nullptr };
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                buffer->Read(nullStructure);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+

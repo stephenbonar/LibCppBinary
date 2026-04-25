@@ -25,11 +25,14 @@
 
 namespace Binary
 {
+    /// @brief The size of the chunk ID field, in bytes.
+    inline constexpr int chunkIDSize{ 4 };
+    
     /// @brief Represents the header of a binary data chunk.
     struct ChunkHeader : public DataStructure
     {
         /// @brief The ID of the chunk.
-        StringField id{ 4 };
+        StringField id{ chunkIDSize };
 
         /// @brief The size of the chunk's data.
         UInt32Field dataSize;

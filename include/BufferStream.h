@@ -28,25 +28,50 @@ namespace Binary
     /// file, you can use this class to read or write a large block of data to 
     /// or from memory, which can improve performance. Individual fields and 
     /// structures can then be read from or written to the buffer as needed.
+    ///
+    /// @invariant Size must be greater than 0.
+    /// @invariant Position must be between 0 and Size, inclusive.
+    /// @invariant Buffer memory must always be valid and allocated to size.
+    /// @invariant Reading advances the position by field or structure size.
+    /// @invariant Reading does not modify the buffer's contents.
+    /// @invariant Writing both advances the position and modifies buffer.
     class BufferStream : public RawField, public Stream
     {
     public:
         /// @brief Creates a new instance of BufferStream.
         /// @param size The size of the buffer, in bytes.
+        /// @pre Size must be greater than 0.
+        /// @post Buffer memory is allocated to the specified size.
+        /// @post Position is set to beginning (0).
         BufferStream(size_t size) : RawField(size), position(0)
         { }
 
         /// @brief Reads data from the stream into the specified field.
         /// @param field A pointer to the field to read data into.
+        /// @pre Field must not be null.
+        /// @pre Field size must be <= remaining buffer size.
+        /// @post Position is advanced by field size.
+        /// @post Specified field is updated with the data read from the buffer.
+        /// @throws std::out_of_range if field size > remaining buffer size.
+        /// @throws std::invalid_argument if field is null.
         void Read(DataField* field) const override;
 
         /// @brief Reads data from stream into the specified data structure.
         /// @param structure A pointer to the data structure to read data into.
+        /// @pre Structure must not be null.
+        /// @pre Structure size must be <= remaining buffer size.
+        /// @post Position is advanced by structure size.
+        /// @post Specified structure is updated with the data read from buffer.
+        /// @throws std::out_of_range if structure size > remaining buffer size.
+        /// @throws std::invalid_argument if structure is null.
         void Read(DataStructure* structure) const override;
         
         /// @brief Finds the next chunk header with the specified ID.
         /// @param ID The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
+        /// @pre ID must be exactly 4 characters long.
+        /// @post Position is advanced to the beginning of found chunk header.
+        /// @throws std::invalid_argument if ID is not 4 characters long.
         std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const 
             override;
 

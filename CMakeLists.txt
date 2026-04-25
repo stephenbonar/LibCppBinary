@@ -35,6 +35,7 @@ endif()
 # Adds the main library source files to the project.
 add_subdirectory(src)
 
-# Adds the library tests to the project.
+# Enable testing (includes CTest and generates DartConfiguration.tcl).
+include(CTest)
 add_subdirectory(tests)
 
