@@ -192,3 +192,59 @@ TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullStructureRead)
     );
 }
 
+TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullFieldWrite)
+{
+    Binary::DataField* nullField{ nullptr };
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                buffer->Write(nullField);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+
+TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullStructureWrite)
+{
+    Binary::DataStructure* nullStructure{ nullptr };
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                buffer->Write(nullStructure);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+

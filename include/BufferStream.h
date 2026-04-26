@@ -77,27 +77,42 @@ namespace Binary
 
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.
+        /// @pre Field must not be null.
+        /// @pre Field size must be <= remaining buffer size.
+        /// @post Position is advanced by field size.
+        /// @post Buffer is updated with the data from the specified field.
+        /// @throws std::out_of_range if field size > remaining buffer size.
+        /// @throws std::invalid_argument if field is null.
         void Write(DataField* field) override;
 
         /// @brief Writes the specified structure to the stream.
         /// @param structure A pointer to the structure to write to the stream.
+        /// @pre Structure must not be null.
+        /// @pre Structure size must be <= remaining buffer size.
+        /// @post Position is advanced by structure size.
+        /// @post Buffer is updated with the data from the specified structure.
+        /// @throws std::out_of_range if structure size > remaining buffer size.
+        /// @throws std::invalid_argument if structure is null.
         void Write(DataStructure* structure) override;
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
-        size_t Position() const override;
+        size_t Position() const override { return position; }
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        void SetPosition(size_t position) const override;
+        void SetPosition(size_t position) const override 
+        { 
+            this->position = position; 
+        }
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
-        size_t Beginning() const override;
+        size_t Beginning() const override { return 0; }
 
         /// @brief Gets the end position of the file.
         /// @return A size_t value representing the end position.
-        size_t End() const override;
+        size_t End() const override { return size; }
     private:
         // We make position mutable because we enforce logical constness, where
         // reading from the stream does not modify its contents even if the

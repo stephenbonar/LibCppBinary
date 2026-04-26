@@ -107,8 +107,15 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
 
 void BufferStream::Write(DataField* field)
 {
+    if (field == nullptr)
+    {
+        throw std::invalid_argument("The specified field cannot be null.");
+    }
+
     if (position + field->Size() > size)
+    {
         throw std::out_of_range("Attempt to write past end of buffer.");
+    }
 
     std::memcpy(rawData.get() + position, field->RawData(), field->Size());
     position += field->Size();
@@ -116,26 +123,13 @@ void BufferStream::Write(DataField* field)
 
 void BufferStream::Write(DataStructure* structure)
 {
+    if (structure == nullptr)
+    {
+        throw std::invalid_argument("The specified structure cannot be null.");
+    }
+
     for (DataField* field : structure->Fields())
+    {
         Write(field);
-}
-
-size_t BufferStream::Position() const
-{
-    return position;
-}
-
-void BufferStream::SetPosition(size_t pos) const
-{
-    position = pos;
-}
-
-size_t BufferStream::Beginning() const
-{
-    return 0;
-}
-
-size_t BufferStream::End() const
-{
-    return size;
+    }
 }
