@@ -133,3 +133,13 @@ void BufferStream::Write(DataStructure* structure)
         Write(field);
     }
 }
+
+void BufferStream::SetPosition(size_t position) const
+{ 
+    if (position > size)
+    {
+        throw std::out_of_range("Position cannot be set past end of buffer.");
+    }
+
+    this->position = position; 
+}

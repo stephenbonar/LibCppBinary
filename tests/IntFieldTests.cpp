@@ -385,4 +385,104 @@ TEST_F(IntFieldTests, CopyConstructorPerformsDeepCopy)
     EXPECT_EQ(copy.ToString(), original.ToString());
 }
 
+TEST_F(IntFieldTests, ThrowsIfValueBelowMinOrAboveMax)
+{
+    // Use a 24-bit field because it can actually have a value outside the
+    // range of the underlying type as there is not a native 24-bit integer
+    // type in the C++ type system. Native types would simply overflow and
+    // wrap around, so it is not possible to be out of range with them.
+    Binary::Int24Field sField;
+    auto min = sField.MinValue();
+    auto max = sField.MaxValue();
+
+    // Below minimum (signed).
+    EXPECT_THROW(Binary::Int24Field(min - 1), std::out_of_range);
+
+    // Above maximum (signed).
+    EXPECT_THROW(Binary::Int24Field(max + 1), std::out_of_range);
+
+    Binary::UInt24Field uField;
+    auto umin = uField.MinValue();
+    auto umax = uField.MaxValue();
+
+    // Below minimum (unsigned).
+    EXPECT_THROW(Binary::UInt24Field(umin - 1), std::out_of_range);
+
+    // Above maximum (unsigned).
+    EXPECT_THROW(Binary::UInt24Field(umax + 1), std::out_of_range);
+}
+
+TEST_F(IntFieldTests, SetValueThrowsIfValueOutOfRange)
+{
+    Binary::Int24Field sfield;
+    auto smin = sfield.MinValue();
+    auto smax = sfield.MaxValue();
+
+    // Below minimum (signed).
+    EXPECT_THROW(sfield.SetValue(smin - 1), std::out_of_range);
+
+    // Above maximum (signed).
+    EXPECT_THROW(sfield.SetValue(smax + 1), std::out_of_range);
+
+    Binary::UInt24Field ufield;
+    auto umin = ufield.MinValue();
+    auto umax = ufield.MaxValue();
+
+    // Below minimum (unsigned).
+    EXPECT_THROW(ufield.SetValue(umin - 1), std::out_of_range);
+
+    // Above maximum (unsigned).
+    EXPECT_THROW(ufield.SetValue(umax + 1), std::out_of_range);
+}
+
+TEST_F(IntFieldTests, SetEndiannessFlipsRawDataByteOrder)
+{
+    Binary::UInt24Field field{ Binary::FieldEndianness::Little };
+    field.SetValue(0x123456);
+
+    uint8_t byte0 = static_cast<uint8_t>(field.RawData()[0]);
+    uint8_t byte1 = static_cast<uint8_t>(field.RawData()[1]);
+    uint8_t byte2 = static_cast<uint8_t>(field.RawData()[2]);
+
+    field.SetEndianness(Binary::FieldEndianness::Big);
+
+    EXPECT_EQ(field.Endianness(), Binary::FieldEndianness::Big);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), byte2);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), byte1);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[2]), byte0);
+}
+
+TEST_F(IntFieldTests, SetEndiannessFlipsRawDataByteOrderBackToLittleEndian)
+{
+    Binary::UInt24Field field{ Binary::FieldEndianness::Big };
+    field.SetValue(0x123456);
+
+    uint8_t byte0 = static_cast<uint8_t>(field.RawData()[0]);
+    uint8_t byte1 = static_cast<uint8_t>(field.RawData()[1]);
+    uint8_t byte2 = static_cast<uint8_t>(field.RawData()[2]);
+
+    field.SetEndianness(Binary::FieldEndianness::Little);
+
+    EXPECT_EQ(field.Endianness(), Binary::FieldEndianness::Little);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), byte2);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), byte1);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[2]), byte0);
+}
+
+TEST_F(IntFieldTests, SetEndiannessDoesNotChangeRawDataWhenUnchanged)
+{
+    Binary::UInt24Field field{ Binary::FieldEndianness::Little };
+    field.SetValue(0x123456);
+
+    uint8_t byte0 = static_cast<uint8_t>(field.RawData()[0]);
+    uint8_t byte1 = static_cast<uint8_t>(field.RawData()[1]);
+    uint8_t byte2 = static_cast<uint8_t>(field.RawData()[2]);
+
+    field.SetEndianness(Binary::FieldEndianness::Little);
+
+    EXPECT_EQ(field.Endianness(), Binary::FieldEndianness::Little);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), byte0);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), byte1);
+    EXPECT_EQ(static_cast<uint8_t>(field.RawData()[2]), byte2);
+}
 

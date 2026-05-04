@@ -41,7 +41,6 @@ ChunkHeader& ChunkHeader::operator=(const ChunkHeader& other)
     id = other.id;
     dataSize = other.dataSize;
 
-    // else: optionally handle error or fallback
     return *this;
 }
 

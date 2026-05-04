@@ -50,6 +50,11 @@ namespace Binary
         /// @return The total size of the structure.
         size_t Size() const override;
         
+        /// @brief Assignment operator for ChunkHeader.
+        ///
+        /// Copies the values of all fields from another ChunkHeader instance.
+        /// @param other The ChunkHeader to copy from.
+        /// @return Reference to this ChunkHeader after assignment.
         ChunkHeader& operator=(const ChunkHeader& other);
     };
 }

@@ -248,3 +248,8 @@ TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullStructureWrite)
     );
 }
 
+TEST_F(BufferStreamTests, SetPositionThrowsIfGreaterThanSize)
+{
+    // Try to set position past the end of the buffer
+    EXPECT_THROW(buffer->SetPosition(bufferSize + 1), std::out_of_range);
+}

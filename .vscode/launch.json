@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/build/tests/libcppbinarytests",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/tests/Debug/",
+            "cwd": "${workspaceFolder}/build/tests/",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb"

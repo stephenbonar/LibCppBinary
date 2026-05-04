@@ -19,6 +19,7 @@
 
 #include <cstdint>
 #include <limits>
+#include <algorithm>
 #include "RawField.h"
 #include "FieldEndianness.h"
 
@@ -58,11 +59,17 @@ namespace Binary
     /// Int24Field, UInt32Field, Int32Field, UInt64Field, Int64Field) to read
     /// or write these types of fields from and to a Binary::Stream, such as a
     /// Binary::DataFileStream.
+    ///
+    /// @invariant Inital value is initialized either to 0 or a specified value.
+    /// @invariant Size of the underlying data is always equal to IntSize.
+    /// @invariant The int value is always stored in the current endianness.
+    /// @invariant The int value is between MinValue() and MaxValue() inclusive.
     template<typename IntType, size_t IntSize>
     class IntField : public RawField
     {
     public:
         /// @brief Default constructor; creates a new instance of IntField.
+        /// @post The field is initialized to 0.
         IntField() : RawField(IntSize)
         {
             InitializeData();
@@ -71,6 +78,9 @@ namespace Binary
 
         /// @brief Constructor; creates a new instance of IntField.
         /// @param value The value to initalize the field to.
+        /// @pre Value must be between MinValue() and MaxValue(), inclusive.
+        /// @post The field is initialized to the specified value.
+        /// @throws std::out_of_range if value is outside of the valid range.
         IntField(IntType value) : RawField(IntSize)
         {
             InitializeData();
@@ -88,17 +98,15 @@ namespace Binary
 
         /// @brief Constructor; creates a new instance of IntField.
         /// @param value The value to initialize the field to.
-        /// @param  The endianness the field should use.
+        /// @param endianness The endianness the field should use.
+        /// @pre Value must be between MinValue() and MaxValue(), inclusive.
+        /// @post The field is initialized to the specified value & endianness.
+        /// @throws std::out_of_range if value is outside of the valid range.
         IntField(IntType value, FieldEndianness endianness): RawField(IntSize)
         {
             InitializeData();
             this->endianness = endianness;
             SetValue(value);
-        }
-
-        IntField(const IntField& other) : RawField(other)
-        {
-            endianness = other.endianness;
         }
 
         /// @brief Gets the value of the field.
@@ -147,7 +155,7 @@ namespace Binary
                 switch (IntSize)
                 {
                     case 1:
-                        return UINT8_MAX;
+                        return static_cast<IntType>(UINT8_MAX);
                     case 2:
                         return static_cast<IntType>(UINT16_MAX);
                     case 3:
@@ -169,7 +177,7 @@ namespace Binary
                 switch (IntSize)
                 {
                     case 1:
-                        return INT8_MAX;
+                        return static_cast<IntType>(INT8_MAX);
                     case 2:
                         return static_cast<IntType>(INT16_MAX);
                     case 3:
@@ -199,20 +207,36 @@ namespace Binary
 
         /// @brief Sets the value of the field.
         /// @param value The value to set.
+        /// @pre Value must be between MinValue() and MaxValue(), inclusive.
+        /// @post The field's value is set to the specified value.
+        /// @throws std::out_of_range if value is outside of the valid range.
         void SetValue(IntType value)
         {
+            if (value < MinValue() || value > MaxValue())
+            {
+                throw std::out_of_range("Value is out of range.");
+            }
+
             ConvertToBytes(value);
         }
 
         /// @brief Sets the endianness of the field.
         /// @param endianness The endianness to set the field to.
+        /// @post The field raw data bytes are swapped to match new endianness.
         void SetEndianness(FieldEndianness e)
         {
-            // TODO: Test for flip byte order and implement byte flipping code. 
+            if (endianness == e)
+            {
+                return;
+            }
+
+            std::reverse(rawData.get(), rawData.get() + Size());
+
             endianness = e;
         }
 
         /// @brief Sets the field to use the default endianness.
+        /// @post The field raw data bytes are swapped to match new endianness.
         void SetToDefaultEndianness()
         {
             SetEndianness(defaultEndianness);
@@ -236,6 +260,18 @@ namespace Binary
                 return FormatData(format);
         }
 
+        
+        /**
+         * @brief Assignment operator for IntField.
+         *
+         * Copies the value and endianness from another IntField of the same 
+         * type and size. Performs a self-assignment check. After assignment,
+         * this field will have the same value and endianness as the source, 
+         * but remains a distinct object.
+         *
+         * @param other The IntField to copy from.
+         * @return Reference to this IntField after assignment.
+         */
         IntField<IntType, IntSize>& operator=(
             const IntField<IntType, IntSize>& other)
         {

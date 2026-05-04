@@ -101,10 +101,10 @@ namespace Binary
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
-        void SetPosition(size_t position) const override 
-        { 
-            this->position = position; 
-        }
+        /// @pre Position must be between 0 and size, inclusive.
+        /// @post Position is updated to the specified value.
+        /// @throws std::out_of_range if position > size.
+        void SetPosition(size_t position) const override;
 
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.
