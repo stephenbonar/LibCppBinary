@@ -57,16 +57,16 @@ namespace Binary
         /// @copydoc DataField::Size
         size_t Size() const override { return size; }
 
-        /// @copydoc DataField::RawData
+        /// @copydoc DataField::RawData()
         char* RawData() override { return rawData.get(); }
 
-        /// @copydoc DataField::RawData
+        /// @copydoc DataField::RawData() const
         const char* RawData() const override { return rawData.get(); }
 
-        /// @copydoc DataField::ToString
+        /// @copydoc DataField::ToString() const
         std::string ToString() const override;
 
-        /// @copydoc DataField::ToString
+        /// @copydoc DataField::ToString(StringFormat) const
         std::string ToString(StringFormat format) const override;
 
         /// @brief Assignment operator for RawField.

@@ -58,11 +58,11 @@ namespace Binary
         virtual void Read(DataStructure* structure) const = 0;
 
         /// @brief Finds the next chunk header with the specified ID.
-        /// @param ID The ID of the chunk to find.
+        /// @param id The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
-        /// @pre ID must be exactly 4 characters long.
+        /// @pre id must be exactly 4 characters long.
         /// @post Position is advanced to the beginning of found chunk header.
-        /// @throws std::invalid_argument if ID is not 4 characters long.
+        /// @throws std::invalid_argument if id is not 4 characters long.
         virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const
             = 0;
 

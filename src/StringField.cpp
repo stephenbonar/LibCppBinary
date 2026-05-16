@@ -1,4 +1,4 @@
-// StringField.h - Defines the StringField class.
+// StringField.cpp - Defines the StringField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

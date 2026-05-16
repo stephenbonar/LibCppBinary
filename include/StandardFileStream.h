@@ -80,30 +80,30 @@ namespace Binary
             position = 0;
         }
 
-        /// @copydoc Stream::Read
+        /// @copydoc Stream::Read(DataField*) const
         virtual void Read(DataField* field) const override;
 
-        /// @copydoc Stream::Read
+        /// @copydoc Stream::Read(DataStructure*) const
         virtual void Read(DataStructure* structure) const override;
 
         /// @copydoc Stream::FindNextChunk
         virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const
             override;
 
-        /// @copydoc Stream::Write
+        /// @copydoc Stream::Write(const DataField*)
         virtual void Write(const DataField* field) override;
 
-        /// @copydoc Stream::Write
+        /// @copydoc Stream::Write(const DataStructure*)
         virtual void Write(const DataStructure* structure) override;
 
         /// @copydoc Stream::Position
         virtual size_t Position() const override { return position; }
 
         /// @copydoc Stream::SetPosition
-        virtual void SetPosition(size_t p) const override
+        virtual void SetPosition(size_t position) const override
         {
-            position = p;
-            fileStream.seekg(p);
+            this->position = position;
+            fileStream.seekg(position);
         }
 
         /// @copydoc Stream::Beginning

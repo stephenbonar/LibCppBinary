@@ -46,7 +46,9 @@ namespace Binary
         /// derivatives for reading the fields from and to those streams.
         /// Access the fields directly rather than via this method.
         ///
-        /// @return The vector containing the raw pointers for the field.
+        /// @return A vector containing raw pointers to fields owned by this
+        /// structure.
+        /// @post Returned pointers remain valid while this structure exists.
         virtual std::vector<DataField*> Fields() = 0;
 
         /// @brief Provides a vector of read-only raw pointers to the fields.
@@ -55,7 +57,9 @@ namespace Binary
         /// derivatives for reading the fields from and to those streams.
         /// Access the fields directly rather than via this method.
         ///
-        /// @return The vector containing the raw pointers for the field.
+        /// @return A vector containing read-only raw pointers to fields owned
+        /// by this structure.
+        /// @post Returned pointers remain valid while this structure exists.
         virtual std::vector<const DataField*> Fields() const = 0;
 
         /// @brief Gets the total size of all fields in the structure.

@@ -68,7 +68,9 @@ namespace Binary
         /// the data if the other field is smaller than this one.
         ///
         /// @param other A pointer to the other DataField to copy the data to.
+        /// @pre Other must not be null.
         /// @post The raw data from this field is copied to the other field.
+        /// @throws std::invalid_argument if other is null.
         virtual void CopyRawDataTo(DataField* other);
 
         /// @brief Converts the field's data to a string representation.

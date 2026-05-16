@@ -1,4 +1,4 @@
-// IntField.h - Defines the IntField class.
+// IntField.cpp - Defines the IntField class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

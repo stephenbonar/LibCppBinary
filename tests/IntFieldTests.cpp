@@ -29,7 +29,7 @@ TEST_F(IntFieldTests, ProperlyDetectsSystemEndianness)
     // Get a pointer to the raw bytes of the value.
     char* testValuePtr = reinterpret_cast<char*>(&testValue);
 
-    // If the first byte is the list significant byte, then we know we're
+    // If the first byte is the least significant byte, then we know we're
     // running on a little endian system. Check for little endian, otherwise
     // if we're running big endian, check for big.
     if (testValuePtr[0] == 1)

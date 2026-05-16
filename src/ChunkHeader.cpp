@@ -1,4 +1,4 @@
-// ChunkHeader.h - Defines the ChunkHeader struct.
+// ChunkHeader.cpp - Defines the ChunkHeader struct.
 //
 // Copyright (C) 2026 Stephen Bonar
 //

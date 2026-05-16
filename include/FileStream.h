@@ -1,4 +1,4 @@
-// Stream.h - Declares the FileStream class.
+// FileStream.h - Declares the FileStream class.
 //
 // Copyright (C) 2026 Stephen Bonar
 //
@@ -50,6 +50,9 @@ namespace Binary
 
         /// @brief Gets the size of the file associated with the stream.
         /// @return The size of the file, in bytes.
+        /// @throws std::overflow_error if file size exceeds size_t limits.
+        /// @throws std::filesystem::filesystem_error if file size cannot be
+        /// determined.
         virtual size_t FileSize() const = 0;
         
         /// @brief Determines the mode the file is set to open in.
@@ -58,9 +61,16 @@ namespace Binary
 
         /// @brief Opens the file in the specified mode.
         /// @param mode The mode to open the file in.
+        /// @pre File path is set to a valid path for the implementation.
+        /// @post If successful, the stream is open in the specified mode.
+        /// @throws std::runtime_error or implementation-specific exceptions if
+        /// the file cannot be opened.
         virtual void Open(FileMode mode) = 0;
 
-        /// @brief Closes the file. 
+        /// @brief Closes the file.
+        /// @post The stream is closed.
+        /// @throws std::runtime_error or implementation-specific exceptions if
+        /// the file cannot be closed.
         virtual void Close() = 0;
     };
 }

@@ -58,9 +58,9 @@ namespace Binary
     /// (UInt8Field, Int8Field, UInt16Field, Int16Field, UInt24Field, 
     /// Int24Field, UInt32Field, Int32Field, UInt64Field, Int64Field) to read
     /// or write these types of fields from and to a Binary::Stream, such as a
-    /// Binary::DataFileStream.
+    /// Binary::StandardFileStream.
     ///
-    /// @invariant Inital value is initialized either to 0 or a specified value.
+    /// @invariant Initial value is initialized either to 0 or a specified value.
     /// @invariant Size of the underlying data is always equal to IntSize.
     /// @invariant The int value is always stored in the current endianness.
     /// @invariant The int value is between MinValue() and MaxValue() inclusive.
@@ -77,7 +77,7 @@ namespace Binary
         }
 
         /// @brief Constructor; creates a new instance of IntField.
-        /// @param value The value to initalize the field to.
+        /// @param value The value to initialize the field to.
         /// @pre Value must be between MinValue() and MaxValue(), inclusive.
         /// @post The field is initialized to the specified value.
         /// @throws std::out_of_range if value is outside of the valid range.
@@ -221,7 +221,7 @@ namespace Binary
         }
 
         /// @brief Sets the endianness of the field.
-        /// @param endianness The endianness to set the field to.
+        /// @param e The endianness to set the field to.
         /// @post The field raw data bytes are swapped to match new endianness.
         void SetEndianness(FieldEndianness e)
         {

@@ -83,7 +83,7 @@ TEST_F(RawFieldTests, FormatsStringPrintableProperly)
     // Non-printable control code to replace with '.'.
     field.RawData()[3] = 1;
 
-    // Extended ASCII character to replace wilth '.'.
+    // Extended ASCII character to replace with '.'.
     field.RawData()[4] = -1;
 
     EXPECT_EQ(field.ToString(Binary::StringFormat::Printable), "TST..");

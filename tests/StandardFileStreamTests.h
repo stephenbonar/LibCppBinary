@@ -14,8 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef RAW_FILE_TESTS_H
-#define RAW_FILE_TESTS_H
+#ifndef STANDARD_FILE_STREAM_TESTS_H
+#define STANDARD_FILE_STREAM_TESTS_H
 
 #include <filesystem>
 #include <fstream>
