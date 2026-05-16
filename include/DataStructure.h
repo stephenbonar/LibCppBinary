@@ -49,6 +49,15 @@ namespace Binary
         /// @return The vector containing the raw pointers for the field.
         virtual std::vector<DataField*> Fields() = 0;
 
+        /// @brief Provides a vector of read-only raw pointers to the fields.
+        ///
+        /// This method is primarily intended for use by Binary::Stream and its
+        /// derivatives for reading the fields from and to those streams.
+        /// Access the fields directly rather than via this method.
+        ///
+        /// @return The vector containing the raw pointers for the field.
+        virtual std::vector<const DataField*> Fields() const = 0;
+
         /// @brief Gets the total size of all fields in the structure.
         /// @return The total size of the structure.
         virtual size_t Size() const = 0;

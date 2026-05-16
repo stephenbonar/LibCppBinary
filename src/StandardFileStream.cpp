@@ -46,7 +46,9 @@ void StandardFileStream::Open(FileMode m)
 void StandardFileStream::Read(DataField* field) const
 {
     if (!IsOpen())
+    {
         throw std::runtime_error{ "You must open the file before reading." };
+    }
 
     fileStream.read(field->RawData(), field->Size());
     position += field->Size();
@@ -55,45 +57,60 @@ void StandardFileStream::Read(DataField* field) const
 void StandardFileStream::Read(DataStructure* structure) const
 {
     for (DataField* field : structure->Fields())
+    {
         Read(field);
+    }
 }
 
 std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
     const
 {
     bool chunkFound{ false };
-    int byteMatchIndex{ 0 };
-    size_t tempPosition{ position };
+    int idIndex{ 0 };
+    size_t searchPosition{ position };
 
-    if (id.size() != 4)
-        throw std::invalid_argument{ "ID should be 4 characters long." };
+    if (id.size() != chunkIDSize)
+    {
+        throw std::invalid_argument{ chunkIDSizeError };
+    }
 
     if (!IsOpen())
+    {
         throw std::runtime_error{ "You must open the file before reading." };
+    }
       
     fileStream.seekg(position);
 
     while (!fileStream.eof() && !chunkFound)
     {
-        char nextByte{ 0 };
-        fileStream.get(nextByte);
-        tempPosition++;
+        char currentByte{ 0 };
+        fileStream.get(currentByte);
+        searchPosition++;
 
-        if (nextByte == id[byteMatchIndex])
+        // Check if the current byte matches the ID character at the current ID
+        // index so we know if we have a potential match.
+        if (currentByte == id[idIndex])
         {
-            byteMatchIndex++;
+            idIndex++;
 
-            if (byteMatchIndex == 4)
+            // If we've got this far and the ID index is equal to the chunk ID 
+            // size, then we've found a matching chunk header.
+            if (idIndex == chunkIDSize)
             {
-                tempPosition -= 4;
-                fileStream.seekg(tempPosition);
-                position = tempPosition;
+                // Return to the original position in the file now that we've
+                // found the chunk header so we can read the header.
+                searchPosition -= chunkIDSize;
+                fileStream.seekg(searchPosition);
+                position = searchPosition;
+
                 chunkFound = true;
             }
         }
         else
         {
-            byteMatchIndex = 0;
+            // There's a mismatch so we need to start looking at the ID for
+            // matching characters at the beginning again.
+            idIndex = 0;
         }
     }
 
@@ -110,25 +127,48 @@ std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
     }
 }
 
-void StandardFileStream::Write(DataField* field)
+void StandardFileStream::Write(const DataField* field)
 {
     if (!IsOpen())
+    {
         throw std::runtime_error{ "You must open the file before writing." };
+    }
         
     fileStream.write(field->RawData(), field->Size());
     position += field->Size();
 }
 
-void StandardFileStream::Write(DataStructure* structure)
+void StandardFileStream::Write(const DataStructure* structure)
 {
     if (!IsOpen())
+    {
         throw std::runtime_error{ "You must open the file before writing." };
+    }
 
-    std::vector<DataField*> fields = structure->Fields();
+    std::vector<const DataField*> fields = structure->Fields();
 
     for (size_t i = 0; i < fields.size(); i++)
     {
         fileStream.write(fields[i]->RawData(), fields[i]->Size());
         position += fields[i]->Size();
     }
+}
+
+size_t StandardFileStream::FileSize() const
+{
+    uintmax_t fileSize{ std::filesystem::file_size(filePath) };
+    unsigned long long fileSizeLimit
+    { 
+        std::numeric_limits<size_t>::max() 
+    };
+
+    if (fileSize > fileSizeLimit)
+    {
+        std::stringstream error;
+        error << "File size exceeds limit of " << fileSizeLimit;
+        error << " bytes.";
+        throw std::overflow_error{ error.str() };
+    }
+        
+    return static_cast<size_t>(fileSize); 
 }

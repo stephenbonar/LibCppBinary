@@ -27,6 +27,9 @@ namespace Binary
 {
     /// @brief The size of the chunk ID field, in bytes.
     inline constexpr int chunkIDSize{ 4 };
+
+    /// @brief Error message for invalid chunk ID size.
+    extern const char* chunkIDSizeError;
     
     /// @brief Represents the header of a binary data chunk.
     struct ChunkHeader : public DataStructure
@@ -37,22 +40,19 @@ namespace Binary
         /// @brief The size of the chunk's data.
         UInt32Field dataSize;
 
-        /// @brief Provides a vector of raw pointers to the structure's fields.
-        ///
-        /// This method is primarily intended for use by Binary::Stream and its
-        /// derivatives for reading the fields from and to those streams.
-        /// Access the fields directly rather than via this method.
-        ///
-        /// @return The vector containing the raw pointers for the field.
+        /// @copydoc DataStructure::Fields
         std::vector<DataField*> Fields() override;
 
-        /// @brief Gets the total size of all fields in the structure.
-        /// @return The total size of the structure.
+        /// @copydoc DataStructure::Fields
+        std::vector<const DataField*> Fields() const override;
+
+        /// @copydoc DataStructure::Size
         size_t Size() const override;
         
         /// @brief Assignment operator for ChunkHeader.
         ///
         /// Copies the values of all fields from another ChunkHeader instance.
+        ///
         /// @param other The ChunkHeader to copy from.
         /// @return Reference to this ChunkHeader after assignment.
         ChunkHeader& operator=(const ChunkHeader& other);

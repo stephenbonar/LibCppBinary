@@ -28,7 +28,7 @@ namespace Binary
     ///
     /// Binary files can sometimes still contain text fields or strings. Use
     /// the string field to read or write these types of fields from and to
-    /// a Binary::Stream, such as a Binary::DataFileStream.
+    /// a Binary::Stream, such as a Binary::FileStream.
     class StringField : public RawField
     {
     public:
@@ -66,21 +66,21 @@ namespace Binary
         /// @param value The string to set the field's value to.
         void SetValue(std::string value);
 
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc DataField::ToString
         std::string ToString() const override
         {
             return RawField::ToString(StringFormat::Terminated);
         }
 
-        /// @brief Converts the field's data to a string representation.
-        /// @param format The format to use for the string conversion.
-        /// @return A string representation of the field's data.
+        /// @copydoc DataField::ToString
         std::string ToString(StringFormat format) const override
         {
             return RawField::ToString(format);
         }
 
+        /// @brief Assignment operator for StringField.
+        /// @param other The StringField to copy from.
+        /// @return Reference to this StringField after assignment.
         StringField& operator=(const StringField& other);
     };
 }

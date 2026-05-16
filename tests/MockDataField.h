@@ -28,6 +28,7 @@ class MockDataField : public DataField
 public:
     MOCK_METHOD(size_t, Size, (), (const, override));
     MOCK_METHOD(char*, RawData, (), (override));
+    MOCK_METHOD(const char*, RawData, (), (const, override));
     MOCK_METHOD(std::string, ToString, (), (const, override));
     MOCK_METHOD(std::string, ToString, (StringFormat format), (const, override));
 };

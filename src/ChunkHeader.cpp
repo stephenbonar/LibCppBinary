@@ -18,9 +18,22 @@
 
 using namespace Binary;
 
+const char* Binary::chunkIDSizeError
+{ 
+    "Chunk ID must be exactly 4 characters long." 
+};
+
 std::vector<DataField*> ChunkHeader::Fields()
 {
     std::vector<DataField*> fields;
+    fields.push_back(&id);
+    fields.push_back(&dataSize);
+    return fields;
+}
+
+std::vector<const DataField*> ChunkHeader::Fields() const
+{
+    std::vector<const DataField*> fields;
     fields.push_back(&id);
     fields.push_back(&dataSize);
     return fields;

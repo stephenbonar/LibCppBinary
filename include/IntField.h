@@ -242,16 +242,13 @@ namespace Binary
             SetEndianness(defaultEndianness);
         }
 
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc DataField::ToString
         std::string ToString() const override
         {
             return std::to_string(Value());
         }
 
-        /// @brief Converts the field's data to a string representation.
-        /// @param format The format to use for the string conversion.
-        /// @return A string representation of the field's data.
+        /// @copydoc DataField::ToString
         std::string ToString(StringFormat format) const override
         {
             if (format == StringFormat::Dec)
@@ -260,18 +257,15 @@ namespace Binary
                 return FormatData(format);
         }
 
-        
-        /**
-         * @brief Assignment operator for IntField.
-         *
-         * Copies the value and endianness from another IntField of the same 
-         * type and size. Performs a self-assignment check. After assignment,
-         * this field will have the same value and endianness as the source, 
-         * but remains a distinct object.
-         *
-         * @param other The IntField to copy from.
-         * @return Reference to this IntField after assignment.
-         */
+        /// @brief Assignment operator for IntField.
+        ///
+        /// Copies the value and endianness from another IntField of the same 
+        /// type and size. Performs a self-assignment check. After assignment,
+        /// this field will have the same value and endianness as the source, 
+        /// but remains a distinct object.
+        ///
+        /// @param other The IntField to copy from.
+        /// @return Reference to this IntField after assignment.
         IntField<IntType, IntSize>& operator=(
             const IntField<IntType, IntSize>& other)
         {

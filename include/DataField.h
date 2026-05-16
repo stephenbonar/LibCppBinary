@@ -53,12 +53,22 @@ namespace Binary
         /// @return A raw pointer to the data.
         virtual char* RawData() = 0;
 
+        /// @brief Provides access to the field's raw data via const pointer.
+        ///
+        /// Provides read-only access to the raw data stored in the field. Note 
+        /// that this class should manage the lifecycle of the data, so do not 
+        /// attempt to deallocate the memory behind the pointer manually.
+        ///
+        /// @return A raw pointer to the data. 
+        virtual const char* RawData() const = 0;
+
         /// @brief Copies the raw data to another DataField.
         ///
         /// This method copies the raw data to another DataField, truncating
         /// the data if the other field is smaller than this one.
         ///
         /// @param other A pointer to the other DataField to copy the data to.
+        /// @post The raw data from this field is copied to the other field.
         virtual void CopyRawDataTo(DataField* other);
 
         /// @brief Converts the field's data to a string representation.

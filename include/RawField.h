@@ -35,7 +35,13 @@ namespace Binary
     /// Binary files can sometimes contain data fields that need to be read or
     /// written without respect to its interpretation. Use the RawField to read
     /// or write data without a specific interpretation from or to a
-    /// Binary::Stream, such as a Binary::DataFileStream.
+    /// Binary::Stream, such as a Binary::FileStream. More specialized field
+    /// types should inherit from this class as it provides a lot of the basic
+    /// functionality for managing the raw data.
+    ///
+    /// @invariant The size of the field is greater than 0.
+    /// @invariant Data is stored in char buffer equal to the size of the field.
+    /// @invariant Copying and assignment are deep copies of the field's data.
     class RawField : public DataField
     {
     public:
@@ -48,28 +54,27 @@ namespace Binary
         /// @param other The field to copy.
         RawField(const RawField& other);
 
-        /// @brief Gets the size of the data in the field.
-        /// @return The size of the data in the field, in bytes.
+        /// @copydoc DataField::Size
         size_t Size() const override { return size; }
 
-        /// @brief Provides access to the field's data via raw pointer.
-        ///
-        /// Provides access to the raw data stored in the field. Note that this
-        /// class should manage the lifecylce of the data, so do not attempt to
-        /// deallocate the memory behind the pointer manually.
-        ///
-        /// @return A raw pointer to the data.
+        /// @copydoc DataField::RawData
         char* RawData() override { return rawData.get(); }
 
-        /// @brief Converts the field's data to a string representation.
-        /// @return A string representation of the field's data.
+        /// @copydoc DataField::RawData
+        const char* RawData() const override { return rawData.get(); }
+
+        /// @copydoc DataField::ToString
         std::string ToString() const override;
 
-        /// @brief Converts the field's data to a string representation.
-        /// @param format The format to use for the string conversion.
-        /// @return A string representation of the field's data.
+        /// @copydoc DataField::ToString
         std::string ToString(StringFormat format) const override;
 
+        /// @brief Assignment operator for RawField.
+        ///
+        /// Copies the size and data from another RawField instance.
+        ///
+        /// @param other The RawField to copy from.
+        /// @return Reference to this RawField after assignment.
         RawField& operator=(const RawField& other);
     protected:
         size_t size;

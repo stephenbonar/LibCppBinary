@@ -39,25 +39,52 @@ namespace Binary
 
         /// @brief Reads data from the stream into the specified field.
         /// @param field A pointer to the field to read data into.
+        /// @pre Field must not be null.
+        /// @pre Field size must be <= remaining buffer size.
+        /// @post Position is advanced by field size.
+        /// @post Specified field is updated with the data read from the buffer.
+        /// @throws std::out_of_range if field size > remaining buffer size.
+        /// @throws std::invalid_argument if field is null.
         virtual void Read(DataField* field) const = 0;
 
         /// @brief Reads data from stream into the specified data structure.
-        /// @param field A pointer to the data structure to read data into.
+        /// @param structure A pointer to the data structure to read data into.
+        /// @pre Structure must not be null.
+        /// @pre Structure size must be <= remaining buffer size.
+        /// @post Position is advanced by structure size.
+        /// @post Specified structure is updated with the data read from buffer.
+        /// @throws std::out_of_range if structure size > remaining buffer size.
+        /// @throws std::invalid_argument if structure is null.
         virtual void Read(DataStructure* structure) const = 0;
 
         /// @brief Finds the next chunk header with the specified ID.
-        /// @param chunkID The ID of the chunk to find.
+        /// @param ID The ID of the chunk to find.
         /// @return A pointer to the chunk header if found, otherwise nullptr.
+        /// @pre ID must be exactly 4 characters long.
+        /// @post Position is advanced to the beginning of found chunk header.
+        /// @throws std::invalid_argument if ID is not 4 characters long.
         virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const
             = 0;
 
         /// @brief Writes data to the stream from the specified field.
         /// @param field A pointer to the field to write to the stream.
-        virtual void Write(DataField* field) = 0;
+        /// @pre Field must not be null.
+        /// @pre Field size must be <= remaining buffer size.
+        /// @post Position is advanced by field size.
+        /// @post Buffer is updated with the data from the specified field.
+        /// @throws std::out_of_range if field size > remaining buffer size.
+        /// @throws std::invalid_argument if field is null.
+        virtual void Write(const DataField* field) = 0;
 
         /// @brief Writes the specified structure to the stream.
         /// @param structure A pointer to the structure to write to the stream.
-        virtual void Write(DataStructure* structure) = 0;
+        /// @pre Structure must not be null.
+        /// @pre Structure size must be <= remaining buffer size.
+        /// @post Position is advanced by structure size.
+        /// @post Buffer is updated with the data from the specified structure.
+        /// @throws std::out_of_range if structure size > remaining buffer size.
+        /// @throws std::invalid_argument if structure is null.
+        virtual void Write(const DataStructure* structure) = 0;
 
         /// @brief Gets the current position in the stream.
         /// @return A size_t representing the position.
@@ -65,6 +92,9 @@ namespace Binary
 
         /// @brief Sets the current position in the stream.
         /// @param position The position value to set.
+        /// @pre Position must be between 0 and size, inclusive.
+        /// @post Position is updated to the specified value.
+        /// @throws std::out_of_range if position > size.
         virtual void SetPosition(size_t position) const = 0;
         
         /// @brief Gets the beginning position of the file.

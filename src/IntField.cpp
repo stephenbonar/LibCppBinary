@@ -22,7 +22,7 @@ Binary::FieldEndianness Binary::defaultEndianness =
 Binary::FieldEndianness Binary::GetSystemEndianness()
 {
     // Setting the value to 1 will make the least significant byte 1.
-    int testValue = 1;
+    int testValue{ 1 };
 
     // Get pointer to the raw bytes of testValue so we can check byte order.
     char* testValuePtr = reinterpret_cast<char*>(&testValue);

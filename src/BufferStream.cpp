@@ -51,9 +51,7 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
 {
     if (id.size() != chunkIDSize)
     {
-        throw std::invalid_argument("Chunk ID must be exactly " +
-                                    std::to_string(chunkIDSize) + 
-                                    " characters.");
+        throw std::invalid_argument(chunkIDSizeError);
     }
 
     bool idFound{ false };
@@ -105,7 +103,7 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
     return nullptr;
 }
 
-void BufferStream::Write(DataField* field)
+void BufferStream::Write(const DataField* field)
 {
     if (field == nullptr)
     {
@@ -121,14 +119,14 @@ void BufferStream::Write(DataField* field)
     position += field->Size();
 }
 
-void BufferStream::Write(DataStructure* structure)
+void BufferStream::Write(const DataStructure* structure)
 {
     if (structure == nullptr)
     {
         throw std::invalid_argument("The specified structure cannot be null.");
     }
 
-    for (DataField* field : structure->Fields())
+    for (const DataField* field : structure->Fields())
     {
         Write(field);
     }
