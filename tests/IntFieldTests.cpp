@@ -484,5 +484,58 @@ TEST_F(IntFieldTests, SetEndiannessDoesNotChangeRawDataWhenUnchanged)
     EXPECT_EQ(static_cast<uint8_t>(field.RawData()[0]), byte0);
     EXPECT_EQ(static_cast<uint8_t>(field.RawData()[1]), byte1);
     EXPECT_EQ(static_cast<uint8_t>(field.RawData()[2]), byte2);
+
+}
+
+// IntField<int64_t, N> for N = 5, 6, 7 are the only signed types where
+// sizeof(IntType) > IntSize, which triggers SignExtend during read-back of
+// negative values. These tests exercise that path with both endiannesses.
+
+TEST_F(IntFieldTests, SignExtendInt40NegativeMinLittleEndian)
+{
+    Binary::IntField<int64_t, 5> field{ Binary::FieldEndianness::Little };
+    int64_t minVal = Binary::int40Min;
+    field.SetValue(minVal);
+    EXPECT_EQ(field.Value(), minVal);
+}
+
+TEST_F(IntFieldTests, SignExtendInt40NegativeMinBigEndian)
+{
+    Binary::IntField<int64_t, 5> field{ Binary::FieldEndianness::Big };
+    int64_t minVal = Binary::int40Min;
+    field.SetValue(minVal);
+    EXPECT_EQ(field.Value(), minVal);
+}
+
+TEST_F(IntFieldTests, SignExtendInt48NegativeMinLittleEndian)
+{
+    Binary::IntField<int64_t, 6> field{ Binary::FieldEndianness::Little };
+    int64_t minVal = Binary::int48Min;
+    field.SetValue(minVal);
+    EXPECT_EQ(field.Value(), minVal);
+}
+
+TEST_F(IntFieldTests, SignExtendInt48NegativeMinBigEndian)
+{
+    Binary::IntField<int64_t, 6> field{ Binary::FieldEndianness::Big };
+    int64_t minVal = Binary::int48Min;
+    field.SetValue(minVal);
+    EXPECT_EQ(field.Value(), minVal);
+}
+
+TEST_F(IntFieldTests, SignExtendInt56NegativeMinLittleEndian)
+{
+    Binary::IntField<int64_t, 7> field{ Binary::FieldEndianness::Little };
+    int64_t minVal = Binary::int56Min;
+    field.SetValue(minVal);
+    EXPECT_EQ(field.Value(), minVal);
+}
+
+TEST_F(IntFieldTests, SignExtendInt56NegativeMinBigEndian)
+{
+    Binary::IntField<int64_t, 7> field{ Binary::FieldEndianness::Big };
+    int64_t minVal = Binary::int56Min;
+    field.SetValue(minVal);
+    EXPECT_EQ(field.Value(), minVal);
 }
 

@@ -20,27 +20,28 @@
 #include <cstdint>
 #include <limits>
 #include <algorithm>
+#include <type_traits>
 #include "RawField.h"
 #include "FieldEndianness.h"
-
-// Define the min and max values that are not in the standard library.
-#define INT24_MIN -8388608
-#define INT40_MIN -549755813888
-#define INT48_MIN -140737488355328
-#define INT56_MIN -36028797018963968
-#define UINT24_MAX 16777215
-#define UINT40_MAX 109951162777
-#define UINT48_MAX 281474976710655
-#define UINT56_MAX 72057594037927935
-#define INT24_MAX 8388607
-#define INT40_MAX 549755813887
-#define INT48_MAX 140737488355327
-#define INT56_MAX 36028797018963967
 
 namespace Binary
 {
     /// @brief Used for selecting the least significant byte on little endian.
     constexpr int byteMask{ 0xFF };
+
+    // Min and max values for integer sizes not in the standard library.
+    inline constexpr int64_t int24Min{ -8388608 };
+    inline constexpr int64_t int40Min{ -549755813888 };
+    inline constexpr int64_t int48Min{ -140737488355328 };
+    inline constexpr int64_t int56Min{ -36028797018963968 };
+    inline constexpr uint64_t uint24Max{ 16777215 };
+    inline constexpr uint64_t uint40Max{ 109951162777 };
+    inline constexpr uint64_t uint48Max{ 281474976710655 };
+    inline constexpr uint64_t uint56Max{ 72057594037927935 };
+    inline constexpr int64_t int24Max{ 8388607 };
+    inline constexpr int64_t int40Max{ 549755813887 };
+    inline constexpr int64_t int48Max{ 140737488355327 };
+    inline constexpr int64_t int56Max{ 36028797018963967 };
 
     /// @brief Controls what endianness IntFields are created with by default.
     extern FieldEndianness defaultEndianness;
@@ -130,15 +131,15 @@ namespace Binary
                 case 2:
                     return static_cast<IntType>(INT16_MIN);
                 case 3:
-                    return static_cast<IntType>(INT24_MIN);
+                    return static_cast<IntType>(int24Min);
                 case 4:
                     return static_cast<IntType>(INT32_MIN);
                 case 5:
-                    return static_cast<IntType>(INT40_MIN);
+                    return static_cast<IntType>(int40Min);
                 case 6:
-                    return static_cast<IntType>(INT48_MIN);
+                    return static_cast<IntType>(int48Min);
                 case 7:
-                    return static_cast<IntType>(INT56_MIN);
+                    return static_cast<IntType>(int56Min);
                 case 8:
                     return static_cast<IntType>(INT64_MIN);
             }
@@ -159,15 +160,15 @@ namespace Binary
                     case 2:
                         return static_cast<IntType>(UINT16_MAX);
                     case 3:
-                        return static_cast<IntType>(UINT24_MAX);
+                        return static_cast<IntType>(uint24Max);
                     case 4:
                         return static_cast<IntType>(UINT32_MAX);
                     case 5:
-                        return static_cast<IntType>(UINT40_MAX);
+                        return static_cast<IntType>(uint40Max);
                     case 6:
-                        return static_cast<IntType>(UINT48_MAX);
+                        return static_cast<IntType>(uint48Max);
                     case 7:
-                        return static_cast<IntType>(UINT56_MAX);
+                        return static_cast<IntType>(uint56Max);
                     case 8:
                         return static_cast<IntType>(UINT64_MAX);
                 }
@@ -181,15 +182,15 @@ namespace Binary
                     case 2:
                         return static_cast<IntType>(INT16_MAX);
                     case 3:
-                        return static_cast<IntType>(INT24_MAX);
+                        return static_cast<IntType>(int24Max);
                     case 4:
                         return static_cast<IntType>(INT32_MAX);
                     case 5:
-                        return static_cast<IntType>(INT40_MAX);
+                        return static_cast<IntType>(int40Max);
                     case 6:
-                        return static_cast<IntType>(INT48_MAX);
+                        return static_cast<IntType>(int48Max);
                     case 7:
-                        return static_cast<IntType>(INT56_MAX);
+                        return static_cast<IntType>(int56Max);
                     case 8:
                         return static_cast<IntType>(INT64_MAX);
                 }
@@ -418,7 +419,7 @@ namespace Binary
         }
 
         /// @brief Retrieves the stored big endian value.
-        /// @return The little endian value. 
+        /// @return The big endian value.
         IntType RetrieveBigEndian() const
         {
             bool isNegative = false;
@@ -462,18 +463,21 @@ namespace Binary
         /// @return The sign extended value.
         IntType SignExtend(IntType value) const
         {
-            int valueTotalBytes = sizeof(value);
-            IntType signExtendedValue = value;
-            
+            // Use the unsigned representation of IntType to avoid undefined
+            // behavior when shifting bits into or beyond the sign bit position.
+            using UIntType = typename std::make_unsigned<IntType>::type;
+            UIntType result = static_cast<UIntType>(value);
+
             // Start the loop 1 byte past IntSize as we only need to pad the
             // extra leading bytes.
-            for (int bytes = IntSize + 1; bytes <= valueTotalBytes; bytes++)
+            for (int bytes = IntSize + 1;
+                 bytes <= static_cast<int>(sizeof(IntType)); bytes++)
             {
                 int amountToShift = (bytes - 1) * bitsPerByte;
-                signExtendedValue |= byteMask << amountToShift;
+                result |= static_cast<UIntType>(byteMask) << amountToShift;
             }
 
-            return signExtendedValue;
+            return static_cast<IntType>(result);
         }
 
         /// @brief Converts the retrieved value back into IntType.

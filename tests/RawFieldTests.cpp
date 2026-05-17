@@ -89,6 +89,25 @@ TEST_F(RawFieldTests, FormatsStringPrintableProperly)
     EXPECT_EQ(field.ToString(Binary::StringFormat::Printable), "TST..");
 }
 
+TEST_F(RawFieldTests, FormatsStringPrintableReplacesBoundaryControlChar)
+{
+    Binary::RawField field{ 3 };
+    ASSERT_NE(field.RawData(), nullptr);
+    ASSERT_EQ(field.Size(), 3);
+
+    // Printable space character (32) should be kept.
+    field.RawData()[0] = 32;
+
+    // Unit Separator (31) is a non-printable control character and must be
+    // replaced with '.'.
+    field.RawData()[1] = 31;
+
+    // DEL (127) is non-printable and must be replaced with '.'.
+    field.RawData()[2] = 127;
+
+    EXPECT_EQ(field.ToString(Binary::StringFormat::Printable), " ..");
+}
+
 TEST_F(RawFieldTests, FormatsStringBinProperly)
 {
     Binary::RawField field{ 4 };

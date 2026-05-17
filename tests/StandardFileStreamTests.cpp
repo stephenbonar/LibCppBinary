@@ -313,3 +313,131 @@ TEST_F(StandardFileStreamTests, ReturnsNullptrWhenChunkHeaderNotFound)
 
     EXPECT_EQ(header, nullptr);
 }
+
+TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullFieldRead)
+{
+    Binary::DataField* nullField{ nullptr };
+    Binary::StandardFileStream stream{ testFileName };
+    stream.Open(Binary::FileMode::Read);
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                stream.Read(nullField);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+
+TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullStructureRead)
+{
+    Binary::DataStructure* nullStructure{ nullptr };
+    Binary::StandardFileStream stream{ testFileName };
+    stream.Open(Binary::FileMode::Read);
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                stream.Read(nullStructure);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+
+TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullFieldWrite)
+{
+    Binary::DataField* nullField{ nullptr };
+    Binary::StandardFileStream stream{ testWriteFileName };
+    stream.Open(Binary::FileMode::Write);
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                stream.Write(nullField);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+
+TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullStructureWrite)
+{
+    Binary::DataStructure* nullStructure{ nullptr };
+    Binary::StandardFileStream stream{ testWriteFileName };
+    stream.Open(Binary::FileMode::Write);
+
+    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
+    // std::invalid_argument is properly thrown. A segfault (abnormal
+    // termination) or missing null check (no exception) will fail the test.
+    EXPECT_EXIT(
+        {
+            try
+            {
+                stream.Write(nullStructure);
+                exit(1); // No exception thrown: fail
+            }
+            catch (const std::invalid_argument&)
+            {
+                exit(0); // Correct exception thrown: pass
+            }
+            catch (...)
+            {
+                exit(2); // Wrong exception type: fail
+            }
+        },
+        testing::ExitedWithCode(0),
+        ""
+    );
+}
+
+TEST_F(StandardFileStreamTests, SetPositionThrowsIfGreaterThanFileSize)
+{
+    Binary::StandardFileStream stream{ testFileName };
+
+    size_t positionPastEnd = std::filesystem::file_size(testFileName) + 1;
+    EXPECT_THROW(stream.SetPosition(positionPastEnd), std::out_of_range);
+}

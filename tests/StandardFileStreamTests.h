@@ -25,6 +25,7 @@
 #include "StringField.h"
 #include "RawField.h"
 #include "ChunkHeader.h"
+#include "DataStructure.h"
 
 class StandardFileStreamTests : public ::testing::Test
 {

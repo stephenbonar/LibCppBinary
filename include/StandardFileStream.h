@@ -102,6 +102,12 @@ namespace Binary
         /// @copydoc Stream::SetPosition
         virtual void SetPosition(size_t position) const override
         {
+            if (FileExists() && position > FileSize())
+            {
+                throw std::out_of_range(
+                    "Position cannot be set past end of file.");
+            }
+
             this->position = position;
             fileStream.seekg(position);
         }

@@ -22,7 +22,7 @@ constexpr int bitsPerByte{ 8 };
 constexpr int hexOctetWidth{ 2 };
 constexpr char hexPadCharacter{ '0' };
 constexpr char byteSeparator{ ' ' };
-constexpr int printableAsciiBegin{ 31 };
+constexpr int printableAsciiBegin{ 32 };
 constexpr int printableAsciiEnd{ 126};
 constexpr char nonPrintableReplacement{ '.' };
 

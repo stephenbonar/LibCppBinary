@@ -1,6 +1,6 @@
 # LibCppBinary
 
-LibCppBinary is a cross-platform library for reading and writing binary
+LibCppBinary is a modern, cross-platform library for reading and writing binary
 data through strongly typed fields, structures, and streams.
 
 It provides a small set of composable primitives that make binary file work
