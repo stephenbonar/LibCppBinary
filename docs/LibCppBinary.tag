@@ -310,6 +310,13 @@
   <compound kind="struct">
     <name>Binary::DataStructure</name>
     <filename>struct_binary_1_1_data_structure.html</filename>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~DataStructure</name>
+      <anchorfile>struct_binary_1_1_data_structure.html</anchorfile>
+      <anchor>a7cfa337b64d04a86430949c19c475d19</anchor>
+      <arglist>()=default</arglist>
+    </member>
     <member kind="function" virtualness="pure">
       <type>virtual std::vector&lt; DataField * &gt;</type>
       <name>Fields</name>
