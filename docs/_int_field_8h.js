@@ -1,18 +1,6 @@
 var _int_field_8h =
 [
     [ "Binary::IntField&lt; IntType, IntSize &gt;", "class_binary_1_1_int_field.html", "class_binary_1_1_int_field" ],
-    [ "INT24_MAX", "_int_field_8h.html#a4ade7f65b05984f1f21a8223e70c9fac", null ],
-    [ "INT24_MIN", "_int_field_8h.html#a6e56f9eebea6721ecf9e59d3a5190617", null ],
-    [ "INT40_MAX", "_int_field_8h.html#a1d5e1292753d198ff14d555d09df79c4", null ],
-    [ "INT40_MIN", "_int_field_8h.html#a63755518b86625bbee7b0bffbf6f4f55", null ],
-    [ "INT48_MAX", "_int_field_8h.html#a15422ed997b8fe1562129fa747709e90", null ],
-    [ "INT48_MIN", "_int_field_8h.html#a21cbb6775d993cbecf28075c66197d19", null ],
-    [ "INT56_MAX", "_int_field_8h.html#a95e240324ee7ded78bf9a5554b3d0fbc", null ],
-    [ "INT56_MIN", "_int_field_8h.html#ac05a7fc8b5c65a971000db3e7adb57b9", null ],
-    [ "UINT24_MAX", "_int_field_8h.html#a524c03a0dcf3f58caa7fb8781aa52fe7", null ],
-    [ "UINT40_MAX", "_int_field_8h.html#ae5f39c44cee49e12e29949c71f845833", null ],
-    [ "UINT48_MAX", "_int_field_8h.html#afcc91d3daa7d7b1bd56443646b2b2d00", null ],
-    [ "UINT56_MAX", "_int_field_8h.html#acb420b03e7123e89f442e9396cab7f7c", null ],
     [ "Binary::Int16Field", "namespace_binary.html#a1cd216fa9bdac7ca27e4a92df6540b21", null ],
     [ "Binary::Int24Field", "namespace_binary.html#afb7eb2b1957ceda67d95933166fd2f74", null ],
     [ "Binary::Int32Field", "namespace_binary.html#a962f32c2870693a88f429da9a1ebde0b", null ],
@@ -25,5 +13,17 @@ var _int_field_8h =
     [ "Binary::UInt8Field", "namespace_binary.html#a0fda1fee043991556db5a40b6e5c5416", null ],
     [ "Binary::GetSystemEndianness", "namespace_binary.html#a5c712a0994da3300559c3919952bafb7", null ],
     [ "Binary::byteMask", "namespace_binary.html#a4d163d0e953efbfceced3580309c497f", null ],
-    [ "Binary::defaultEndianness", "namespace_binary.html#aea82ced4744bd2a6198af88907ef0885", null ]
+    [ "Binary::defaultEndianness", "namespace_binary.html#aea82ced4744bd2a6198af88907ef0885", null ],
+    [ "Binary::int24Max", "namespace_binary.html#a7f493b25d07adf6e60c8a9e573b39214", null ],
+    [ "Binary::int24Min", "namespace_binary.html#a4f7193760eac909ae51f753f3e623980", null ],
+    [ "Binary::int40Max", "namespace_binary.html#a80709960f68b659a30d6cb168337b8e0", null ],
+    [ "Binary::int40Min", "namespace_binary.html#aa15107560c1d5fa8f837d576196fc6ba", null ],
+    [ "Binary::int48Max", "namespace_binary.html#a9b5c9e559cf2842ae29c4536d04ba1f6", null ],
+    [ "Binary::int48Min", "namespace_binary.html#a6e30914cf2a2aa73fcb68025e013c687", null ],
+    [ "Binary::int56Max", "namespace_binary.html#a72255defef5fbdef2a33b54ce5dc37dc", null ],
+    [ "Binary::int56Min", "namespace_binary.html#a1e7ee67667e584f7483c4400b331fb1d", null ],
+    [ "Binary::uint24Max", "namespace_binary.html#a77ebc738d3464d7cbb0ea7b0afe37b2f", null ],
+    [ "Binary::uint40Max", "namespace_binary.html#a85ced1737dd7df3cc235065158f95973", null ],
+    [ "Binary::uint48Max", "namespace_binary.html#a5bb07741e904f6c9ce4fce52d1a82ee6", null ],
+    [ "Binary::uint56Max", "namespace_binary.html#a64d4c019bfdda30c08678affee1163f6", null ]
 ];

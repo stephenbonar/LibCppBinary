@@ -1,19 +1,7 @@
 var searchData=
 [
-  ['setendianness_0',['SetEndianness',['../class_binary_1_1_int_field.html#ad8fde53318f02ddc79bdc73b60043a25',1,'Binary::IntField']]],
-  ['setposition_1',['SetPosition',['../class_binary_1_1_buffer_stream.html#ade280275f2b66e7de3ef09c736046469',1,'Binary::BufferStream::SetPosition()'],['../class_binary_1_1_standard_file_stream.html#a172dc79d46a04322ad441c878b940264',1,'Binary::StandardFileStream::SetPosition()'],['../class_binary_1_1_stream.html#aa04b0edd4bd68098aac6b225e5a27e84',1,'Binary::Stream::SetPosition()']]],
-  ['settodefaultendianness_2',['SetToDefaultEndianness',['../class_binary_1_1_int_field.html#a24645d980e4cc27db64c1b74737a84d1',1,'Binary::IntField']]],
-  ['setvalue_3',['SetValue',['../class_binary_1_1_int_field.html#a4d5747edc969cf99b4beff6709656931',1,'Binary::IntField::SetValue()'],['../class_binary_1_1_string_field.html#aac34fb0c20167d7e482700c03671608b',1,'Binary::StringField::SetValue()']]],
-  ['size_4',['Size',['../struct_binary_1_1_chunk_header.html#a9542683da1453551f320126ff41cf282',1,'Binary::ChunkHeader::Size()'],['../class_binary_1_1_data_field.html#a218e6940ddbcd7cdbbd11b8431f422ce',1,'Binary::DataField::Size()'],['../struct_binary_1_1_data_structure.html#a0193d19e2cfff357ceb8c71f73caf4c4',1,'Binary::DataStructure::Size()'],['../class_binary_1_1_raw_field.html#a80c684b1af7f0bdee03f9b2ca71557b5',1,'Binary::RawField::Size() const override']]],
-  ['size_5',['size',['../class_binary_1_1_raw_field.html#a771503096df70e6eba77715224814a50',1,'Binary::RawField']]],
-  ['standardfilestream_6',['StandardFileStream',['../class_binary_1_1_standard_file_stream.html',1,'Binary::StandardFileStream'],['../class_binary_1_1_standard_file_stream.html#a7812e28862b125fcbe800aed14388156',1,'Binary::StandardFileStream::StandardFileStream()']]],
-  ['standardfilestream_2eh_7',['StandardFileStream.h',['../_standard_file_stream_8h.html',1,'']]],
-  ['start_8',['Quick Start',['../index.html#autotoc_md6',1,'']]],
-  ['stream_9',['Stream',['../class_binary_1_1_stream.html',1,'Binary']]],
-  ['stream_2eh_10',['Stream.h',['../_stream_8h.html',1,'']]],
-  ['stringfield_11',['StringField',['../class_binary_1_1_string_field.html',1,'Binary::StringField'],['../class_binary_1_1_string_field.html#a2e6e8224aaa88ecaeae36adde53f34cf',1,'Binary::StringField::StringField(size_t size)'],['../class_binary_1_1_string_field.html#ab7c8d55977b820da58f075e7c801aa98',1,'Binary::StringField::StringField(std::string value)'],['../class_binary_1_1_string_field.html#aacee6c08aed18cec26c5c3b677a9a1b6',1,'Binary::StringField::StringField(const StringField &amp;other)']]],
-  ['stringfield_2eh_12',['StringField.h',['../_string_field_8h.html',1,'']]],
-  ['stringformat_13',['StringFormat',['../namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6',1,'Binary']]],
-  ['stringformat_2eh_14',['StringFormat.h',['../_string_format_8h.html',1,'']]],
-  ['structure_15',['Example: Define a Binary Record Structure',['../index.html#autotoc_md8',1,'']]]
+  ['terminated_0',['Terminated',['../namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6afba9c4daa2dd29d1077d32d965320ac1',1,'Binary']]],
+  ['tests_1',['Run Tests',['../index.html#autotoc_md5',1,'']]],
+  ['the_20library_20in_20your_20project_2',['Including the Library in Your Project',['../index.html#autotoc_md3',1,'']]],
+  ['tostring_3',['ToString',['../class_binary_1_1_data_field.html#a82ed3561f16c76587b258645fa993867',1,'Binary::DataField::ToString() const =0'],['../class_binary_1_1_data_field.html#a9541fd6b38328f2dcf421131f3383c0d',1,'Binary::DataField::ToString(StringFormat format) const =0'],['../class_binary_1_1_int_field.html#a0efb664f4236362fe49124521f0861d8',1,'Binary::IntField::ToString() const override'],['../class_binary_1_1_int_field.html#a53a1c24198655216bf4bbb4c2ccf2562',1,'Binary::IntField::ToString(StringFormat format) const override'],['../class_binary_1_1_raw_field.html#a56de658b29ecf0c54e2a79170470bc25',1,'Binary::RawField::ToString() const override'],['../class_binary_1_1_raw_field.html#a160a787ca4fc11e62d8fc629a87b2c16',1,'Binary::RawField::ToString(StringFormat format) const override'],['../class_binary_1_1_string_field.html#a9421dc492fea77fe53b068a4be4e0bda',1,'Binary::StringField::ToString() const override'],['../class_binary_1_1_string_field.html#ae3418a95a0e3e353e406e7c6b4e4f957',1,'Binary::StringField::ToString(StringFormat format) const override']]]
 ];

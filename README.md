@@ -1,34 +1,59 @@
 # LibCppBinary
 
-LibCppBinary is a modern, cross-platform library for reading and writing binary
-data through strongly typed fields, structures, and streams.
-
-It provides a small set of composable primitives that make binary file work
-predictable and explicit:
-
-- Field types for raw bytes, strings, and integers of multiple sizes
-- Stream abstractions for files and in-memory buffers
-- Data structure support for ordered field serialization
-- Chunk-header support for tagged binary formats
-- String formatting helpers for text output (raw, printable, bin, hex, dec)
+LibCppBinary is a modern, cross-platform C++ library for reading and writing 
+binary data to / from files using the provided field, data structure, and stream
+classes.
 
 ## Features
 
-- `DataField` base abstraction for binary field types
-- `RawField` for fixed-size byte data
-- `StringField` for fixed-size text fields
-- `IntField` template with specializations:
-  - `UInt8Field`, `Int8Field`
-  - `UInt16Field`, `Int16Field`
-  - `UInt24Field`, `Int24Field`
-  - `UInt32Field`, `Int32Field`
-  - `UInt64Field`, `Int64Field`
-- Configurable integer endianness (`FieldEndianness`)
-- `Stream` interface for position-based I/O
-- `StandardFileStream` for binary file I/O
-- `BufferStream` for in-memory binary I/O
-- `DataStructure` interface for grouping ordered fields
-- `ChunkHeader` structure (`id` + `dataSize`) and chunk scanning helpers
+- Binary data field classes allow for easy manipulation of binary data
+  - `Binary::RawField` allows manipulation of fields without interpretation
+  - `Binary::StringField` allows manipulation of string fields
+  - `Binary::IntField` template allows manipulation of integer fields
+    - The following template specializations are available:
+	  - `UInt8Field`
+	  - `Int8Field`
+      - `UInt16Field`
+	  - `Int16Field`
+      - `UInt24Field`
+	  - `Int24Field`
+      - `UInt32Field`
+	  - `Int32Field`
+      - `UInt64Field`
+	  - `Int64Field`
+  - `Binary::DataField` base class allows for future extensibility
+  - IntFields can manipulate both little and big endian formats and convert
+    between the two. By default, IntFields follow the endianness of the platform
+	but can be changed to the opposite endianness as fields in binary files
+	can often differ from the platform the program is running on.
+  - IntFields provide methods that handle the conversion of the raw bytes to
+    native integer types using the correct endianness so you don't have to do
+	the conversions yourself.
+  - All data field classes provide ToString() methods that return a text 
+    representation of the binary data in an appropriate default format but
+	a specific format can be specified. Possible formats include:
+	  - `Terminated` : Formats as null-terminated string
+      - `Raw`        : Formats the string data "as-is" using the bytes.
+      - `Printable`  : Replaces any non-printable chars with a space.
+      - `Bin`        : Binary representation in 1s and 0s.
+	  - `Hex`        : Hexadecimal representation.
+	  - `Dec`        : Decimal representation. Only use for int fields.
+  - Binary data structure classes allow you to group binary fields for reading
+    and writing data fields in order as one chunk from / to a file.
+    - The `Binary::DataStructure` base struct allows you to build your own
+	  groupings of `Binary::DataField` objects.
+	- The `Binary::ChunkHeader` data structure allows you to read and write
+	  tagged chunks such as IFF / RIFF tags from media files.
+  - Binary stream classes allow reading and writing from / to files and memory
+    - `Binary::FileStream` allows for reading and writing from / to files. It
+	  is a base class derived from `Binary::Stream` both for extensibility
+	  purposes and so mock file streams can be used with tests.
+    - `Binary::StandardFileStream` is the standard implementation of FileStream.
+	- `Binary::BufferStream` allows for reading / writing data in memory.
+    - `Binary::Stream` base class allows for future extensibility.
+	- All binary stream classes support reading and writing all types that
+	  derive from `Binary::DataField` and `Binary::DataStructure`
+    - All streams support finding chunks and sub-chunks using chunk IDs.
 
 ## Requirements
 
@@ -39,7 +64,40 @@ Test dependencies are fetched automatically by CMake:
 
 - GoogleTest / GoogleMock via `FetchContent`
 
+## Including the Library in Your Project
+
+This library is designed to be included directly into your project rather than
+being built / installed as a dynamic library, although you could do either.
+The easiest way is to add the following to your CMakeLists.txt file in your
+own CMake project:
+
+include(FetchContent)
+FetchContent_Declare(
+    LibCppBinary
+    URL https://github.com/stephenbonar/LibCppBinary/archive/HASH.zip
+)
+
+Where HASH is the SHA hash for the specific commit of the library you want to 
+include, which most likely should be the commit of the most recent stable
+release version of the library. Replace HASH with the specific commit hash you want to use.
+
+You then need to link the library to your project's CMake target by adding this
+line to your CMakeLists.txt:
+
+target_link_libraries(YOUR_TARGET LibCppBinary)
+
+Where YOUR_TARGET is the name of your project's CMake build target.
+
+Finally, to include the library header into your source files:
+
+```cpp
+#include "LibCppBinary.h"
+```
+
 ## Build
+
+If you do want to build the library separately, perhaps to modify it and run the
+tests:
 
 From the repository root:
 
@@ -71,14 +129,6 @@ doxygen Doxyfile
 ```
 
 Generated docs are written under `docs/`.
-
-## Quick Start
-
-### Include the Library
-
-```cpp
-#include "LibCppBinary.h"
-```
 
 ### Example: Define a Binary Record Structure
 
@@ -159,15 +209,6 @@ int main()
 
 	return 0;
 }
-```
-
-## CMake Integration
-
-If LibCppBinary is included as a subdirectory in another CMake project:
-
-```cmake
-add_subdirectory(path/to/LibCppBinary)
-target_link_libraries(your_target PRIVATE LibCppBinary)
 ```
 
 ## Repository Layout

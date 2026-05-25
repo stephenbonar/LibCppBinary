@@ -27,18 +27,16 @@ var NAVTREE =
   [ "LibCppBinary", "index.html", [
     [ "Features", "index.html#autotoc_md1", null ],
     [ "Requirements", "index.html#autotoc_md2", null ],
-    [ "Build", "index.html#autotoc_md3", null ],
-    [ "Run Tests", "index.html#autotoc_md4", null ],
-    [ "Generate API Documentation", "index.html#autotoc_md5", null ],
-    [ "Quick Start", "index.html#autotoc_md6", [
-      [ "Include the Library", "index.html#autotoc_md7", null ],
-      [ "Example: Define a Binary Record Structure", "index.html#autotoc_md8", null ],
-      [ "Example: Write and Read a Record from a File", "index.html#autotoc_md9", null ],
-      [ "Example: Work with In-Memory Binary Data", "index.html#autotoc_md10", null ]
+    [ "Including the Library in Your Project", "index.html#autotoc_md3", null ],
+    [ "Build", "index.html#autotoc_md4", null ],
+    [ "Run Tests", "index.html#autotoc_md5", null ],
+    [ "Generate API Documentation", "index.html#autotoc_md6", [
+      [ "Example: Define a Binary Record Structure", "index.html#autotoc_md7", null ],
+      [ "Example: Write and Read a Record from a File", "index.html#autotoc_md8", null ],
+      [ "Example: Work with In-Memory Binary Data", "index.html#autotoc_md9", null ]
     ] ],
-    [ "CMake Integration", "index.html#autotoc_md11", null ],
-    [ "Repository Layout", "index.html#autotoc_md12", null ],
-    [ "License", "index.html#autotoc_md13", null ],
+    [ "Repository Layout", "index.html#autotoc_md10", null ],
+    [ "License", "index.html#autotoc_md11", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -60,11 +58,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ],
-      [ "File Members", "globals.html", [
-        [ "All", "globals.html", null ],
-        [ "Macros", "globals_defs.html", null ]
-      ] ]
+      [ "File List", "files.html", "files_dup" ]
     ] ]
   ] ]
 ];
@@ -72,7 +66,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_buffer_stream_8h.html",
-"index.html#autotoc_md8"
+"namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6a92640bd72988395b326c888614f8937a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

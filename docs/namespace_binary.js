@@ -42,5 +42,17 @@ var namespace_binary =
     [ "byteMask", "namespace_binary.html#a4d163d0e953efbfceced3580309c497f", null ],
     [ "chunkIDSize", "namespace_binary.html#a14f0bfa3b60617d3575a6440c89b6392", null ],
     [ "chunkIDSizeError", "namespace_binary.html#a52d3edaa4778c6f9e45a11dcc9184b20", null ],
-    [ "defaultEndianness", "namespace_binary.html#aea82ced4744bd2a6198af88907ef0885", null ]
+    [ "defaultEndianness", "namespace_binary.html#aea82ced4744bd2a6198af88907ef0885", null ],
+    [ "int24Max", "namespace_binary.html#a7f493b25d07adf6e60c8a9e573b39214", null ],
+    [ "int24Min", "namespace_binary.html#a4f7193760eac909ae51f753f3e623980", null ],
+    [ "int40Max", "namespace_binary.html#a80709960f68b659a30d6cb168337b8e0", null ],
+    [ "int40Min", "namespace_binary.html#aa15107560c1d5fa8f837d576196fc6ba", null ],
+    [ "int48Max", "namespace_binary.html#a9b5c9e559cf2842ae29c4536d04ba1f6", null ],
+    [ "int48Min", "namespace_binary.html#a6e30914cf2a2aa73fcb68025e013c687", null ],
+    [ "int56Max", "namespace_binary.html#a72255defef5fbdef2a33b54ce5dc37dc", null ],
+    [ "int56Min", "namespace_binary.html#a1e7ee67667e584f7483c4400b331fb1d", null ],
+    [ "uint24Max", "namespace_binary.html#a77ebc738d3464d7cbb0ea7b0afe37b2f", null ],
+    [ "uint40Max", "namespace_binary.html#a85ced1737dd7df3cc235065158f95973", null ],
+    [ "uint48Max", "namespace_binary.html#a5bb07741e904f6c9ce4fce52d1a82ee6", null ],
+    [ "uint56Max", "namespace_binary.html#a64d4c019bfdda30c08678affee1163f6", null ]
 ];

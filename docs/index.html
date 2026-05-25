@@ -93,35 +93,57 @@ $(function(){initNavTree('index.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
-<p>LibCppBinary is a cross-platform library for reading and writing binary data through strongly typed fields, structures, and streams.</p>
-<p>It provides a small set of composable primitives that make binary file work predictable and explicit:</p>
-<ul>
-<li>Field types for raw bytes, strings, and integers of multiple sizes</li>
-<li>Stream abstractions for files and in-memory buffers</li>
-<li>Data structure support for ordered field serialization</li>
-<li>Chunk-header support for tagged binary formats</li>
-<li>String formatting helpers for text output (raw, printable, bin, hex, dec)</li>
-</ul>
+<p>LibCppBinary is a modern, cross-platform C++ library for reading and writing binary data to / from files using the provided field, data structure, and stream classes.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Features</h1>
 <ul>
-<li><span class="tt">DataField</span> base abstraction for binary field types</li>
-<li><span class="tt">RawField</span> for fixed-size byte data</li>
-<li><span class="tt">StringField</span> for fixed-size text fields</li>
-<li><span class="tt">IntField</span> template with specializations:<ul>
-<li><span class="tt">UInt8Field</span>, <span class="tt">Int8Field</span></li>
-<li><span class="tt">UInt16Field</span>, <span class="tt">Int16Field</span></li>
-<li><span class="tt">UInt24Field</span>, <span class="tt">Int24Field</span></li>
-<li><span class="tt">UInt32Field</span>, <span class="tt">Int32Field</span></li>
-<li><span class="tt">UInt64Field</span>, <span class="tt">Int64Field</span></li>
+<li><a class="el" href="namespace_binary.html">Binary</a> data field classes allow for easy manipulation of binary data<ul>
+<li><span class="tt"><a class="el" href="class_binary_1_1_raw_field.html" title="Represents a raw data field in a binary file.">Binary::RawField</a></span> allows manipulation of fields without interpretation</li>
+<li><span class="tt"><a class="el" href="class_binary_1_1_string_field.html" title="Represents a string field in a binary file.">Binary::StringField</a></span> allows manipulation of string fields</li>
+<li><span class="tt"><a class="el" href="class_binary_1_1_int_field.html" title="Represents an integer field in a binary file.">Binary::IntField</a></span> template allows manipulation of integer fields<ul>
+<li>The following template specializations are available:<ul>
+<li><span class="tt">UInt8Field</span></li>
+<li><span class="tt">Int8Field</span></li>
+<li><span class="tt">UInt16Field</span></li>
+<li><span class="tt">Int16Field</span></li>
+<li><span class="tt">UInt24Field</span></li>
+<li><span class="tt">Int24Field</span></li>
+<li><span class="tt">UInt32Field</span></li>
+<li><span class="tt">Int32Field</span></li>
+<li><span class="tt">UInt64Field</span></li>
+<li><span class="tt">Int64Field</span></li>
 </ul>
 </li>
-<li>Configurable integer endianness (<span class="tt">FieldEndianness</span>)</li>
-<li><span class="tt">Stream</span> interface for position-based I/O</li>
-<li><span class="tt">StandardFileStream</span> for binary file I/O</li>
-<li><span class="tt">BufferStream</span> for in-memory binary I/O</li>
-<li><span class="tt">DataStructure</span> interface for grouping ordered fields</li>
-<li><span class="tt">ChunkHeader</span> structure (<span class="tt">id</span> + <span class="tt">dataSize</span>) and chunk scanning helpers</li>
+</ul>
+</li>
+<li><span class="tt"><a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">Binary::DataField</a></span> base class allows for future extensibility</li>
+<li>IntFields can manipulate both little and big endian formats and convert between the two. By default, IntFields follow the endianness of the platform but can be changed to the opposite endianness as fields in binary files can often differ from the platform the program is running on.</li>
+<li>IntFields provide methods that handle the conversion of the raw bytes to native integer types using the correct endianness so you don't have to do the conversions yourself.</li>
+<li>All data field classes provide ToString() methods that return a text representation of the binary data in an appropriate default format but a specific format can be specified. Possible formats include:<ul>
+<li><span class="tt">Terminated</span> : Formats as null-terminated string</li>
+<li><span class="tt">Raw</span> : Formats the string data "as-is" using the bytes.</li>
+<li><span class="tt">Printable</span> : Replaces any non-printable chars with a space.</li>
+<li><span class="tt">Bin</span> : <a class="el" href="namespace_binary.html">Binary</a> representation in 1s and 0s.</li>
+<li><span class="tt">Hex</span> : Hexadecimal representation.</li>
+<li><span class="tt">Dec</span> : Decimal representation. Only use for int fields.</li>
+</ul>
+</li>
+<li><a class="el" href="namespace_binary.html">Binary</a> data structure classes allow you to group binary fields for reading and writing data fields in order as one chunk from / to a file.<ul>
+<li>The <span class="tt"><a class="el" href="struct_binary_1_1_data_structure.html" title="Abstract base struct representing data structure in binary file.">Binary::DataStructure</a></span> base struct allows you to build your own groupings of <span class="tt"><a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">Binary::DataField</a></span> objects.</li>
+<li>The <span class="tt"><a class="el" href="struct_binary_1_1_chunk_header.html" title="Represents the header of a binary data chunk.">Binary::ChunkHeader</a></span> data structure allows you to read and write tagged chunks such as IFF / RIFF tags from media files.</li>
+</ul>
+</li>
+<li><a class="el" href="namespace_binary.html">Binary</a> stream classes allow reading and writing from / to files and memory<ul>
+<li><span class="tt"><a class="el" href="class_binary_1_1_file_stream.html" title="Abstract base class representing a file stream.">Binary::FileStream</a></span> allows for reading and writing from / to files. It is a base class derived from <span class="tt"><a class="el" href="class_binary_1_1_stream.html" title="Abstract base class representing a binary stream.">Binary::Stream</a></span> both for extensibility purposes and so mock file streams can be used with tests.</li>
+<li><span class="tt"><a class="el" href="class_binary_1_1_standard_file_stream.html" title="Provides a standard file stream for manipulating binary files.">Binary::StandardFileStream</a></span> is the standard implementation of FileStream.</li>
+<li><span class="tt"><a class="el" href="class_binary_1_1_buffer_stream.html" title="Represents a memory buffer that can be used as a stream.">Binary::BufferStream</a></span> allows for reading / writing data in memory.</li>
+<li><span class="tt"><a class="el" href="class_binary_1_1_stream.html" title="Abstract base class representing a binary stream.">Binary::Stream</a></span> base class allows for future extensibility.</li>
+<li>All binary stream classes support reading and writing all types that derive from <span class="tt"><a class="el" href="class_binary_1_1_data_field.html" title="Abstract base class representing a data field in a binary file.">Binary::DataField</a></span> and <span class="tt"><a class="el" href="struct_binary_1_1_data_structure.html" title="Abstract base struct representing data structure in binary file.">Binary::DataStructure</a></span></li>
+<li>All streams support finding chunks and sub-chunks using chunk IDs.</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Requirements</h1>
@@ -134,28 +156,34 @@ Requirements</h1>
 <li>GoogleTest / GoogleMock via <span class="tt">FetchContent</span></li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Including the Library in Your Project</h1>
+<p>This library is designed to be included directly into your project rather than being built / installed as a dynamic library, although you could do either. The easiest way is to add the following to your CMakeLists.txt file in your own CMake project:</p>
+<p>include(FetchContent) FetchContent_Declare( LibCppBinary URL <a href="https://github.com/stephenbonar/LibCppBinary/archive/HASH.zip">https://github.com/stephenbonar/LibCppBinary/archive/HASH.zip</a> )</p>
+<p>Where HASH is the SHA hash for the specific commit of the library you want to include, which most likely should be the commit of the most recent stable release version of the library. Replace HASH with the specific commit hash you want to use.</p>
+<p>You then need to link the library to your project's CMake target by adding this line to your CMakeLists.txt:</p>
+<p>target_link_libraries(YOUR_TARGET LibCppBinary)</p>
+<p>Where YOUR_TARGET is the name of your project's CMake build target.</p>
+<p>Finally, to include the library header into your source files:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_lib_cpp_binary_8h.html">LibCppBinary.h</a>&quot;</span></div>
+<div class="ttc" id="a_lib_cpp_binary_8h_html"><div class="ttname"><a href="_lib_cpp_binary_8h.html">LibCppBinary.h</a></div></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Build</h1>
+<p>If you do want to build the library separately, perhaps to modify it and run the tests:</p>
 <p>From the repository root:</p>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
 </div><!-- fragment --><p>The static library target is <span class="tt">LibCppBinary</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Run Tests</h1>
 <div class="fragment"><div class="line">ctest --test-dir build --output-on-failure</div>
 </div><!-- fragment --><p>Or run the test binary directly:</p>
 <div class="fragment"><div class="line">./build/bin/libcppbinarytests</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Generate API Documentation</h1>
 <p>Doxygen configuration is included.</p>
 <div class="fragment"><div class="line">doxygen Doxyfile</div>
 </div><!-- fragment --><p>Generated docs are written under <span class="tt">docs/</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
-Quick Start</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Include the Library</h2>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_lib_cpp_binary_8h.html">LibCppBinary.h</a>&quot;</span></div>
-<div class="ttc" id="a_lib_cpp_binary_8h_html"><div class="ttname"><a href="_lib_cpp_binary_8h.html">LibCppBinary.h</a></div></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Example: Define a Binary Record Structure</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_lib_cpp_binary_8h.html">LibCppBinary.h</a>&quot;</span></div>
 <div class="line"> </div>
@@ -181,11 +209,11 @@ Example: Define a Binary Record Structure</h2>
 <div class="line">};</div>
 <div class="ttc" id="aclass_binary_1_1_raw_field_html_a80c684b1af7f0bdee03f9b2ca71557b5"><div class="ttname"><a href="class_binary_1_1_raw_field.html#a80c684b1af7f0bdee03f9b2ca71557b5">Binary::RawField::Size</a></div><div class="ttdeci">size_t Size() const override</div><div class="ttdoc">Gets the size of the data in the field.</div><div class="ttdef"><b>Definition</b> RawField.h:58</div></div>
 <div class="ttc" id="aclass_binary_1_1_string_field_html"><div class="ttname"><a href="class_binary_1_1_string_field.html">Binary::StringField</a></div><div class="ttdoc">Represents a string field in a binary file.</div><div class="ttdef"><b>Definition</b> StringField.h:33</div></div>
-<div class="ttc" id="anamespace_binary_html_a4a791dba48613098c4d2f35be9a6bfaa"><div class="ttname"><a href="namespace_binary.html#a4a791dba48613098c4d2f35be9a6bfaa">Binary::UInt32Field</a></div><div class="ttdeci">IntField&lt; uint32_t, 4 &gt; UInt32Field</div><div class="ttdoc">Represents an unsigned 32-bit integer field in a binary file.</div><div class="ttdef"><b>Definition</b> IntField.h:519</div></div>
+<div class="ttc" id="anamespace_binary_html_a4a791dba48613098c4d2f35be9a6bfaa"><div class="ttname"><a href="namespace_binary.html#a4a791dba48613098c4d2f35be9a6bfaa">Binary::UInt32Field</a></div><div class="ttdeci">IntField&lt; uint32_t, 4 &gt; UInt32Field</div><div class="ttdoc">Represents an unsigned 32-bit integer field in a binary file.</div><div class="ttdef"><b>Definition</b> IntField.h:523</div></div>
 <div class="ttc" id="astruct_binary_1_1_data_structure_html"><div class="ttname"><a href="struct_binary_1_1_data_structure.html">Binary::DataStructure</a></div><div class="ttdoc">Abstract base struct representing data structure in binary file.</div><div class="ttdef"><b>Definition</b> DataStructure.h:42</div></div>
 <div class="ttc" id="astruct_binary_1_1_data_structure_html_a0193d19e2cfff357ceb8c71f73caf4c4"><div class="ttname"><a href="struct_binary_1_1_data_structure.html#a0193d19e2cfff357ceb8c71f73caf4c4">Binary::DataStructure::Size</a></div><div class="ttdeci">virtual size_t Size() const =0</div><div class="ttdoc">Gets the total size of all fields in the structure.</div></div>
 <div class="ttc" id="astruct_binary_1_1_data_structure_html_a1eaabe7e15fd760a9b18787617f17ff3"><div class="ttname"><a href="struct_binary_1_1_data_structure.html#a1eaabe7e15fd760a9b18787617f17ff3">Binary::DataStructure::Fields</a></div><div class="ttdeci">virtual std::vector&lt; DataField * &gt; Fields()=0</div><div class="ttdoc">Provides a vector of raw pointers to the structure&#39;s fields.</div></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Example: Write and Read a Record from a File</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_lib_cpp_binary_8h.html">LibCppBinary.h</a>&quot;</span></div>
 <div class="line"> </div>
@@ -214,7 +242,7 @@ Example: Write and Read a Record from a File</h2>
 <div class="ttc" id="aclass_binary_1_1_standard_file_stream_html_a82f4c11c37496f5e71a8404e0a785c44"><div class="ttname"><a href="class_binary_1_1_standard_file_stream.html#a82f4c11c37496f5e71a8404e0a785c44">Binary::StandardFileStream::Close</a></div><div class="ttdeci">virtual void Close() override</div><div class="ttdoc">Closes the file.</div><div class="ttdef"><b>Definition</b> StandardFileStream.h:77</div></div>
 <div class="ttc" id="anamespace_binary_html_ae14a9837d984c20da9fe0ab449347c9ba1129c0e4d43f2d121652a7302712cff6"><div class="ttname"><a href="namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba1129c0e4d43f2d121652a7302712cff6">Binary::FileMode::Write</a></div><div class="ttdeci">@ Write</div><div class="ttdoc">File should be opened for writing.</div><div class="ttdef"><b>Definition</b> FileMode.h:29</div></div>
 <div class="ttc" id="anamespace_binary_html_ae14a9837d984c20da9fe0ab449347c9ba7a1a5f3e79fdc91edf2f5ead9d66abb4"><div class="ttname"><a href="namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba7a1a5f3e79fdc91edf2f5ead9d66abb4">Binary::FileMode::Read</a></div><div class="ttdeci">@ Read</div><div class="ttdoc">File should be opened for reading.</div><div class="ttdef"><b>Definition</b> FileMode.h:26</div></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 Example: Work with In-Memory Binary Data</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_lib_cpp_binary_8h.html">LibCppBinary.h</a>&quot;</span></div>
 <div class="line"> </div>
@@ -244,14 +272,9 @@ Example: Work with In-Memory Binary Data</h2>
 <div class="ttc" id="aclass_binary_1_1_buffer_stream_html_ab12201b941f1807cbb0d3f30f21d0a39"><div class="ttname"><a href="class_binary_1_1_buffer_stream.html#ab12201b941f1807cbb0d3f30f21d0a39">Binary::BufferStream::Read</a></div><div class="ttdeci">void Read(DataField *field) const override</div><div class="ttdoc">Reads data from the stream into the specified field.</div></div>
 <div class="ttc" id="aclass_binary_1_1_buffer_stream_html_ab19e95ed820e338e4c18332c3f7bb740"><div class="ttname"><a href="class_binary_1_1_buffer_stream.html#ab19e95ed820e338e4c18332c3f7bb740">Binary::BufferStream::Write</a></div><div class="ttdeci">void Write(const DataField *field) override</div><div class="ttdoc">Writes data to the stream from the specified field.</div></div>
 <div class="ttc" id="aclass_binary_1_1_buffer_stream_html_ade280275f2b66e7de3ef09c736046469"><div class="ttname"><a href="class_binary_1_1_buffer_stream.html#ade280275f2b66e7de3ef09c736046469">Binary::BufferStream::SetPosition</a></div><div class="ttdeci">void SetPosition(size_t position) const override</div><div class="ttdoc">Sets the current position in the stream.</div></div>
-<div class="ttc" id="aclass_binary_1_1_int_field_html_a4d5747edc969cf99b4beff6709656931"><div class="ttname"><a href="class_binary_1_1_int_field.html#a4d5747edc969cf99b4beff6709656931">Binary::IntField::SetValue</a></div><div class="ttdeci">void SetValue(IntType value)</div><div class="ttdoc">Sets the value of the field.</div><div class="ttdef"><b>Definition</b> IntField.h:213</div></div>
-<div class="ttc" id="anamespace_binary_html_a17d258f9fee6ba4f0873de4345c1051b"><div class="ttname"><a href="namespace_binary.html#a17d258f9fee6ba4f0873de4345c1051b">Binary::UInt16Field</a></div><div class="ttdeci">IntField&lt; uint16_t, 2 &gt; UInt16Field</div><div class="ttdoc">Represents an unsigned 16-bit integer field in a binary file.</div><div class="ttdef"><b>Definition</b> IntField.h:513</div></div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
-CMake Integration</h1>
-<p>If LibCppBinary is included as a subdirectory in another CMake project:</p>
-<div class="fragment"><div class="line">add_subdirectory(path/to/LibCppBinary)</div>
-<div class="line">target_link_libraries(your_target PRIVATE LibCppBinary)</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<div class="ttc" id="aclass_binary_1_1_int_field_html_a4d5747edc969cf99b4beff6709656931"><div class="ttname"><a href="class_binary_1_1_int_field.html#a4d5747edc969cf99b4beff6709656931">Binary::IntField::SetValue</a></div><div class="ttdeci">void SetValue(IntType value)</div><div class="ttdoc">Sets the value of the field.</div><div class="ttdef"><b>Definition</b> IntField.h:214</div></div>
+<div class="ttc" id="anamespace_binary_html_a17d258f9fee6ba4f0873de4345c1051b"><div class="ttname"><a href="namespace_binary.html#a17d258f9fee6ba4f0873de4345c1051b">Binary::UInt16Field</a></div><div class="ttdeci">IntField&lt; uint16_t, 2 &gt; UInt16Field</div><div class="ttdoc">Represents an unsigned 16-bit integer field in a binary file.</div><div class="ttdef"><b>Definition</b> IntField.h:517</div></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Repository Layout</h1>
 <ul>
 <li><span class="tt">include/</span> public headers</li>
@@ -259,7 +282,7 @@ Repository Layout</h1>
 <li><span class="tt">tests/</span> GoogleTest suite</li>
 <li><span class="tt">docs/</span> requirements and generated Doxygen output</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 License</h1>
 <p>Licensed under the Apache License, Version 2.0. See <span class="tt">LICENSE</span> for details. </p>
 </div></div><!-- PageDoc -->

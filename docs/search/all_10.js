@@ -1,7 +1,12 @@
 var searchData=
 [
-  ['terminated_0',['Terminated',['../namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6afba9c4daa2dd29d1077d32d965320ac1',1,'Binary']]],
-  ['tests_1',['Run Tests',['../index.html#autotoc_md4',1,'']]],
-  ['the_20library_2',['Include the Library',['../index.html#autotoc_md7',1,'']]],
-  ['tostring_3',['ToString',['../class_binary_1_1_data_field.html#a82ed3561f16c76587b258645fa993867',1,'Binary::DataField::ToString() const =0'],['../class_binary_1_1_data_field.html#a9541fd6b38328f2dcf421131f3383c0d',1,'Binary::DataField::ToString(StringFormat format) const =0'],['../class_binary_1_1_int_field.html#a0efb664f4236362fe49124521f0861d8',1,'Binary::IntField::ToString() const override'],['../class_binary_1_1_int_field.html#a53a1c24198655216bf4bbb4c2ccf2562',1,'Binary::IntField::ToString(StringFormat format) const override'],['../class_binary_1_1_raw_field.html#a56de658b29ecf0c54e2a79170470bc25',1,'Binary::RawField::ToString() const override'],['../class_binary_1_1_raw_field.html#a160a787ca4fc11e62d8fc629a87b2c16',1,'Binary::RawField::ToString(StringFormat format) const override'],['../class_binary_1_1_string_field.html#a9421dc492fea77fe53b068a4be4e0bda',1,'Binary::StringField::ToString() const override'],['../class_binary_1_1_string_field.html#ae3418a95a0e3e353e406e7c6b4e4f957',1,'Binary::StringField::ToString(StringFormat format) const override']]]
+  ['uint16field_0',['UInt16Field',['../namespace_binary.html#a17d258f9fee6ba4f0873de4345c1051b',1,'Binary']]],
+  ['uint24field_1',['UInt24Field',['../namespace_binary.html#a00bdb75f7c7d3f9c362162d8deb5cc04',1,'Binary']]],
+  ['uint24max_2',['uint24Max',['../namespace_binary.html#a77ebc738d3464d7cbb0ea7b0afe37b2f',1,'Binary']]],
+  ['uint32field_3',['UInt32Field',['../namespace_binary.html#a4a791dba48613098c4d2f35be9a6bfaa',1,'Binary']]],
+  ['uint40max_4',['uint40Max',['../namespace_binary.html#a85ced1737dd7df3cc235065158f95973',1,'Binary']]],
+  ['uint48max_5',['uint48Max',['../namespace_binary.html#a5bb07741e904f6c9ce4fce52d1a82ee6',1,'Binary']]],
+  ['uint56max_6',['uint56Max',['../namespace_binary.html#a64d4c019bfdda30c08678affee1163f6',1,'Binary']]],
+  ['uint64field_7',['UInt64Field',['../namespace_binary.html#a33cd6d28ea723a4c7476e5ecb194f01e',1,'Binary']]],
+  ['uint8field_8',['UInt8Field',['../namespace_binary.html#a0fda1fee043991556db5a40b6e5c5416',1,'Binary']]]
 ];

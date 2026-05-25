@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['value_0',['Value',['../class_binary_1_1_int_field.html#a02a9749867690799f9e645387c091e6e',1,'Binary::IntField::Value()'],['../class_binary_1_1_string_field.html#a026f1529530b90eca2c7a7cbbd8d4a4c',1,'Binary::StringField::Value()']]]
+  ['with_20in_20memory_20binary_20data_0',['Example: Work with In-Memory Binary Data',['../index.html#autotoc_md9',1,'']]],
+  ['work_20with_20in_20memory_20binary_20data_1',['Example: Work with In-Memory Binary Data',['../index.html#autotoc_md9',1,'']]],
+  ['write_2',['Write',['../class_binary_1_1_buffer_stream.html#ab19e95ed820e338e4c18332c3f7bb740',1,'Binary::BufferStream::Write(const DataField *field) override'],['../class_binary_1_1_buffer_stream.html#a337d85d20990273d835653e57117ee76',1,'Binary::BufferStream::Write(const DataStructure *structure) override'],['../class_binary_1_1_standard_file_stream.html#a46219a8cdc27728bea8ad0e48d56276f',1,'Binary::StandardFileStream::Write(const DataField *field) override'],['../class_binary_1_1_standard_file_stream.html#a8fd8f60bdd9c63baa07b2117a3ca21a2',1,'Binary::StandardFileStream::Write(const DataStructure *structure) override'],['../class_binary_1_1_stream.html#a108e7f7229e58532f55d53d8fec35703',1,'Binary::Stream::Write(const DataField *field)=0'],['../class_binary_1_1_stream.html#a6332f230902c3ab418b0fcd4ecf5d020',1,'Binary::Stream::Write(const DataStructure *structure)=0'],['../namespace_binary.html#ae14a9837d984c20da9fe0ab449347c9ba1129c0e4d43f2d121652a7302712cff6',1,'Binary::Write']]],
+  ['write_20and_20read_20a_20record_20from_20a_20file_3',['Example: Write and Read a Record from a File',['../index.html#autotoc_md8',1,'']]]
 ];

@@ -65,90 +65,6 @@
     <includes id="_field_endianness_8h" name="FieldEndianness.h" local="yes" import="no" module="no" objc="no">FieldEndianness.h</includes>
     <class kind="class">Binary::IntField</class>
     <namespace>Binary</namespace>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT24_MIN</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a6e56f9eebea6721ecf9e59d3a5190617</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT40_MIN</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a63755518b86625bbee7b0bffbf6f4f55</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT48_MIN</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a21cbb6775d993cbecf28075c66197d19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT56_MIN</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>ac05a7fc8b5c65a971000db3e7adb57b9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>UINT24_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a524c03a0dcf3f58caa7fb8781aa52fe7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>UINT40_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>ae5f39c44cee49e12e29949c71f845833</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>UINT48_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>afcc91d3daa7d7b1bd56443646b2b2d00</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>UINT56_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>acb420b03e7123e89f442e9396cab7f7c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT24_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a4ade7f65b05984f1f21a8223e70c9fac</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT40_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a1d5e1292753d198ff14d555d09df79c4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT48_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a15422ed997b8fe1562129fa747709e90</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>INT56_MAX</name>
-      <anchorfile>_int_field_8h.html</anchorfile>
-      <anchor>a95e240324ee7ded78bf9a5554b3d0fbc</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="file">
     <name>LibCppBinary.h</name>
@@ -1078,6 +994,90 @@
       <name>byteMask</name>
       <anchorfile>namespace_binary.html</anchorfile>
       <anchor>a4d163d0e953efbfceced3580309c497f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int24Min</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a4f7193760eac909ae51f753f3e623980</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int40Min</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>aa15107560c1d5fa8f837d576196fc6ba</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int48Min</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a6e30914cf2a2aa73fcb68025e013c687</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int56Min</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a1e7ee67667e584f7483c4400b331fb1d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint64_t</type>
+      <name>uint24Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a77ebc738d3464d7cbb0ea7b0afe37b2f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint64_t</type>
+      <name>uint40Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a85ced1737dd7df3cc235065158f95973</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint64_t</type>
+      <name>uint48Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a5bb07741e904f6c9ce4fce52d1a82ee6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint64_t</type>
+      <name>uint56Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a64d4c019bfdda30c08678affee1163f6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int24Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a7f493b25d07adf6e60c8a9e573b39214</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int40Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a80709960f68b659a30d6cb168337b8e0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int48Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a9b5c9e559cf2842ae29c4536d04ba1f6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr int64_t</type>
+      <name>int56Max</name>
+      <anchorfile>namespace_binary.html</anchorfile>
+      <anchor>a72255defef5fbdef2a33b54ce5dc37dc</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

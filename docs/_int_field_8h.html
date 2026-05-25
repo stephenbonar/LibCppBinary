@@ -95,6 +95,7 @@ $(function(){initNavTree('_int_field_8h.html','',''); });
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 <code>#include &quot;<a class="el" href="_raw_field_8h_source.html">RawField.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_field_endianness_8h_source.html">FieldEndianness.h</a>&quot;</code><br />
 </div>
@@ -108,21 +109,6 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:Binary" id="r_Binary"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html">Binary</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a6e56f9eebea6721ecf9e59d3a5190617" id="r_a6e56f9eebea6721ecf9e59d3a5190617"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a6e56f9eebea6721ecf9e59d3a5190617">INT24_MIN</a>&#160;&#160;&#160;-8388608</td></tr>
-<tr class="memitem:a63755518b86625bbee7b0bffbf6f4f55" id="r_a63755518b86625bbee7b0bffbf6f4f55"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a63755518b86625bbee7b0bffbf6f4f55">INT40_MIN</a>&#160;&#160;&#160;-549755813888</td></tr>
-<tr class="memitem:a21cbb6775d993cbecf28075c66197d19" id="r_a21cbb6775d993cbecf28075c66197d19"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a21cbb6775d993cbecf28075c66197d19">INT48_MIN</a>&#160;&#160;&#160;-140737488355328</td></tr>
-<tr class="memitem:ac05a7fc8b5c65a971000db3e7adb57b9" id="r_ac05a7fc8b5c65a971000db3e7adb57b9"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ac05a7fc8b5c65a971000db3e7adb57b9">INT56_MIN</a>&#160;&#160;&#160;-36028797018963968</td></tr>
-<tr class="memitem:a524c03a0dcf3f58caa7fb8781aa52fe7" id="r_a524c03a0dcf3f58caa7fb8781aa52fe7"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a524c03a0dcf3f58caa7fb8781aa52fe7">UINT24_MAX</a>&#160;&#160;&#160;16777215</td></tr>
-<tr class="memitem:ae5f39c44cee49e12e29949c71f845833" id="r_ae5f39c44cee49e12e29949c71f845833"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ae5f39c44cee49e12e29949c71f845833">UINT40_MAX</a>&#160;&#160;&#160;109951162777</td></tr>
-<tr class="memitem:afcc91d3daa7d7b1bd56443646b2b2d00" id="r_afcc91d3daa7d7b1bd56443646b2b2d00"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#afcc91d3daa7d7b1bd56443646b2b2d00">UINT48_MAX</a>&#160;&#160;&#160;281474976710655</td></tr>
-<tr class="memitem:acb420b03e7123e89f442e9396cab7f7c" id="r_acb420b03e7123e89f442e9396cab7f7c"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#acb420b03e7123e89f442e9396cab7f7c">UINT56_MAX</a>&#160;&#160;&#160;72057594037927935</td></tr>
-<tr class="memitem:a4ade7f65b05984f1f21a8223e70c9fac" id="r_a4ade7f65b05984f1f21a8223e70c9fac"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a4ade7f65b05984f1f21a8223e70c9fac">INT24_MAX</a>&#160;&#160;&#160;8388607</td></tr>
-<tr class="memitem:a1d5e1292753d198ff14d555d09df79c4" id="r_a1d5e1292753d198ff14d555d09df79c4"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a1d5e1292753d198ff14d555d09df79c4">INT40_MAX</a>&#160;&#160;&#160;549755813887</td></tr>
-<tr class="memitem:a15422ed997b8fe1562129fa747709e90" id="r_a15422ed997b8fe1562129fa747709e90"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a15422ed997b8fe1562129fa747709e90">INT48_MAX</a>&#160;&#160;&#160;140737488355327</td></tr>
-<tr class="memitem:a95e240324ee7ded78bf9a5554b3d0fbc" id="r_a95e240324ee7ded78bf9a5554b3d0fbc"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a95e240324ee7ded78bf9a5554b3d0fbc">INT56_MAX</a>&#160;&#160;&#160;36028797018963967</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -156,178 +142,21 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a4d163d0e953efbfceced3580309c497f" id="r_a4d163d0e953efbfceced3580309c497f"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a4d163d0e953efbfceced3580309c497f">Binary::byteMask</a> { 0xFF }</td></tr>
 <tr class="memdesc:a4d163d0e953efbfceced3580309c497f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for selecting the least significant byte on little endian.  <br /></td></tr>
+<tr class="memitem:a4f7193760eac909ae51f753f3e623980" id="r_a4f7193760eac909ae51f753f3e623980"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a4f7193760eac909ae51f753f3e623980">Binary::int24Min</a> { -8388608 }</td></tr>
+<tr class="memitem:aa15107560c1d5fa8f837d576196fc6ba" id="r_aa15107560c1d5fa8f837d576196fc6ba"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#aa15107560c1d5fa8f837d576196fc6ba">Binary::int40Min</a> { -549755813888 }</td></tr>
+<tr class="memitem:a6e30914cf2a2aa73fcb68025e013c687" id="r_a6e30914cf2a2aa73fcb68025e013c687"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a6e30914cf2a2aa73fcb68025e013c687">Binary::int48Min</a> { -140737488355328 }</td></tr>
+<tr class="memitem:a1e7ee67667e584f7483c4400b331fb1d" id="r_a1e7ee67667e584f7483c4400b331fb1d"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a1e7ee67667e584f7483c4400b331fb1d">Binary::int56Min</a> { -36028797018963968 }</td></tr>
+<tr class="memitem:a77ebc738d3464d7cbb0ea7b0afe37b2f" id="r_a77ebc738d3464d7cbb0ea7b0afe37b2f"><td class="memItemLeft">constexpr uint64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a77ebc738d3464d7cbb0ea7b0afe37b2f">Binary::uint24Max</a> { 16777215 }</td></tr>
+<tr class="memitem:a85ced1737dd7df3cc235065158f95973" id="r_a85ced1737dd7df3cc235065158f95973"><td class="memItemLeft">constexpr uint64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a85ced1737dd7df3cc235065158f95973">Binary::uint40Max</a> { 109951162777 }</td></tr>
+<tr class="memitem:a5bb07741e904f6c9ce4fce52d1a82ee6" id="r_a5bb07741e904f6c9ce4fce52d1a82ee6"><td class="memItemLeft">constexpr uint64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a5bb07741e904f6c9ce4fce52d1a82ee6">Binary::uint48Max</a> { 281474976710655 }</td></tr>
+<tr class="memitem:a64d4c019bfdda30c08678affee1163f6" id="r_a64d4c019bfdda30c08678affee1163f6"><td class="memItemLeft">constexpr uint64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a64d4c019bfdda30c08678affee1163f6">Binary::uint56Max</a> { 72057594037927935 }</td></tr>
+<tr class="memitem:a7f493b25d07adf6e60c8a9e573b39214" id="r_a7f493b25d07adf6e60c8a9e573b39214"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a7f493b25d07adf6e60c8a9e573b39214">Binary::int24Max</a> { 8388607 }</td></tr>
+<tr class="memitem:a80709960f68b659a30d6cb168337b8e0" id="r_a80709960f68b659a30d6cb168337b8e0"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a80709960f68b659a30d6cb168337b8e0">Binary::int40Max</a> { 549755813887 }</td></tr>
+<tr class="memitem:a9b5c9e559cf2842ae29c4536d04ba1f6" id="r_a9b5c9e559cf2842ae29c4536d04ba1f6"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a9b5c9e559cf2842ae29c4536d04ba1f6">Binary::int48Max</a> { 140737488355327 }</td></tr>
+<tr class="memitem:a72255defef5fbdef2a33b54ce5dc37dc" id="r_a72255defef5fbdef2a33b54ce5dc37dc"><td class="memItemLeft">constexpr int64_t&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#a72255defef5fbdef2a33b54ce5dc37dc">Binary::int56Max</a> { 36028797018963967 }</td></tr>
 <tr class="memitem:aea82ced4744bd2a6198af88907ef0885" id="r_aea82ced4744bd2a6198af88907ef0885"><td class="memItemLeft"><a class="el" href="namespace_binary.html#a111542ca6bdc5ec6ca5d6cf7656c9b6c">FieldEndianness</a>&#160;</td><td class="memItemRight"><a class="el" href="namespace_binary.html#aea82ced4744bd2a6198af88907ef0885">Binary::defaultEndianness</a></td></tr>
 <tr class="memdesc:aea82ced4744bd2a6198af88907ef0885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls what endianness IntFields are created with by default.  <br /></td></tr>
 </table>
-<a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
-<a id="a4ade7f65b05984f1f21a8223e70c9fac" name="a4ade7f65b05984f1f21a8223e70c9fac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ade7f65b05984f1f21a8223e70c9fac">&#9670;&#160;</a></span>INT24_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT24_MAX&#160;&#160;&#160;8388607</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6e56f9eebea6721ecf9e59d3a5190617" name="a6e56f9eebea6721ecf9e59d3a5190617"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e56f9eebea6721ecf9e59d3a5190617">&#9670;&#160;</a></span>INT24_MIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT24_MIN&#160;&#160;&#160;-8388608</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1d5e1292753d198ff14d555d09df79c4" name="a1d5e1292753d198ff14d555d09df79c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d5e1292753d198ff14d555d09df79c4">&#9670;&#160;</a></span>INT40_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT40_MAX&#160;&#160;&#160;549755813887</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a63755518b86625bbee7b0bffbf6f4f55" name="a63755518b86625bbee7b0bffbf6f4f55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63755518b86625bbee7b0bffbf6f4f55">&#9670;&#160;</a></span>INT40_MIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT40_MIN&#160;&#160;&#160;-549755813888</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a15422ed997b8fe1562129fa747709e90" name="a15422ed997b8fe1562129fa747709e90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15422ed997b8fe1562129fa747709e90">&#9670;&#160;</a></span>INT48_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT48_MAX&#160;&#160;&#160;140737488355327</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a21cbb6775d993cbecf28075c66197d19" name="a21cbb6775d993cbecf28075c66197d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21cbb6775d993cbecf28075c66197d19">&#9670;&#160;</a></span>INT48_MIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT48_MIN&#160;&#160;&#160;-140737488355328</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a95e240324ee7ded78bf9a5554b3d0fbc" name="a95e240324ee7ded78bf9a5554b3d0fbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95e240324ee7ded78bf9a5554b3d0fbc">&#9670;&#160;</a></span>INT56_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT56_MAX&#160;&#160;&#160;36028797018963967</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac05a7fc8b5c65a971000db3e7adb57b9" name="ac05a7fc8b5c65a971000db3e7adb57b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac05a7fc8b5c65a971000db3e7adb57b9">&#9670;&#160;</a></span>INT56_MIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INT56_MIN&#160;&#160;&#160;-36028797018963968</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a524c03a0dcf3f58caa7fb8781aa52fe7" name="a524c03a0dcf3f58caa7fb8781aa52fe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a524c03a0dcf3f58caa7fb8781aa52fe7">&#9670;&#160;</a></span>UINT24_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define UINT24_MAX&#160;&#160;&#160;16777215</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae5f39c44cee49e12e29949c71f845833" name="ae5f39c44cee49e12e29949c71f845833"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5f39c44cee49e12e29949c71f845833">&#9670;&#160;</a></span>UINT40_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define UINT40_MAX&#160;&#160;&#160;109951162777</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afcc91d3daa7d7b1bd56443646b2b2d00" name="afcc91d3daa7d7b1bd56443646b2b2d00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afcc91d3daa7d7b1bd56443646b2b2d00">&#9670;&#160;</a></span>UINT48_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define UINT48_MAX&#160;&#160;&#160;281474976710655</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acb420b03e7123e89f442e9396cab7f7c" name="acb420b03e7123e89f442e9396cab7f7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb420b03e7123e89f442e9396cab7f7c">&#9670;&#160;</a></span>UINT56_MAX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define UINT56_MAX&#160;&#160;&#160;72057594037927935</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

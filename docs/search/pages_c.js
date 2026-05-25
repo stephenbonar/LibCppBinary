@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['start_0',['Quick Start',['../index.html#autotoc_md6',1,'']]],
-  ['structure_1',['Example: Define a Binary Record Structure',['../index.html#autotoc_md8',1,'']]]
+  ['tests_0',['Run Tests',['../index.html#autotoc_md5',1,'']]],
+  ['the_20library_20in_20your_20project_1',['Including the Library in Your Project',['../index.html#autotoc_md3',1,'']]]
 ];

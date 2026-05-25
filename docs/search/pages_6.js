@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['generate_20api_20documentation_0',['Generate API Documentation',['../index.html#autotoc_md5',1,'']]]
+  ['in_20memory_20binary_20data_0',['Example: Work with In-Memory Binary Data',['../index.html#autotoc_md9',1,'']]],
+  ['in_20your_20project_1',['Including the Library in Your Project',['../index.html#autotoc_md3',1,'']]],
+  ['including_20the_20library_20in_20your_20project_2',['Including the Library in Your Project',['../index.html#autotoc_md3',1,'']]]
 ];
