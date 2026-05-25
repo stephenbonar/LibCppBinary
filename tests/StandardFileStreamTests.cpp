@@ -314,6 +314,85 @@ TEST_F(StandardFileStreamTests, ReturnsNullptrWhenChunkHeaderNotFound)
     EXPECT_EQ(header, nullptr);
 }
 
+TEST_F(StandardFileStreamTests, FindNextChunkMissKeepsStreamUsable)
+{
+    Binary::StandardFileStream stream{ testFileName };
+    Binary::StringField stringField{ stringFieldData.size() };
+
+    stream.Open(Binary::FileMode::Read);
+    std::shared_ptr<Binary::ChunkHeader> header = stream.FindNextChunk("MISS");
+
+    EXPECT_EQ(header, nullptr);
+    EXPECT_EQ(stream.Position(), 0);
+
+    stream.Read(&stringField);
+    EXPECT_EQ(stringField.Value(), "Testing!");
+}
+
+TEST_F(StandardFileStreamTests, FindNextChunkHandlesOverlappingPattern)
+{
+    const char* overlapFileName{ "overlap.bin" };
+    std::vector<char> overlapData{ 'A', 'A', 'A', 'A', 'B', 1, 0, 0, 0 };
+
+    std::fstream createStream;
+    createStream.open(overlapFileName, std::ios::out | std::ios::binary);
+    createStream.write(overlapData.data(), overlapData.size());
+    createStream.close();
+
+    Binary::StandardFileStream stream{ overlapFileName };
+    stream.Open(Binary::FileMode::Read);
+    std::shared_ptr<Binary::ChunkHeader> header = stream.FindNextChunk("AAAB");
+
+    ASSERT_NE(header, nullptr);
+    EXPECT_EQ(header->id.Value(), "AAAB");
+    EXPECT_EQ(header->dataSize.Value(), 1);
+    EXPECT_EQ(stream.Position(), 9);
+}
+
+TEST_F(StandardFileStreamTests, SetPositionAlsoAffectsWritePosition)
+{
+    const char* seekWriteFileName{ "seekwrite.bin" };
+    const std::vector<char> originalData{ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+
+    std::fstream createStream;
+    createStream.open(seekWriteFileName, std::ios::out | std::ios::binary);
+    createStream.write(originalData.data(), originalData.size());
+    createStream.close();
+
+    Binary::RawField writeField{ 2 };
+    writeField.RawData()[0] = 'Z';
+    writeField.RawData()[1] = 'Z';
+
+    Binary::StandardFileStream writeStream{ seekWriteFileName };
+    writeStream.Open(Binary::FileMode::ReadWrite);
+    writeStream.SetPosition(2);
+    writeStream.Write(&writeField);
+    writeStream.Close();
+
+    Binary::RawField readField{ originalData.size() };
+    Binary::StandardFileStream readStream{ seekWriteFileName };
+    readStream.Open(Binary::FileMode::Read);
+    readStream.Read(&readField);
+    readStream.Close();
+
+    EXPECT_EQ(readField.RawData()[0], 'A');
+    EXPECT_EQ(readField.RawData()[1], 'B');
+    EXPECT_EQ(readField.RawData()[2], 'Z');
+    EXPECT_EQ(readField.RawData()[3], 'Z');
+    EXPECT_EQ(readField.RawData()[4], 'E');
+    EXPECT_EQ(readField.RawData()[5], 'F');
+    EXPECT_EQ(readField.RawData()[6], 'G');
+    EXPECT_EQ(readField.RawData()[7], 'H');
+}
+
+TEST_F(StandardFileStreamTests, OpenThrowsWhenFileCannotBeOpened)
+{
+    const char* invalidPath{ "zzzz_libcppbinary_missing_dir/test.bin" };
+    Binary::StandardFileStream stream{ invalidPath };
+
+    EXPECT_THROW(stream.Open(Binary::FileMode::Read), std::runtime_error);
+}
+
 TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullFieldRead)
 {
     Binary::DataField* nullField{ nullptr };

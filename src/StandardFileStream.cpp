@@ -15,6 +15,7 @@
 // limitations under the License.
 
 #include "StandardFileStream.h"
+#include <array>
 
 using namespace Binary;
 
@@ -26,6 +27,13 @@ std::string StandardFileStream::FileName() const
 
 void StandardFileStream::Open(FileMode m)
 {
+    if (fileStream.is_open())
+    {
+        fileStream.close();
+    }
+
+    fileStream.clear();
+
     switch (m)
     {
         case FileMode::Read:
@@ -38,6 +46,23 @@ void StandardFileStream::Open(FileMode m)
             fileStream.open(filePath, 
                 std::ios::in | std::ios::out | std::ios::binary);
             break;
+    }
+
+    if (!fileStream.is_open())
+    {
+        throw std::runtime_error{ "Failed to open file." };
+    }
+
+    position = 0;
+
+    if (m != FileMode::Write)
+    {
+        fileStream.seekg(0);
+    }
+
+    if (m != FileMode::Read)
+    {
+        fileStream.seekp(0);
     }
 
     mode = m;
@@ -86,9 +111,7 @@ void StandardFileStream::Read(DataStructure* structure) const
 std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
     const
 {
-    bool chunkFound{ false };
-    int idIndex{ 0 };
-    size_t searchPosition{ position };
+    const size_t originalPosition{ position };
 
     if (id.size() != chunkIDSize)
     {
@@ -99,53 +122,38 @@ std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
     {
         throw std::runtime_error{ "You must open the file before reading." };
     }
-      
-    fileStream.seekg(position);
 
-    while (!fileStream.eof() && !chunkFound)
+    for (size_t searchPosition = position;
+         searchPosition + chunkIDSize <= FileSize();
+         searchPosition++)
     {
-        char currentByte{ 0 };
-        fileStream.get(currentByte);
-        searchPosition++;
+        fileStream.clear();
+        fileStream.seekg(searchPosition);
 
-        // Check if the current byte matches the ID character at the current ID
-        // index so we know if we have a potential match.
-        if (currentByte == id[idIndex])
+        std::array<char, chunkIDSize> candidate{};
+        fileStream.read(candidate.data(), chunkIDSize);
+
+        if (fileStream.gcount() != chunkIDSize)
         {
-            idIndex++;
-
-            // If we've got this far and the ID index is equal to the chunk ID 
-            // size, then we've found a matching chunk header.
-            if (idIndex == chunkIDSize)
-            {
-                // Return to the original position in the file now that we've
-                // found the chunk header so we can read the header.
-                searchPosition -= chunkIDSize;
-                fileStream.seekg(searchPosition);
-                position = searchPosition;
-
-                chunkFound = true;
-            }
+            break;
         }
-        else
+
+        if (std::equal(candidate.begin(), candidate.end(), id.begin()))
         {
-            // There's a mismatch so we need to start looking at the ID for
-            // matching characters at the beginning again.
-            idIndex = 0;
+            fileStream.clear();
+            fileStream.seekg(searchPosition);
+            position = searchPosition;
+
+            auto header = std::make_shared<Binary::ChunkHeader>();
+            Read(header.get());
+            return header;
         }
     }
 
-    if (chunkFound)
-    {
-        auto header = std::make_shared<Binary::ChunkHeader>();
-        Read(header.get());
-        return header;
-    }
-    else
-    {
-        fileStream.seekg(position);
-        return nullptr;
-    }
+    fileStream.clear();
+    fileStream.seekg(originalPosition);
+    position = originalPosition;
+    return nullptr;
 }
 
 void StandardFileStream::Write(const DataField* field)

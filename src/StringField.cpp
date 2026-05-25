@@ -15,6 +15,8 @@
 // limitations under the License.
 
 #include "StringField.h"
+#include <algorithm>
+#include <cstring>
 
 using namespace Binary;
 
@@ -25,10 +27,10 @@ std::string StringField::Value() const
 
 void StringField::SetValue(std::string value)
 {
-    for (size_t i = 0; i < Size() && i < value.length(); i++)
-    {
-        RawData()[i] = value[i];
-    }
+    std::fill(RawData(), RawData() + Size(), '\0');
+
+    const size_t copySize = std::min(Size(), value.length());
+    std::memcpy(RawData(), value.data(), copySize);
 }
 
 StringField& StringField::operator=(const StringField& other)

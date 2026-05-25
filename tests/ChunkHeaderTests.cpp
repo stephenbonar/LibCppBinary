@@ -15,6 +15,7 @@
 // limitations under the License.
 
 #include "ChunkHeaderTests.h"
+#include <type_traits>
 
 ChunkHeaderTests::ChunkHeaderTests()
 {
@@ -49,4 +50,9 @@ TEST_F(ChunkHeaderTests, CopyAssignmentOperatorPerformsDeepCopy)
 
     EXPECT_EQ(header2.id.Value(), header1.id.Value());
     EXPECT_EQ(header2.dataSize.Value(), header1.dataSize.Value());
+}
+
+TEST_F(ChunkHeaderTests, DataStructureHasVirtualDestructor)
+{
+    EXPECT_TRUE((std::has_virtual_destructor<Binary::DataStructure>::value));
 }

@@ -109,7 +109,21 @@ namespace Binary
             }
 
             this->position = position;
-            fileStream.seekg(position);
+
+            if (IsOpen())
+            {
+                fileStream.clear();
+
+                if (mode != FileMode::Write)
+                {
+                    fileStream.seekg(position);
+                }
+
+                if (mode != FileMode::Read)
+                {
+                    fileStream.seekp(position);
+                }
+            }
         }
 
         /// @copydoc Stream::Beginning

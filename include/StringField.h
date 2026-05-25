@@ -66,7 +66,7 @@ namespace Binary
         ///
         /// @param value The string to set the field's value to.
         /// @post Writes min(Size(), value.length()) bytes to the field.
-        /// @post Bytes beyond value.length() are unchanged.
+        /// @post Bytes beyond value.length() are set to 0.
         void SetValue(std::string value);
 
         /// @copydoc DataField::ToString

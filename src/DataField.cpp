@@ -15,6 +15,8 @@
 // limitations under the License.
 
 #include "DataField.h"
+#include <algorithm>
+#include <cstring>
 
 using namespace Binary;
 
@@ -23,6 +25,11 @@ void DataField::CopyRawDataTo(DataField* other)
     if (other == nullptr)
     {
         throw std::invalid_argument("Other field cannot be null.");
+    }
+
+    if (other == this)
+    {
+        return;
     }
 
     size_t copySize = std::min(Size(), other->Size());

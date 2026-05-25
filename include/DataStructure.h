@@ -40,6 +40,9 @@ namespace Binary
     /// 3) Size() should sum all of the field sizes.
     struct DataStructure
     {
+        /// @brief Default virtual destructor for polymorphic cleanup.
+        virtual ~DataStructure() = default;
+
         /// @brief Provides a vector of raw pointers to the structure's fields.
         ///
         /// This method is primarily intended for use by Binary::Stream and its

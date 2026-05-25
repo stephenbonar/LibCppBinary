@@ -45,6 +45,19 @@ TEST_F(StringFieldTests, SetsValueProperly)
     EXPECT_EQ(field.Value(), "Test");
 }
 
+TEST_F(StringFieldTests, SetValueClearsTrailingBytes)
+{
+    Binary::StringField field{ 5 };
+    field.SetValue("ABCDE");
+    field.SetValue("Hi");
+
+    EXPECT_EQ(field.RawData()[0], 'H');
+    EXPECT_EQ(field.RawData()[1], 'i');
+    EXPECT_EQ(field.RawData()[2], '\0');
+    EXPECT_EQ(field.RawData()[3], '\0');
+    EXPECT_EQ(field.RawData()[4], '\0');
+}
+
 TEST_F(StringFieldTests, CopyAssignmentOperatorWorksProperly)
 {
     Binary::StringField original{ "Test" };

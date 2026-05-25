@@ -15,6 +15,7 @@
 // limitations under the License.
 
 #include "BufferStream.h"
+#include <cstring>
 
 using namespace Binary;
 
@@ -54,47 +55,19 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
         throw std::invalid_argument(chunkIDSizeError);
     }
 
-    bool idFound{ false };
-    size_t searchPosition{ position };
-    int idIndex{ 0 };
-
-    while (searchPosition < size)
+    // Slide over every possible 4-byte start and compare exact chunk IDs.
+    for (size_t searchPosition = position;
+         searchPosition + chunkIDSize <= size;
+         searchPosition++)
     {
-        // Check if the byte at the search position matches the ID character at
-        // the current ID index so we know if we have a potential match.
-        if (rawData[searchPosition] == id[idIndex])
+        if (std::memcmp(rawData.get() + searchPosition, id.data(), chunkIDSize)
+            == 0)
         {
-            idIndex++;
-
-            // If we've got this far and the ID index is equal to the chunk ID 
-            // size, then we've found a matching chunk header.
-            if (idIndex == chunkIDSize)
-            {
-                idFound = true;
-                auto header = std::make_shared<ChunkHeader>();
-
-                // Set the search position back to the beginning of the chunk 
-                // header since we know we found the header at that position.
-                searchPosition -= (chunkIDSize - 1);
-
-                // Set the postion to the search position as we want to advance
-                // the position to the beginning of the found chunk header.
-                position = searchPosition;
-
-                Read(header.get());
-                return header;
-            }
+            auto header = std::make_shared<ChunkHeader>();
+            position = searchPosition;
+            Read(header.get());
+            return header;
         }
-        else
-        {
-            // There's a mismatch so we need to start looking at the ID for
-            // matching characters at the beginning again.
-            idIndex = 0;
-        }
-
-        // Keep advancing the search position until we find a match or reach the
-        // end of the buffer.
-        searchPosition++;
     }
 
     // If we reach this point, then we reached the end of the buffer without 

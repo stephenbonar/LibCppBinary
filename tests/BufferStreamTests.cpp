@@ -136,6 +136,23 @@ TEST_F(BufferStreamTests, FindNextChunkThrowsForInvalidID)
     EXPECT_THROW(buffer->FindNextChunk("SH"), std::invalid_argument);
 }
 
+TEST_F(BufferStreamTests, FindNextChunkHandlesOverlappingPattern)
+{
+    Binary::BufferStream overlapBuffer{ 9 };
+    const char overlapData[9]{ 'A', 'A', 'A', 'A', 'B', 1, 0, 0, 0 };
+
+    std::memcpy(overlapBuffer.RawData(), overlapData, sizeof(overlapData));
+    overlapBuffer.SetPosition(0);
+
+    std::shared_ptr<Binary::ChunkHeader> foundHeader =
+        overlapBuffer.FindNextChunk("AAAB");
+
+    ASSERT_NE(foundHeader, nullptr);
+    EXPECT_EQ(foundHeader->id.Value(), "AAAB");
+    EXPECT_EQ(foundHeader->dataSize.Value(), 1);
+    EXPECT_EQ(overlapBuffer.Position(), 9);
+}
+
 TEST_F(BufferStreamTests, ThrowsInvalidArgumentForNullFieldRead)
 {
     Binary::DataField* nullField{ nullptr };

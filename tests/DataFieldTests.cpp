@@ -16,6 +16,7 @@
 
 #include "DataFieldTests.h"
 #include "MockDataField.h"
+#include "RawField.h"
 #include <cstring>
 
 TEST_F(DataFieldTests, CopiesRawDataProperly)
@@ -46,4 +47,19 @@ TEST_F(DataFieldTests, CopiesRawDataProperly)
     EXPECT_EQ(destData[2], 0x03);
     EXPECT_EQ(destData[3], 0x04);
     EXPECT_EQ(destData[4], 0x05);
+}
+
+TEST_F(DataFieldTests, CopyRawDataToSelfDoesNothing)
+{
+    Binary::RawField field{ 4 };
+    field.RawData()[0] = 'T';
+    field.RawData()[1] = 'E';
+    field.RawData()[2] = 'S';
+    field.RawData()[3] = 'T';
+
+    EXPECT_NO_THROW(field.CopyRawDataTo(&field));
+    EXPECT_EQ(field.RawData()[0], 'T');
+    EXPECT_EQ(field.RawData()[1], 'E');
+    EXPECT_EQ(field.RawData()[2], 'S');
+    EXPECT_EQ(field.RawData()[3], 'T');
 }
