@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Define the library build target to compile the source files into a static
+# library.
 add_library(LibCppBinary 
             StringField.cpp 
             RawField.cpp
@@ -23,6 +25,8 @@ add_library(LibCppBinary
             ChunkHeader.cpp
             BufferStream.cpp)
 
+# Configure the include directories for the library target so the compiler
+# knows where to find the header files.
 target_include_directories(LibCppBinary
                            PUBLIC
                            ${PROJECT_SOURCE_DIR}/include)

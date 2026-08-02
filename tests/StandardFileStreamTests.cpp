@@ -19,7 +19,10 @@
 const char* testFileName{ "test.bin" };
 const char* testWriteFileName{ "testwrite.bin" };
 const char* testFullPath{ "/test/test.bin" };
-const std::vector<char> stringFieldData{ 'T', 'e', 's', 't', 'i', 'n', 'g', '!' };
+const std::vector<char> stringFieldData
+{
+    'T', 'e', 's', 't', 'i', 'n', 'g', '!' 
+};
 const std::vector<char> rawFieldData{ 0xA, 0xB, 0xC, 0xD };
 const std::vector<char> chunk1IDData{ 'T', 'S', 'T', '1' };
 const std::vector<char> chunk1SizeData{ 0x4, 0x0, 0x0, 0x0 };
@@ -142,8 +145,8 @@ TEST_F(StandardFileStreamTests, ReadsDataFieldsProperly)
     Binary::RawField rawField{ rawFieldData.size() };
 
     stream.Open(Binary::FileMode::Read);
-    stream.Read(&stringField);
-    stream.Read(&rawField);
+    stream.Read(stringField);
+    stream.Read(rawField);
 
     uintmax_t readPosition = stringFieldData.size() + rawFieldData.size();
 
@@ -170,8 +173,8 @@ TEST_F(StandardFileStreamTests, WritesDataFieldsProperly)
         writeRawField.RawData()[i] = rawFieldData[i];
 
     stream.Open(Binary::FileMode::Write);
-    stream.Write(&writeStringField);
-    stream.Write(&writeRawField);
+    stream.Write(writeStringField);
+    stream.Write(writeRawField);
 
     EXPECT_EQ(stream.Position(), 
               writeStringField.Size() + writeRawField.Size());
@@ -179,8 +182,8 @@ TEST_F(StandardFileStreamTests, WritesDataFieldsProperly)
     stream.Close();
 
     stream.Open(Binary::FileMode::Read);
-    stream.Read(&readStringField);
-    stream.Read(&readRawField);
+    stream.Read(readStringField);
+    stream.Read(readRawField);
     stream.Close();
 
     EXPECT_EQ(stream.FileSize(), stringFieldData.size() + rawFieldData.size());
@@ -201,14 +204,14 @@ TEST_F(StandardFileStreamTests, WritesDataStructuresProperly)
 
     Binary::StandardFileStream writeStream{ testWriteFileName };
     writeStream.Open(Binary::FileMode::Write);
-    writeStream.Write(&writeHeader);
+    writeStream.Write(writeHeader);
     writeStream.Close();
 
     ASSERT_EQ(std::filesystem::file_size(testWriteFileName), 8);
 
     Binary::StandardFileStream readStream{ testWriteFileName };
     readStream.Open(Binary::FileMode::Read);
-    readStream.Read(&readHeader);
+    readStream.Read(readHeader);
     readStream.Close();
 
     EXPECT_EQ(readHeader.id.Value(), "TEST");
@@ -222,7 +225,7 @@ TEST_F(StandardFileStreamTests, SetsPositionProperly)
 
     stream.Open(Binary::FileMode::Read);
     stream.SetPosition(8);
-    stream.Read(&rawField);
+    stream.Read(rawField);
 
     EXPECT_EQ(stream.Position(), 12);
 
@@ -236,7 +239,7 @@ TEST_F(StandardFileStreamTests, ClosesFileProperly)
     Binary::StringField stringField{ stringFieldData.size() };
 
     stream.Open(Binary::FileMode::Read);
-    stream.Read(&stringField);
+    stream.Read(stringField);
     stream.Close();
 
     EXPECT_EQ(stream.IsOpen(), false);
@@ -248,7 +251,7 @@ TEST_F(StandardFileStreamTests, OnlyAllowsReadWhenOpen)
     Binary::StringField stringField{ stringFieldData.size() };
     Binary::StandardFileStream stream{ testFileName };
 
-    EXPECT_THROW(stream.Read(&stringField), std::runtime_error);
+    EXPECT_THROW(stream.Read(stringField), std::runtime_error);
 }
 
 TEST_F(StandardFileStreamTests, OnlyAllowsWriteWhenOpen)
@@ -256,7 +259,7 @@ TEST_F(StandardFileStreamTests, OnlyAllowsWriteWhenOpen)
     Binary::StringField stringField{ stringFieldData.size() };
     Binary::StandardFileStream stream{ testWriteFileName };
 
-    EXPECT_THROW(stream.Write(&stringField), std::runtime_error);
+    EXPECT_THROW(stream.Write(stringField), std::runtime_error);
 }
 
 TEST_F(StandardFileStreamTests, ReadsDataStructuresProperly)
@@ -269,7 +272,7 @@ TEST_F(StandardFileStreamTests, ReadsDataStructuresProperly)
     size_t chunkPosition = stringFieldData.size() + rawFieldData.size();
     stream.SetPosition(chunkPosition);
 
-    stream.Read(&header);
+    stream.Read(header);
 
     EXPECT_EQ(stream.Position(), chunkPosition + header.Size());
     EXPECT_EQ(header.id.Value(), "TST1");
@@ -325,7 +328,7 @@ TEST_F(StandardFileStreamTests, FindNextChunkMissKeepsStreamUsable)
     EXPECT_EQ(header, nullptr);
     EXPECT_EQ(stream.Position(), 0);
 
-    stream.Read(&stringField);
+    stream.Read(stringField);
     EXPECT_EQ(stringField.Value(), "Testing!");
 }
 
@@ -352,7 +355,10 @@ TEST_F(StandardFileStreamTests, FindNextChunkHandlesOverlappingPattern)
 TEST_F(StandardFileStreamTests, SetPositionAlsoAffectsWritePosition)
 {
     const char* seekWriteFileName{ "seekwrite.bin" };
-    const std::vector<char> originalData{ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+    const std::vector<char> originalData
+    {
+         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' 
+    };
 
     std::fstream createStream;
     createStream.open(seekWriteFileName, std::ios::out | std::ios::binary);
@@ -366,13 +372,13 @@ TEST_F(StandardFileStreamTests, SetPositionAlsoAffectsWritePosition)
     Binary::StandardFileStream writeStream{ seekWriteFileName };
     writeStream.Open(Binary::FileMode::ReadWrite);
     writeStream.SetPosition(2);
-    writeStream.Write(&writeField);
+    writeStream.Write(writeField);
     writeStream.Close();
 
     Binary::RawField readField{ originalData.size() };
     Binary::StandardFileStream readStream{ seekWriteFileName };
     readStream.Open(Binary::FileMode::Read);
-    readStream.Read(&readField);
+    readStream.Read(readField);
     readStream.Close();
 
     EXPECT_EQ(readField.RawData()[0], 'A');
@@ -391,126 +397,6 @@ TEST_F(StandardFileStreamTests, OpenThrowsWhenFileCannotBeOpened)
     Binary::StandardFileStream stream{ invalidPath };
 
     EXPECT_THROW(stream.Open(Binary::FileMode::Read), std::runtime_error);
-}
-
-TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullFieldRead)
-{
-    Binary::DataField* nullField{ nullptr };
-    Binary::StandardFileStream stream{ testFileName };
-    stream.Open(Binary::FileMode::Read);
-
-    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
-    // std::invalid_argument is properly thrown. A segfault (abnormal
-    // termination) or missing null check (no exception) will fail the test.
-    EXPECT_EXIT(
-        {
-            try
-            {
-                stream.Read(nullField);
-                exit(1); // No exception thrown: fail
-            }
-            catch (const std::invalid_argument&)
-            {
-                exit(0); // Correct exception thrown: pass
-            }
-            catch (...)
-            {
-                exit(2); // Wrong exception type: fail
-            }
-        },
-        testing::ExitedWithCode(0),
-        ""
-    );
-}
-
-TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullStructureRead)
-{
-    Binary::DataStructure* nullStructure{ nullptr };
-    Binary::StandardFileStream stream{ testFileName };
-    stream.Open(Binary::FileMode::Read);
-
-    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
-    // std::invalid_argument is properly thrown. A segfault (abnormal
-    // termination) or missing null check (no exception) will fail the test.
-    EXPECT_EXIT(
-        {
-            try
-            {
-                stream.Read(nullStructure);
-                exit(1); // No exception thrown: fail
-            }
-            catch (const std::invalid_argument&)
-            {
-                exit(0); // Correct exception thrown: pass
-            }
-            catch (...)
-            {
-                exit(2); // Wrong exception type: fail
-            }
-        },
-        testing::ExitedWithCode(0),
-        ""
-    );
-}
-
-TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullFieldWrite)
-{
-    Binary::DataField* nullField{ nullptr };
-    Binary::StandardFileStream stream{ testWriteFileName };
-    stream.Open(Binary::FileMode::Write);
-
-    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
-    // std::invalid_argument is properly thrown. A segfault (abnormal
-    // termination) or missing null check (no exception) will fail the test.
-    EXPECT_EXIT(
-        {
-            try
-            {
-                stream.Write(nullField);
-                exit(1); // No exception thrown: fail
-            }
-            catch (const std::invalid_argument&)
-            {
-                exit(0); // Correct exception thrown: pass
-            }
-            catch (...)
-            {
-                exit(2); // Wrong exception type: fail
-            }
-        },
-        testing::ExitedWithCode(0),
-        ""
-    );
-}
-
-TEST_F(StandardFileStreamTests, ThrowsInvalidArgumentForNullStructureWrite)
-{
-    Binary::DataStructure* nullStructure{ nullptr };
-    Binary::StandardFileStream stream{ testWriteFileName };
-    stream.Open(Binary::FileMode::Write);
-
-    // Uses EXPECT_EXIT with ExitedWithCode(0) so the test only passes if
-    // std::invalid_argument is properly thrown. A segfault (abnormal
-    // termination) or missing null check (no exception) will fail the test.
-    EXPECT_EXIT(
-        {
-            try
-            {
-                stream.Write(nullStructure);
-                exit(1); // No exception thrown: fail
-            }
-            catch (const std::invalid_argument&)
-            {
-                exit(0); // Correct exception thrown: pass
-            }
-            catch (...)
-            {
-                exit(2); // Wrong exception type: fail
-            }
-        },
-        testing::ExitedWithCode(0),
-        ""
-    );
 }
 
 TEST_F(StandardFileStreamTests, SetPositionThrowsIfGreaterThanFileSize)

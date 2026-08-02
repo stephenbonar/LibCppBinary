@@ -45,7 +45,7 @@ namespace Binary
         /// @brief Constructor; creates a new instance of StandardFileStream.
         /// @param filePath The path to the file on disk.
         /// @pre File path must not be empty.
-        StandardFileStream(std::string filePath) 
+        StandardFileStream(const std::string& filePath) 
             : filePath(filePath), position(0), mode(Binary::FileMode::Read)
         { }
 
@@ -80,21 +80,21 @@ namespace Binary
             position = 0;
         }
 
-        /// @copydoc Stream::Read(DataField*) const
-        virtual void Read(DataField* field) const override;
+        /// @copydoc Stream::Read(DataField&) const
+        virtual void Read(DataField& field) const override;
 
-        /// @copydoc Stream::Read(DataStructure*) const
-        virtual void Read(DataStructure* structure) const override;
+        /// @copydoc Stream::Read(DataStructure&) const
+        virtual void Read(DataStructure& structure) const override;
 
         /// @copydoc Stream::FindNextChunk
-        virtual std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const
-            override;
+        virtual std::shared_ptr<ChunkHeader> FindNextChunk(
+            const std::string& id) const override;
 
-        /// @copydoc Stream::Write(const DataField*)
-        virtual void Write(const DataField* field) override;
+        /// @copydoc Stream::Write(const DataField&)
+        virtual void Write(const DataField& field) override;
 
-        /// @copydoc Stream::Write(const DataStructure*)
-        virtual void Write(const DataStructure* structure) override;
+        /// @copydoc Stream::Write(const DataStructure&)
+        virtual void Write(const DataStructure& structure) override;
 
         /// @copydoc Stream::Position
         virtual size_t Position() const override { return position; }

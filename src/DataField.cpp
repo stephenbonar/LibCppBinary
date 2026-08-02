@@ -20,18 +20,14 @@
 
 using namespace Binary;
 
-void DataField::CopyRawDataTo(DataField* other)
+void DataField::CopyRawDataTo(DataField& other)
 {
-    if (other == nullptr)
-    {
-        throw std::invalid_argument("Other field cannot be null.");
-    }
-
-    if (other == this)
+    // We don't want to waste cycles copying data to ourselves.
+    if (&other == this)
     {
         return;
     }
 
-    size_t copySize = std::min(Size(), other->Size());
-    std::memcpy(other->RawData(), RawData(), copySize);
+    size_t copySize = std::min(Size(), other.Size());
+    std::memcpy(other.RawData(), RawData(), copySize);
 }

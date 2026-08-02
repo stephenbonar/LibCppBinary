@@ -39,7 +39,7 @@ TEST_F(DataFieldTests, CopiesRawDataProperly)
     EXPECT_CALL(destination, RawData()).WillRepeatedly(::testing::Return(destData));
     
     // Call CopyRawDataTo - should copy 5 bytes (the minimum of the two sizes)
-    source.CopyRawDataTo(&destination);
+    source.CopyRawDataTo(destination);
     
     // Verify that the destination received the first 5 bytes of source data
     EXPECT_EQ(destData[0], 0x01);
@@ -57,7 +57,7 @@ TEST_F(DataFieldTests, CopyRawDataToSelfDoesNothing)
     field.RawData()[2] = 'S';
     field.RawData()[3] = 'T';
 
-    EXPECT_NO_THROW(field.CopyRawDataTo(&field));
+    EXPECT_NO_THROW(field.CopyRawDataTo(field));
     EXPECT_EQ(field.RawData()[0], 'T');
     EXPECT_EQ(field.RawData()[1], 'E');
     EXPECT_EQ(field.RawData()[2], 'S');

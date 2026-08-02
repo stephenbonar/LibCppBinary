@@ -30,7 +30,11 @@ Binary::FieldEndianness Binary::GetSystemEndianness()
     // If the first byte is the least significant byte, it will contain the 1
     // and we know we're running on a little endian system, otherwise it's big.
     if (testValuePtr[0] == 1)
+    {
         return Binary::FieldEndianness::Little;
+    }
     else
+    {
         return Binary::FieldEndianness::Big;
+    }
 }

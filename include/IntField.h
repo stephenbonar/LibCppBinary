@@ -122,7 +122,9 @@ namespace Binary
         IntType MinValue() const
         {
             if (!std::numeric_limits<IntType>::is_signed)
+            {
                 return 0;
+            }
 
             switch (IntSize)
             {
@@ -253,9 +255,13 @@ namespace Binary
         std::string ToString(StringFormat format) const override
         {
             if (format == StringFormat::Dec)
+            {
                 return std::to_string(Value());
+            }
             else
+            {
                 return FormatData(format);
+            }
         }
 
         /// @brief Assignment operator for IntField.
@@ -287,7 +293,9 @@ namespace Binary
         void InitializeData()
         {
             for (size_t i = 0; i < Size(); i++)
+            {
                 rawData[i] = 0;
+            }
         }
 
         /// @brief Converts the specified value to the data bytes.
@@ -402,7 +410,9 @@ namespace Binary
                 // Determine if the most significant byte has the sign bit
                 // enabled to determine if the entire number is negative.
                 if (i == (IntSize - 1) && byte > 127)
+                {
                     isNegative = true;
+                }
 
                 // Then, Bitwise OR the next byte to the retrieved value by 
                 // shifting it into the correct position to continue assembling
@@ -443,7 +453,9 @@ namespace Binary
                 // Determine if the most significant byte has the sign bit
                 // enabled to determine if the entire number is negative.
                 if (i == 0 && byte > 127)
+                {
                     isNegative = true;
+                }
 
                 // Then, Bitwise OR the next byte to the retrieved value by 
                 // shifting it into the correct position to continue assembling
@@ -502,7 +514,9 @@ namespace Binary
                     // size is greater than the size of the raw data, such as
                     // Int24Field, we need to pad the extra bytes.
                     if constexpr (sizeof(IntType) > IntSize)
+                    {
                         return SignExtend(convertedValue);
+                    }
                 }
             }
             

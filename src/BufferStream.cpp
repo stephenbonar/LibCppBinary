@@ -19,36 +19,27 @@
 
 using namespace Binary;
 
-void BufferStream::Read(DataField* field) const
+void BufferStream::Read(DataField& field) const
 {
-    if (field == nullptr)
-    {
-        throw std::invalid_argument("The specified field cannot be null.");
-    }
-
-    if (position + field->Size() > size)
+    if (position + field.Size() > size)
     {
         throw std::out_of_range("Cannot read past the end of buffer.");
     }
 
-    std::memcpy(field->RawData(), rawData.get() + position, field->Size());
-    position += field->Size();
+    std::memcpy(field.RawData(), rawData.get() + position, field.Size());
+    position += field.Size();
 }
 
-void BufferStream::Read(DataStructure* structure) const
+void BufferStream::Read(DataStructure& structure) const
 {
-    if (structure == nullptr)
+    for (DataField* field : structure.Fields())
     {
-        throw std::invalid_argument("The specified structure cannot be null.");
-    }
-
-    for (DataField* field : structure->Fields())
-    {
-        Read(field);
+        Read(*field);
     }
 }
 
-std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
+std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(const std::string& id)
+    const
 {
     if (id.size() != chunkIDSize)
     {
@@ -65,7 +56,7 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
         {
             auto header = std::make_shared<ChunkHeader>();
             position = searchPosition;
-            Read(header.get());
+            Read(*header);
             return header;
         }
     }
@@ -76,32 +67,22 @@ std::shared_ptr<ChunkHeader> BufferStream::FindNextChunk(std::string id) const
     return nullptr;
 }
 
-void BufferStream::Write(const DataField* field)
+void BufferStream::Write(const DataField& field)
 {
-    if (field == nullptr)
-    {
-        throw std::invalid_argument("The specified field cannot be null.");
-    }
-
-    if (position + field->Size() > size)
+    if (position + field.Size() > size)
     {
         throw std::out_of_range("Attempt to write past end of buffer.");
     }
 
-    std::memcpy(rawData.get() + position, field->RawData(), field->Size());
-    position += field->Size();
+    std::memcpy(rawData.get() + position, field.RawData(), field.Size());
+    position += field.Size();
 }
 
-void BufferStream::Write(const DataStructure* structure)
+void BufferStream::Write(const DataStructure& structure)
 {
-    if (structure == nullptr)
+    for (const DataField* field : structure.Fields())
     {
-        throw std::invalid_argument("The specified structure cannot be null.");
-    }
-
-    for (const DataField* field : structure->Fields())
-    {
-        Write(field);
+        Write(*field);
     }
 }
 

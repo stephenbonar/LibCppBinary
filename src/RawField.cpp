@@ -29,7 +29,9 @@ constexpr char nonPrintableReplacement{ '.' };
 RawField::RawField(size_t size)
 {
     if (size < 1)
+    {
         throw std::invalid_argument("Size cannot be less than 1");
+    }
 
     this->size = size;
     rawData = std::make_unique<char[]>(size);
@@ -50,7 +52,9 @@ std::string RawField::ToString() const
 std::string RawField::ToString(StringFormat format) const
 {
     if (format == StringFormat::Dec)
+    {
         throw std::invalid_argument("Dec format only available for ints");
+    }
 
     return FormatData(format);
 }
@@ -106,7 +110,9 @@ std::string RawField::ConvertRaw() const
     std::stringstream stream;
 
     for (size_t i = 0; i < size; i++)
+    {
         stream << rawData[i];
+    }
 
     return stream.str();
 }
@@ -118,9 +124,13 @@ std::string RawField::ConvertPrintable() const
     for (std::size_t i = 0; i < size; i++)
     {
         if (rawData[i] < printableAsciiBegin || rawData[i] > printableAsciiEnd)
+        {
             stream << nonPrintableReplacement;
+        }
         else
+        {
             stream << rawData[i];
+        }
     }
     
     return stream.str();
@@ -142,7 +152,9 @@ std::string RawField::ConvertBin() const
 
         // Don't insert an extra separator if we're at the end.
         if (i != lastByteIndex)
+        {
             stream << byteSeparator;
+        }
     }
 
     return stream.str();
@@ -167,7 +179,9 @@ std::string RawField::ConvertHex() const
 
         // Don't insert an extra separator if we're at the end
         if (i != lastByteIndex)
+        {
             stream << byteSeparator;
+        }
     }
     
     auto hex = stream.str();

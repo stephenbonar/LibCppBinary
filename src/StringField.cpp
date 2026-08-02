@@ -25,7 +25,7 @@ std::string StringField::Value() const
     return ToString();
 }
 
-void StringField::SetValue(std::string value)
+void StringField::SetValue(const std::string& value)
 {
     std::fill(RawData(), RawData() + Size(), '\0');
 

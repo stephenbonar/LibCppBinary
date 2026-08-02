@@ -46,7 +46,7 @@ namespace Binary
         /// @param value The string to create the field from.
         /// @pre Specified string length is > 0. 
         /// @throws std::invalid_argument if specified string length is 0.
-        StringField(std::string value) : RawField(value.length()) 
+        StringField(const std::string& value) : RawField(value.length()) 
         {
             SetValue(value); 
         }
@@ -67,7 +67,7 @@ namespace Binary
         /// @param value The string to set the field's value to.
         /// @post Writes min(Size(), value.length()) bytes to the field.
         /// @post Bytes beyond value.length() are set to 0.
-        void SetValue(std::string value);
+        void SetValue(const std::string& value);
 
         /// @copydoc DataField::ToString
         std::string ToString() const override

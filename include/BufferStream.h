@@ -44,21 +44,21 @@ namespace Binary
         BufferStream(size_t size) : RawField(size), position(0)
         { }
 
-        /// @copydoc Stream::Read(DataField*) const
-        void Read(DataField* field) const override;
+        /// @copydoc Stream::Read(DataField&) const
+        void Read(DataField& field) const override;
 
-        /// @copydoc Stream::Read(DataStructure*) const
-        void Read(DataStructure* structure) const override;
+        /// @copydoc Stream::Read(DataStructure&) const
+        void Read(DataStructure& structure) const override;
         
         /// @copydoc Stream::FindNextChunk
-        std::shared_ptr<ChunkHeader> FindNextChunk(std::string id) const 
+        std::shared_ptr<ChunkHeader> FindNextChunk(const std::string& id) const 
             override;
 
-        /// @copydoc Stream::Write(const DataField*)
-        void Write(const DataField* field) override;
+        /// @copydoc Stream::Write(const DataField&)
+        void Write(const DataField& field) override;
 
-        /// @copydoc Stream::Write(const DataStructure*)
-        void Write(const DataStructure* structure) override;
+        /// @copydoc Stream::Write(const DataStructure&)
+        void Write(const DataStructure& structure) override;
 
         /// @copydoc Stream::Position 
         size_t Position() const override { return position; }

@@ -68,48 +68,37 @@ void StandardFileStream::Open(FileMode m)
     mode = m;
 }
 
-void StandardFileStream::Read(DataField* field) const
+void StandardFileStream::Read(DataField& field) const
 {
-    if (field == nullptr)
-    {
-        throw std::invalid_argument("The specified field cannot be null.");
-    }
-
     if (!IsOpen())
     {
         throw std::runtime_error{ "You must open the file before reading." };
     }
 
-    fileStream.read(field->RawData(), field->Size());
+    fileStream.read(field.RawData(), field.Size());
 
     if (fileStream.fail())
     {
         throw std::runtime_error{ "Failed to read from file." };
     }
 
-    position += field->Size();
+    position += field.Size();
 }
 
-void StandardFileStream::Read(DataStructure* structure) const
+void StandardFileStream::Read(DataStructure& structure) const
 {
-    if (structure == nullptr)
-    {
-        throw std::invalid_argument("The specified structure cannot be null.");
-    }
-
     if (!IsOpen())
     {
         throw std::runtime_error{ "You must open the file before reading." };
     }
 
-    for (DataField* field : structure->Fields())
+    for (DataField* field : structure.Fields())
     {
-        Read(field);
+        Read(*field);
     }
 }
 
-std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
-    const
+std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(const std::string& id) const
 {
     const size_t originalPosition{ position };
 
@@ -145,7 +134,7 @@ std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
             position = searchPosition;
 
             auto header = std::make_shared<Binary::ChunkHeader>();
-            Read(header.get());
+            Read(*header);
             return header;
         }
     }
@@ -156,43 +145,33 @@ std::shared_ptr<ChunkHeader> StandardFileStream::FindNextChunk(std::string id)
     return nullptr;
 }
 
-void StandardFileStream::Write(const DataField* field)
+void StandardFileStream::Write(const DataField& field)
 {
-    if (field == nullptr)
-    {
-        throw std::invalid_argument("The specified field cannot be null.");
-    }
-
     if (!IsOpen())
     {
         throw std::runtime_error{ "You must open the file before writing." };
     }
 
-    fileStream.write(field->RawData(), field->Size());
+    fileStream.write(field.RawData(), field.Size());
 
     if (fileStream.fail())
     {
         throw std::runtime_error{ "Failed to write to file." };
     }
 
-    position += field->Size();
+    position += field.Size();
 }
 
-void StandardFileStream::Write(const DataStructure* structure)
+void StandardFileStream::Write(const DataStructure& structure)
 {
-    if (structure == nullptr)
-    {
-        throw std::invalid_argument("The specified structure cannot be null.");
-    }
-
     if (!IsOpen())
     {
         throw std::runtime_error{ "You must open the file before writing." };
     }
 
-    for (const DataField* field : structure->Fields())
+    for (const DataField* field : structure.Fields())
     {
-        Write(field);
+        Write(*field);
     }
 }
 
