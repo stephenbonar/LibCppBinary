@@ -147,36 +147,36 @@
       <type>void</type>
       <name>Read</name>
       <anchorfile>class_binary_1_1_buffer_stream.html</anchorfile>
-      <anchor>ab12201b941f1807cbb0d3f30f21d0a39</anchor>
-      <arglist>(DataField *field) const override</arglist>
+      <anchor>a2c83a657350cf65f711dadab01e28d14</anchor>
+      <arglist>(DataField &amp;field) const override</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>Read</name>
       <anchorfile>class_binary_1_1_buffer_stream.html</anchorfile>
-      <anchor>a47398c5ca9e8de2de3630d6d165910ae</anchor>
-      <arglist>(DataStructure *structure) const override</arglist>
+      <anchor>aebbb55eebd1905b90e24bce5a6f442b4</anchor>
+      <arglist>(DataStructure &amp;structure) const override</arglist>
     </member>
     <member kind="function">
       <type>std::shared_ptr&lt; ChunkHeader &gt;</type>
       <name>FindNextChunk</name>
       <anchorfile>class_binary_1_1_buffer_stream.html</anchorfile>
-      <anchor>a12deccd018e17032309eaeeaa5961c83</anchor>
-      <arglist>(std::string id) const override</arglist>
+      <anchor>aabd99369b1174f02d3c7802c517366e3</anchor>
+      <arglist>(const std::string &amp;id) const override</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>Write</name>
       <anchorfile>class_binary_1_1_buffer_stream.html</anchorfile>
-      <anchor>ab19e95ed820e338e4c18332c3f7bb740</anchor>
-      <arglist>(const DataField *field) override</arglist>
+      <anchor>a548da05d8f9709819c3d360c79a09801</anchor>
+      <arglist>(const DataField &amp;field) override</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>Write</name>
       <anchorfile>class_binary_1_1_buffer_stream.html</anchorfile>
-      <anchor>a337d85d20990273d835653e57117ee76</anchor>
-      <arglist>(const DataStructure *structure) override</arglist>
+      <anchor>a0dfa604c0bfaf6825471eb6172ef3119</anchor>
+      <arglist>(const DataStructure &amp;structure) override</arglist>
     </member>
     <member kind="function">
       <type>size_t</type>
@@ -289,8 +289,8 @@
       <type>virtual void</type>
       <name>CopyRawDataTo</name>
       <anchorfile>class_binary_1_1_data_field.html</anchorfile>
-      <anchor>acf25db5e1425c40c58b821d1e84481ab</anchor>
-      <arglist>(DataField *other)</arglist>
+      <anchor>aab603bb109b391feb490aebd850bf8db</anchor>
+      <arglist>(DataField &amp;other)</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual std::string</type>
@@ -595,8 +595,8 @@
       <type></type>
       <name>StandardFileStream</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>a7812e28862b125fcbe800aed14388156</anchor>
-      <arglist>(std::string filePath)</arglist>
+      <anchor>aaaf907c470ba5243114e5d2a4b560493</anchor>
+      <arglist>(const std::string &amp;filePath)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual std::string</type>
@@ -658,36 +658,36 @@
       <type>virtual void</type>
       <name>Read</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>a7ccde2503a0706c132cd79420fd3792f</anchor>
-      <arglist>(DataField *field) const override</arglist>
+      <anchor>a59ebb7b8fe7249c85ce1a4f0a19e7086</anchor>
+      <arglist>(DataField &amp;field) const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
       <name>Read</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>a280eef9824aa490295bb4ded93147d30</anchor>
-      <arglist>(DataStructure *structure) const override</arglist>
+      <anchor>a0f6ac482b17a04a9a9d03177c2e35413</anchor>
+      <arglist>(DataStructure &amp;structure) const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual std::shared_ptr&lt; ChunkHeader &gt;</type>
       <name>FindNextChunk</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>ad0a3249688bb8251dfe9b94eab6e3ab7</anchor>
-      <arglist>(std::string id) const override</arglist>
+      <anchor>aaa2c8339fffab2da079ad133f533f036</anchor>
+      <arglist>(const std::string &amp;id) const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
       <name>Write</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>a46219a8cdc27728bea8ad0e48d56276f</anchor>
-      <arglist>(const DataField *field) override</arglist>
+      <anchor>ad2f5cbb8bf800486e6fd6be2e00a279b</anchor>
+      <arglist>(const DataField &amp;field) override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
       <name>Write</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>a8fd8f60bdd9c63baa07b2117a3ca21a2</anchor>
-      <arglist>(const DataStructure *structure) override</arglist>
+      <anchor>aae3cf6d3342e7e1e34c1c5357238724a</anchor>
+      <arglist>(const DataStructure &amp;structure) override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual size_t</type>
@@ -732,36 +732,36 @@
       <type>virtual void</type>
       <name>Read</name>
       <anchorfile>class_binary_1_1_stream.html</anchorfile>
-      <anchor>afb96b4ba95d561f234fc2e455ff18ae3</anchor>
-      <arglist>(DataField *field) const =0</arglist>
+      <anchor>a12568462653ab7bcd61d7d9606ec22ae</anchor>
+      <arglist>(DataField &amp;field) const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
       <name>Read</name>
       <anchorfile>class_binary_1_1_stream.html</anchorfile>
-      <anchor>a33bf6b0b8bb699afae128b0c9944fbd9</anchor>
-      <arglist>(DataStructure *structure) const =0</arglist>
+      <anchor>a666929edd30db0c5d5fb6476cfb3d028</anchor>
+      <arglist>(DataStructure &amp;structure) const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual std::shared_ptr&lt; ChunkHeader &gt;</type>
       <name>FindNextChunk</name>
       <anchorfile>class_binary_1_1_stream.html</anchorfile>
-      <anchor>a3d08caedcc6cc4abfb8ed69392e00bc6</anchor>
-      <arglist>(std::string id) const =0</arglist>
+      <anchor>a5731aa48019d2ad48703110ebc7f9c66</anchor>
+      <arglist>(const std::string &amp;id) const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
       <name>Write</name>
       <anchorfile>class_binary_1_1_stream.html</anchorfile>
-      <anchor>a108e7f7229e58532f55d53d8fec35703</anchor>
-      <arglist>(const DataField *field)=0</arglist>
+      <anchor>a57dd340d2eae3585b3d728ebea966349</anchor>
+      <arglist>(const DataField &amp;field)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
       <name>Write</name>
       <anchorfile>class_binary_1_1_stream.html</anchorfile>
-      <anchor>a6332f230902c3ab418b0fcd4ecf5d020</anchor>
-      <arglist>(const DataStructure *structure)=0</arglist>
+      <anchor>a22f2da77358cdb3eb76be760ab41bbe2</anchor>
+      <arglist>(const DataStructure &amp;structure)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual size_t</type>
@@ -807,8 +807,8 @@
       <type></type>
       <name>StringField</name>
       <anchorfile>class_binary_1_1_string_field.html</anchorfile>
-      <anchor>ab7c8d55977b820da58f075e7c801aa98</anchor>
-      <arglist>(std::string value)</arglist>
+      <anchor>a9ba3bb4ce2de2f26b876e83e0f939ed9</anchor>
+      <arglist>(const std::string &amp;value)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -828,8 +828,8 @@
       <type>void</type>
       <name>SetValue</name>
       <anchorfile>class_binary_1_1_string_field.html</anchorfile>
-      <anchor>aac34fb0c20167d7e482700c03671608b</anchor>
-      <arglist>(std::string value)</arglist>
+      <anchor>a83f129aef0af3b26790ae8d6b71179be</anchor>
+      <arglist>(const std::string &amp;value)</arglist>
     </member>
     <member kind="function">
       <type>std::string</type>

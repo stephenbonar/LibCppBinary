@@ -13,7 +13,7 @@ var searchData=
   ['filesize_10',['FileSize',['../class_binary_1_1_file_stream.html#a89c2410a831bcea187633db6b154eb93',1,'Binary::FileStream::FileSize()'],['../class_binary_1_1_standard_file_stream.html#ab15268830dbe17c9a909e9cfaeeec262',1,'Binary::StandardFileStream::FileSize()']]],
   ['filestream_11',['FileStream',['../class_binary_1_1_file_stream.html',1,'Binary']]],
   ['filestream_2eh_12',['FileStream.h',['../_file_stream_8h.html',1,'']]],
-  ['findnextchunk_13',['FindNextChunk',['../class_binary_1_1_buffer_stream.html#a12deccd018e17032309eaeeaa5961c83',1,'Binary::BufferStream::FindNextChunk()'],['../class_binary_1_1_standard_file_stream.html#ad0a3249688bb8251dfe9b94eab6e3ab7',1,'Binary::StandardFileStream::FindNextChunk()'],['../class_binary_1_1_stream.html#a3d08caedcc6cc4abfb8ed69392e00bc6',1,'Binary::Stream::FindNextChunk()']]],
+  ['findnextchunk_13',['FindNextChunk',['../class_binary_1_1_buffer_stream.html#aabd99369b1174f02d3c7802c517366e3',1,'Binary::BufferStream::FindNextChunk()'],['../class_binary_1_1_standard_file_stream.html#aaa2c8339fffab2da079ad133f533f036',1,'Binary::StandardFileStream::FindNextChunk()'],['../class_binary_1_1_stream.html#a5731aa48019d2ad48703110ebc7f9c66',1,'Binary::Stream::FindNextChunk()']]],
   ['formatdata_14',['FormatData',['../class_binary_1_1_raw_field.html#a9e1d24210f8d047666954fe3b968eb93',1,'Binary::RawField']]],
   ['from_20a_20file_15',['Example: Write and Read a Record from a File',['../index.html#autotoc_md8',1,'']]]
 ];
