@@ -100,15 +100,15 @@ namespace Binary
         virtual size_t Position() const override { return position; }
 
         /// @copydoc Stream::SetPosition
-        virtual void SetPosition(size_t position) const override
+        virtual void SetPosition(size_t p) const override
         {
-            if (FileExists() && position > FileSize())
+            if (FileExists() && p > FileSize())
             {
                 throw std::out_of_range(
                     "Position cannot be set past end of file.");
             }
 
-            this->position = position;
+            position = p;
 
             if (IsOpen())
             {
@@ -116,12 +116,12 @@ namespace Binary
 
                 if (mode != FileMode::Write)
                 {
-                    fileStream.seekg(position);
+                    fileStream.seekg(p);
                 }
 
                 if (mode != FileMode::Read)
                 {
-                    fileStream.seekp(position);
+                    fileStream.seekp(p);
                 }
             }
         }

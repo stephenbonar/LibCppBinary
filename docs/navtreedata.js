@@ -69,6 +69,6 @@ var NAVTREEINDEX =
 "namespace_binary.html#a2b21524f46dfbef17fbf57518c8b4ad6a92640bd72988395b326c888614f8937a"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronization';
-var SYNCOFFMSG = 'click to enable panel synchronization';
-var LISTOFALLMEMBERS = 'List of all members';
+const SYNCONMSG = 'click to disable panel synchronization';
+const SYNCOFFMSG = 'click to enable panel synchronization';
+const LISTOFALLMEMBERS = 'List of all members';

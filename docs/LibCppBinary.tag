@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<tagfile doxygen_version="1.16.1">
+<tagfile doxygen_version="1.17.0" doxygen_gitid="65a43c0aba45cc23b3ca11b6b5334d4eea931726">
   <compound kind="file">
     <name>BufferStream.h</name>
     <path>include/</path>
@@ -189,8 +189,8 @@
       <type>void</type>
       <name>SetPosition</name>
       <anchorfile>class_binary_1_1_buffer_stream.html</anchorfile>
-      <anchor>ade280275f2b66e7de3ef09c736046469</anchor>
-      <arglist>(size_t position) const override</arglist>
+      <anchor>aabba5431199d72dc94d6f8016d2c3384</anchor>
+      <arglist>(size_t p) const override</arglist>
     </member>
     <member kind="function">
       <type>size_t</type>
@@ -700,8 +700,8 @@
       <type>virtual void</type>
       <name>SetPosition</name>
       <anchorfile>class_binary_1_1_standard_file_stream.html</anchorfile>
-      <anchor>a172dc79d46a04322ad441c878b940264</anchor>
-      <arglist>(size_t position) const override</arglist>
+      <anchor>a83c9c5dcd8169264f6be6d892efb2efa</anchor>
+      <arglist>(size_t p) const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual size_t</type>
@@ -774,8 +774,8 @@
       <type>virtual void</type>
       <name>SetPosition</name>
       <anchorfile>class_binary_1_1_stream.html</anchorfile>
-      <anchor>aa04b0edd4bd68098aac6b225e5a27e84</anchor>
-      <arglist>(size_t position) const =0</arglist>
+      <anchor>a398f05000970e2d6703af5f8c7e6ccea</anchor>
+      <arglist>(size_t p) const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual size_t</type>

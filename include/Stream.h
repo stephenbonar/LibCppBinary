@@ -83,11 +83,11 @@ namespace Binary
         virtual size_t Position() const = 0;
 
         /// @brief Sets the current position in the stream.
-        /// @param position The position value to set.
+        /// @param p The position value to set.
         /// @pre Position must be between 0 and size, inclusive.
         /// @post Position is updated to the specified value.
         /// @throws std::out_of_range if position > size.
-        virtual void SetPosition(size_t position) const = 0;
+        virtual void SetPosition(size_t p) const = 0;
         
         /// @brief Gets the beginning position of the file.
         /// @return A size_t value representing the beginning position.

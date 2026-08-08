@@ -64,7 +64,7 @@ namespace Binary
         size_t Position() const override { return position; }
 
         /// @copydoc Stream::SetPosition
-        void SetPosition(size_t position) const override;
+        void SetPosition(size_t p) const override;
 
         /// @copydoc Stream::Beginning
         size_t Beginning() const override { return 0; }

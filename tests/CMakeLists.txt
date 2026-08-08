@@ -48,8 +48,7 @@ target_link_libraries(libcppbinarytests
                       LibCppBinary
                       gtest
                       gtest_main
-                      gmock
-                      pthread)
+                      gmock)
 
 # Sets the include directories the exectable target needs for linking.
 target_include_directories(libcppbinarytests 

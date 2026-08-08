@@ -86,12 +86,12 @@ void BufferStream::Write(const DataStructure& structure)
     }
 }
 
-void BufferStream::SetPosition(size_t position) const
+void BufferStream::SetPosition(size_t p) const
 { 
-    if (position > size)
+    if (p > size)
     {
         throw std::out_of_range("Position cannot be set past end of buffer.");
     }
 
-    this->position = position; 
+    this->position = p;
 }
